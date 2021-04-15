@@ -1,0 +1,30 @@
+#include <iostream>
+#include "include/Group.h"
+#include "include/Subject.h"
+#include "include/AttachmentPost.h"
+#include "include/Attendance.h"
+#include "include/Comment.h"
+#include "include/Contact.h"
+#include "include/File.h"
+#include "include/Post.h"
+#include "include/Recording_laboratory_work.h"
+#include "include/Share.h"
+#include "include/Subject.h"
+#include "include/User.h"
+#include "include/Wrapper.h"
+#include "include/Deadline.h"
+int main() {
+    AttachmentPost a();
+    Attendance b();
+    Group c();
+    Subject d();
+    Comment e();
+    Contact f();
+    File g();
+    Post h();
+    Recording_laboratory_work k();
+    Share l();
+    User m();
+    Subject n();
+    return 0;
+}
