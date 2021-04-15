@@ -1,4 +1,4 @@
-std::string FilesAPI::Share(std::map<std::string, std::string> &data) {
+API::Response FilesAPI::Share(std::map<std::string, std::string> &data) {
     const uint shareID = Sharing::Share(data);
     // Render success page and return it
 }
@@ -7,7 +7,7 @@ std::string FilesAPI::Share(std::map<std::string, std::string> &data) {
  * получить "чьи файлы смотрим", после чего получить листинг открытых файлов 
  * другого пользователя.
  */
-std::string FilesAPI::List(std::map<std::string, std::string> &data) {
+API::Response FilesAPI::List(std::map<std::string, std::string> &data) {
     const std::map<std::string, std::string> files = Files::GetFiles(data);
     // Render file list page and return it
 }

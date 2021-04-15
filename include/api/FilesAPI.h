@@ -1,6 +1,6 @@
 class FilesAPI : API {
   public:
     FilesAPI() = default;
-    static std::string Share();
-    static std::string List();  // Интерфейс "проводника". Листинг файлов. Пока без папок.
+    static API::Response Share();
+    static API::Response List();  // Интерфейс "проводника". Листинг файлов. Пока без папок.
 }	

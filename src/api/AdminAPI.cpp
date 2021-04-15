@@ -1,4 +1,4 @@
-std::string AdminAPI::CreateUser(const std::map<std::string, std::string> &data) {
+API::Response AdminAPI::CreateUser(const std::map<std::string, std::string> &data) {
     if (User::GetByField("login", data["login"])) {  // Уже существует, ошибка
         // Render template "User exists"
     } else {
@@ -8,15 +8,15 @@ std::string AdminAPI::CreateUser(const std::map<std::string, std::string> &data)
     }
 }
 
-std::string AdminAPI::CreateGroup(const std::map<std::string, std::string> &data) {
-    if (Group::GetByField("", data["name"])) {
+API::Response AdminAPI::CreateGroup(const std::map<std::string, std::string> &data) {
+    if (Group::GetByField("", data["name"])) {  // Проверить, существует ли группа (номер + год создания)
 
     } else {
 
     }
 }
 
-std::string AdminAPI::DeleteUser(const uint id) {
+API::Response AdminAPI::DeleteUser(const uint id) {
     if (User::Delete(id)) {
         // Render template "User deleted"
     } else {
@@ -24,7 +24,7 @@ std::string AdminAPI::DeleteUser(const uint id) {
     }
 }
 
-std::string AdminAPI::DeleteGroup(const uint id) {
+API::Response AdminAPI::DeleteGroup(const uint id) {
     if (Group::Delete(id)) {
         // Render template "User deleted"
     } else {
