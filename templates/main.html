@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+    <title>Studpark</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="sticky-footer-navbar.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400&display=swap" rel="stylesheet">
+</head>
+
+<body>
+{% include "includes/header.html" %}
+<!-- Begin page content -->
+<main>
+    <div class="container">
+        <div class="row">
+            <!-- Left column with questions -->
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <h1>Последние посты</h1>
+                    </div>
+                </div>
+                <br>
+                <!--One question -->
+                {% for post in posts %}
+                <div class="row">
+                    <div class="col">
+                        <div class="p-3 border bg-light">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="container-fluid justify-content-center">
+                                        <div class="row">
+                                            <h3><a href="#">{{ post.title }}</a></h3>
+                                        </div>
+                                        <div class="Question-Text">
+                                            <div class="row">
+                                                <p>
+                                                    {{ post.text }}
+                                                </p>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="text-right">
+                                                        <small><i>{{ post.author }} | 24.03.2021 17:26</i></small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>

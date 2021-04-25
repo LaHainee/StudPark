@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+    <title>Studpark</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="sticky-footer-navbar.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400&display=swap" rel="stylesheet">
+</head>
+
+<body>
+{% include "includes/header.html" %}
+<main>
+    <div class="container">
+        <div class="row">
+            <h1>Настройки</h1>
+        </div>
+        <br>
+        <div class="row">
+            <form class="form-horizontal" action="#" method="post">
+                <!-- ФИО -->
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <label for="fio" class="col-form-label" style="font-size: 20px;">
+                            &bull;ФИО
+                        </label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="fio" class="form-control" style="width: 300px;">
+                    </div>
+                </div>
+                <br>
+                <!-- Группа -->
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <label for="group" class="col-form-label" style="font-size: 20px;">
+                            &bull;Группа
+                        </label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="group" class="form-control" style="width: 300px;">
+                    </div>
+                </div>
+                <br>
+                <!-- День рождения -->
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <label for="birthday" class="col-form-label" style="font-size: 20px;">
+                            &bull;Дата рождения
+                        </label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="birthday" class="form-control" style="width: 300px;">
+                    </div>
+                </div>
+                <br>
+                <!-- Вариант -->
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <label for="variant" class="col-form-label" style="font-size: 20px;">
+                            &bull;Вариант
+                        </label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="variant" class="form-control" style="width: 300px;">
+                    </div>
+                </div>
+                <br>
+                <!-- Номер телефона -->
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <label for="phone" class="col-form-label" style="font-size: 20px;">
+                            &bull;Номер телефона
+                        </label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="phone" class="form-control" style="width: 300px;">
+                    </div>
+                </div>
+                <br>
+                <!-- Почта -->
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <label for="email_1" class="col-form-label" style="font-size: 20px;">
+                            &bull;Почта (до 3-х шт.)
+                        </label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="email_1" class="form-control" style="width: 300px;">
+                        <input type="text" id="email_2" class="form-control" style="width: 300px; margin-top: 5px;">
+                        <input type="text" id="email_3" class="form-control" style="width: 300px; margin-top: 5px;">
+                    </div>
+                </div>
+                <!-- Соцсети -->
+                <p style="font-size: 20px;">&bull;Социальные сети</p>
+                <!-- Вконтакте -->
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <label for="vk" class="col-form-label" style="font-size: 20px; margin-left: 50px;">
+                            Вконтакте
+                        </label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="vk" class="form-control" style="width: 300px;">
+                    </div>
+                </div>
+                <!-- Telegram -->
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <label for="tg" class="col-form-label" style="font-size: 20px; margin-left: 50px;">
+                            Телеграм
+                        </label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="tg" class="form-control" style="width: 300px;">
+                    </div>
+                </div>
+                <!-- Git -->
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <label for="git" class="col-form-label" style="font-size: 20px; margin-left: 50px;">
+                            Git
+                        </label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="git" class="form-control" style="width: 300px;">
+                    </div>
+                </div>
+                <!-- Discord -->
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <label for="discord" class="col-form-label" style="font-size: 20px; margin-left: 50px;">
+                            Discord
+                        </label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="discord" class="form-control" style="width: 300px;">
+                    </div>
+                </div>
+                <!-- Instagram -->
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <label for="inst" class="col-form-label" style="font-size: 20px; margin-left: 50px;">
+                            Instagram
+                        </label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="inst" class="form-control" style="width: 300px;">
+                    </div>
+                </div><br>
+                <!-- Получение рассылок -->
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <label style="font-size: 20px;">&bull;Хочу получать рассылку на почту<input type="checkbox" style="margin-left: 20px;"/></label>
+                    </div>
+                </div><br>
+                <button type="button" class="btn btn-secondary" style="width: 150px;">Сохранить</button><br>
+                <br>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>

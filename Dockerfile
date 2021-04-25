@@ -5,4 +5,3 @@
 2) Inja
     - downloading last release tar from https://github.com/pantor/inja/releases
     - extract to vendor/inja
-    
