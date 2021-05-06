@@ -1,25 +1,27 @@
-API::Response UserAPI::Update(std::map<std::string, std::string> &data) {
-    User u = User::Get(data["id"]);
-    u.Update(data);
+#include "../Utils.cpp"
+#include "UserAPI.h"
+#include "User.h"
+
+std::string UserAPI::Create(const std::map<std::string, std::string> &data, SQLWrapper &db) {
+    User::AddUser();
+    return sha256(data.find("password")->second);
 }
 
-API::Response UserAPI::SetReminder(std::map<std::string, std::string> &data) {
-    User u = User::Get(data["id"]);
-    Scheduler::MailingParcel p;
-    p.body = "По дисциплине \"Схемотехника\" завтра в 9:00 сдача ДЗ.";
-    if (data["channel"] == Scheduler::TELEGRAM) {
-       p.mail_to = u.GetEmail();
-       p.head = "Дедлайн близко";
-       int delay;  // = просмотреть все дедлайны и посчитать время 
-    } else if (data["channel"] == Scheduler::EMAIL) {
-       p.mail_to = u.GetTelegram();
-    } else {  // EMAIL & TELEGRAM
-       // Scheduler::Set(p, MAILING_EMAIL | MAILING_TELEGRAM); <- хочу так
-    }
-
-    // Нужно чтобы был класс Sender, выбирать тип рассылки нужно через маску MAILING_TELEGRAM | MAILING_EMAIL
+std::string UserAPI::Get(const std::map<std::string, std::string> &data, SQLWrapper &db) {
+    return "";
+}
+std::string UserAPI::Update(const std::map<std::string, std::string> &data, SQLWrapper &db) {
+    return "";
+}
+std::string UserAPI::Delete(const std::map<std::string, std::string> &data, SQLWrapper &db) {
+    return "";
 }
 
-UserAPI::Auth(std::map<std::string, std::string> &data) {
 
-}
+/*
+ * const std::string &f_name, const std::string &s_name, const std::string &user_patronymic,
+                   char user_form_educational, bool user_hostel, const std::string &user_stud_card,
+                   const std::string &user_avatar, const std::string &user_status,
+                   const std::string &user_record_book, int user_role, int user_role_university,
+                   const std::string &user_login, const std::string &user_password, int group_id
+ */

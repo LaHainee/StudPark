@@ -31,3 +31,4 @@ API::Response AdminAPI::DeleteGroup(const uint id) {
         // Render template "Error occurred"
     }
 }
+

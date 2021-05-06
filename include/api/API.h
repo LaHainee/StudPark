@@ -1,29 +1,24 @@
 #include "Logger.h"
-#include "../Common.h"
+#include "Wrapper.h"
+
+#include <map>
+#include <nlohmann/json.hpp>
 
 class API {
-  private:
-    Logger *logger;
   public:
     enum ResponseTypes{
         WEBPAGE,
         DOWNLOAD
     };
-    
     enum Status{
         OK,
         API_ERR,
         ORM_ERR
     };
-    struct Response {
-        Response(std::string&, int, int);
-        std::string body;
-        int type;
-        int status;
-    };
-    API();
-    ~API();
-    virtual std::string Get() = 0;
-    virtual std::string Delete() = 0;
-    virtual std::string Update() = 0;
+    API() = default;
+    ~API() = default;
+    virtual std::string Create(const std::map<std::string, std::string> &data, SQLWrapper &db) = 0;
+    virtual std::string Get(const std::map<std::string, std::string> &data, SQLWrapper &db)    = 0;
+    virtual std::string Update(const std::map<std::string, std::string> &data, SQLWrapper &db) = 0;
+    virtual std::string Delete(const std::map<std::string, std::string> &data, SQLWrapper &db) = 0;
 };
