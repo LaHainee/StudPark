@@ -14,8 +14,10 @@ public:
         env.set_expression("{{", "}}");
         env.set_statement("{%", "%}");
         Template temp = env.parse_template(templateToParse);
-        env.write(temp, data, "../created_templates/profile.html");
-        return "Created template";
+        // env.write(temp, data, "../created_templates/admin_panel.html");
+        std::string result = env.render(temp, data);
+        std::cout << result << std::endl;
+        return result;
     }
 private:
     Environment env;

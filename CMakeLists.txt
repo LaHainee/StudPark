@@ -1,20 +1,25 @@
 cmake_minimum_required(VERSION 3.12)
-project(sender C CXX)
+project(sender CXX)
 
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_FLAGS "-Wall -Wextra -Werror --coverage")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wpedantic")
-set(CMAKE_CXX_FLAGS "--coverage")
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS)
 
+find_package(PostgreSQL REQUIRED)
 find_package(Threads REQUIRED)
 include_directories(include/templates)
 include_directories(include/mailing)
 include_directories(vendor/inja/include/inja)
+include_directories(/opt/homebrew/include)
+include_directories(/opt/homebrew/lib)
+include_directories(${PostgreSQL_INCLUDE_DIRS})
 
 add_executable(
         sender
         include/mailing/sender.h
+        src/mailing/sender_daemon.cpp
         src/mailing/sender.cpp
+        src/ORM/Send_mail.cpp
+        src/ORM/Wrapper.cpp
 )
 
 add_executable(
@@ -37,6 +42,7 @@ target_link_libraries(tests_sender gtest Threads::Threads)
 target_link_libraries(tests_template_engine gtest Threads::Threads)
 target_link_libraries(template_engine inja)
 target_link_libraries(tests_template_engine inja)
+target_link_libraries(sender PostgreSQL::PostgreSQL curl)
 
 add_subdirectory(vendor/googletest)
 add_subdirectory(vendor/inja)

@@ -1,0 +1,104 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+    <title>Studpark</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="sticky-footer-navbar.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="css/index.css" rel="stylesheet">
+</head>
+
+<body>
+{% include "includes/header.html" %}
+<main>
+    <div class="container">
+        <div class="row">
+            <h1 style="color: black;">Панель администратора</h1>
+        </div>
+        <br>
+        <div class="row">
+            <form class="form-horizontal" action="#" method="post">
+                <!-- Факультет -->
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <label for="fak" class="col-form-label" style="font-size: 20px; color: black;">
+                            &bull;Факультет<small>(Пример: РК)</small>
+                        </label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="fak" class="form-control" style="width: 300px;">
+                    </div>
+                </div>
+                <!-- Кафедра -->
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <label for="kaf" class="col-form-label" style="font-size: 20px; color: black;">
+                            &bull;Кафедра<small>(Пример: 6)</small>
+                        </label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="kaf" class="form-control" style="width: 300px;">
+                    </div>
+                </div>
+                <!-- Группа -->
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <label for="group" class="col-form-label" style="font-size: 20px; color: black;">
+                            &bull;Группа<small>(Пример: 62)</small>
+                        </label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="group" class="form-control" style="width: 300px;">
+                    </div>
+                </div>
+                <!-- Буква -->
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <label for="letter" class="col-form-label" style="font-size: 20px; color: black;">
+                            &bull;Уровень образования
+                        </label>
+                    </div>
+                    <div class="col">
+                        <input type="radio" id="bac" name="education_level" value="B">
+                            <label for="bac" style="color: black;">Б</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" id="mag" name="education_level" value="M">
+                            <label for="mag" style="color: black;">М</label>
+                    </div>
+                </div>
+                <!-- ФИО старосты -->
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <label for="fio" class="col-form-label" style="font-size: 20px; color: black;">
+                            &bull;Фамилия и имя старосты<small>(Пример: Варенцова Ольга)</small>
+                        </label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="fio" class="form-control" style="width: 300px;">
+                    </div>
+                </div>
+                <!-- e-mail старосты -->
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <label for="email" class="col-form-label" style="font-size: 20px; color: black;">
+                            &bull;E-mail старосты<small>(Пример: vitalyershov@gmail.com)</small>
+                        </label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="email" class="form-control" style="width: 300px;">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-secondary" style="width: 250px;">
+                    Зарегестрировать старосту
+                </button><br>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>

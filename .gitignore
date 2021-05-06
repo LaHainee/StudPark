@@ -2,3 +2,9 @@ cmake-build-debug
 .idea
 vendor
 build
+env.crash
+created_templates
+templates/node_modules
+include/ORM
+src/ORM
+*.DS_Store

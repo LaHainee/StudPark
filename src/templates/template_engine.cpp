@@ -5,7 +5,7 @@ int main() {
     json data;
     TemplateEngine te;
 
-    /*data["posts"] = {
+    data["posts"] = {
             {
                     {"title", "Информация по домашнему заданию по схемотехнике"},
                     {"text", "Для выполнения домашнего задания требуются теоретические знания по теме \"Триггеры\"."},
@@ -18,8 +18,8 @@ int main() {
                     {"author", "Заместитель cтаросты РК6-62 Павленко Антон"},
                     {"image", "../templates/img/putin.jpg"}
             }
-    };*/
-    data["user"] = "Ершов Виталий";
+    };
+    /*data["user"] = "Ершов Виталий";
     data["information"] = {
             {
                     {"label", "ФИО"},
@@ -37,8 +37,8 @@ int main() {
                     {"label", "День рождения"},
                     {"data", "10.01.2001"},
             },
-    };
-    std::cout << te.RenderTemplate(data, "../templates/profile.html") << std::endl;
+    };*/
+    std::cout << te.RenderTemplate(data, "../templates/admin_panel.html") << std::endl;
     return 0;
 }
 
