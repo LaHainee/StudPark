@@ -1,5 +1,5 @@
-#ifndef C___ATTENDANCE_H
-#define C___ATTENDANCE_H
+#ifndef PROJECT_ATTENDANCE_H
+#define PROJECT_ATTENDANCE_H
 
 class Attendance {
 public:
@@ -12,14 +12,14 @@ public:
             user(user_id),
             subject(subject_id),
             date_pass(date_pass_user){}
-    static void AddAttendance(int user_id, int subject_id, time_t date_pass);
-    void DeleteAttendance(int Attendance_id);
-    static Attendance GetAttendance(int user_id, int subject_id);
-private:
+    static void AddAttendance(SQLWrapper &db, int user_id, int subject_id, time_t date_pass);
+    void DeleteAttendance(SQLWrapper &db, int Attendance_id);
+    static Attendance GetAttendance(SQLWrapper &db, int user_id, int subject_id);
+
     int id;
     time_t date_pass;
     int subject;
     int user;
 };
 
-#endif //C___ATTENDANCE_H
+#endif //PROJECT_ATTENDANCE_H

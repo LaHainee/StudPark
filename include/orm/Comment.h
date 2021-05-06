@@ -1,5 +1,5 @@
-#ifndef C___COMMENT_H
-#define C___COMMENT_H
+#ifndef PROJECT_COMMENT_H
+#define PROJECT_COMMENT_H
 
 class Comment {
 public:
@@ -14,10 +14,10 @@ public:
             author_id(author),
             text(body_comment),
             created(_created) {};
-    static Comment GetComment(int post_id);
-    static void AddComment(int post_id, int author_id, const std::string &body_comment, time_t created);
-    void DeleteComment(int post_id);
-private:
+    static Comment GetComment(SQLWrapper &db, int post_id);
+    static void AddComment(SQLWrapper &db, int post_id, int author_id, const std::string &body_comment, time_t created);
+    void DeleteComment(SQLWrapper &db, int post_id);
+
     int id;
     int post_id;
     int author_id;
@@ -25,4 +25,4 @@ private:
     time_t created;
 };
 
-#endif //C___COMMENT_H
+#endif //PROJECT_COMMENT_H

@@ -1,5 +1,5 @@
-#ifndef C___CONTACT_H
-#define C___CONTACT_H
+#ifndef PROJECT_CONTACT_H
+#define PROJECT_CONTACT_H
 
 class Contact {
 public:
@@ -12,14 +12,14 @@ public:
             type_contacts(user_type_contacts),
             url(user_url),
             stealth(user_stealth) {}
-    static Contact GetContacts(int user_id);
-    static void AddContacts(const std::string &user_type_contacts, const std::string &user_url, bool user_stealth);
-    void DeleteContacts(int id);
-private:
+    static Contact GetContacts(SQLWrapper &db, int user_id);
+    static void AddContacts(SQLWrapper &db, const std::string &user_type_contacts, const std::string &user_url, bool user_stealth);
+    void DeleteContacts(SQLWrapper &db, int id);
+
     int user;
     std::string type_contacts;
     std::string url;
     bool stealth;
 };
 
-#endif //C___CONTACT_H
+#endif //PROJECT_CONTACT_H

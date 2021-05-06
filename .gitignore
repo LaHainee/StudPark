@@ -1,7 +1,4 @@
-*a.out
-*gtest*
-test_*
-*.cmake
-*Makefile
-*CMakeCache.txt
-*CMakeFiles
+cmake-build-debug
+main.cpp
+.idea
+.git

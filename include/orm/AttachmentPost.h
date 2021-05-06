@@ -1,5 +1,5 @@
-#ifndef C___ATTACHMENTPOST_H
-#define C___ATTACHMENTPOST_H
+#ifndef PROJECT_ATTACHMENTPOST_H
+#define PROJECT_ATTACHMENTPOST_H
 
 class AttachmentPost {
 public:
@@ -14,10 +14,11 @@ public:
             type(_type),
             name(file_name),
             path(_path) {};
-    static AttachmentPost GetAttachmentPost(int post_id);
-    static void AddAttachmentPost(int user_id, int type, const std::string &file_name, const std::string &path);
-    void DeleteAttachmentPost(int post_id);
-private:
+    static AttachmentPost GetAttachmentPost(SQLWrapper &db, int post_id);
+    static void AddAttachmentPost(SQLWrapper &db, int user_id, int type, const std::string &file_name,
+            const std::string &path);
+    void DeleteAttachmentPost(SQLWrapper &db, int post_id);
+
     int id;
     int post_id;
     int type;
@@ -25,4 +26,4 @@ private:
     std::string path;
 };
 
-#endif //C___ATTACHMENTPOST_H
+#endif //PROJECT_ATTACHMENTPOST_H

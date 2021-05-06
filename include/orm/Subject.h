@@ -1,5 +1,5 @@
-#ifndef C___SUBJECT_H
-#define C___SUBJECT_H
+#ifndef PROJECT_SUBJECT_H
+#define PROJECT_SUBJECT_H
 
 class Subject {
 public:
@@ -10,13 +10,13 @@ public:
             id(id_subject),
             subject(_subject),
             group_id(_group_id) {}
-    static void AddSubject(const std::string &subject, int group_id);
-    void DeleteSubject(int subject_id);
-    static Subject ListSubject(int group_id);
-private:
+    static void AddSubject(SQLWrapper &db, const std::string &subject, int group_id);
+    void DeleteSubject(SQLWrapper &db, int subject_id);
+    static Subject ListSubject(SQLWrapper &db, int group_id);
+
     int id;
     std::string subject;
     int group_id;
 };
 
-#endif //C___SUBJECT_H
+#endif //PROJECT_SUBJECT_H

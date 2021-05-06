@@ -1,5 +1,5 @@
-#ifndef C___SHARE_H
-#define C___SHARE_H
+#ifndef PROJECT_SHARE_H
+#define PROJECT_SHARE_H
 
 class Share {
 public:
@@ -12,14 +12,14 @@ public:
             recipient(recipient_id),
             owner(owner_id),
             file(file_id) {}
-    static void AddShare(int recipient_id, int owner_id, int file_id);
-    void DeleteShare(int id);
-    static Share GetList(int owner_id);
-private:
+    static void AddShare(SQLWrapper &db, int recipient_id, int owner_id, int file_id);
+    void DeleteShare(SQLWrapper &db, int id);
+    static Share GetList(SQLWrapper &db, int owner_id);
+
     int id;
     int recipient;
     int owner;
     int file;
 };
 
-#endif //C___SHARE_H
+#endif //PROJECT_SHARE_H

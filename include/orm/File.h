@@ -1,6 +1,7 @@
-#ifndef C___FILE_H
-#define C___FILE_H
+#ifndef PROJECT_FILE_H
+#define PROJECT_FILE_H
 #include "map"
+
 class File {
 public:
     explicit File(
@@ -12,14 +13,14 @@ public:
             owner(owner_id),
             name(file_name),
             path(file_path) {}
-    static void AddFile(int owner_id, const std::string &file_name, const std::string &file_path);
-    void DeleteFile(int user_id);
-    std::map<std::string, std::string> GetFiles(int user_id);
-private:
+    static void AddFile(SQLWrapper &db, int owner_id, const std::string &file_name, const std::string &file_path);
+    void DeleteFile(SQLWrapper &db, int user_id);
+    std::map<std::string, std::string> GetFiles(SQLWrapper &db, int user_id);
+
     int id;
     int owner;
     std::string name;
     std::string path;
 };
 
-#endif //C___FILE_H
+#endif //PROJECT_FILE_H

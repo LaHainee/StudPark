@@ -1,5 +1,5 @@
-#ifndef C___RECORDING_LABORATORY_WORK_H
-#define C___RECORDING_LABORATORY_WORK_H
+#ifndef PROJECT_RECORDING_LABORATORY_WORK_H
+#define PROJECT_RECORDING_LABORATORY_WORK_H
 
 class Recording_laboratory_work {
 public:
@@ -17,12 +17,12 @@ public:
             group(group_id),
             position(user_position) {}
     Recording_laboratory_work() {}
-    static void AddRecording(int user_id, int subject_id, time_t date_lab, int group_id, unsigned int user_position);
-    void DeleteRecording(int lab_id);
-    static void UpdateRecording(int recording_id, int user_id, int subject_id, time_t date_lab, int group_id,
-                                unsigned int user_position);
-    static Recording_laboratory_work GetRecording(int user_id, int subject_id);
-private:
+    static void AddRecording(SQLWrapper &db, int user_id, int subject_id, time_t date_lab, int group_id, unsigned int user_position);
+    void DeleteRecording(SQLWrapper &db, int lab_id);
+    static void UpdateRecording(SQLWrapper &db, int recording_id, int user_id, int subject_id,
+            time_t date_lab, int group_id, unsigned int user_position);
+    static Recording_laboratory_work GetRecording(SQLWrapper &db, int user_id, int subject_id);
+
     int id;
     unsigned int position;
     time_t date_lab;
@@ -31,4 +31,4 @@ private:
     int user;
 };
 
-#endif //C___RECORDING_LABORATORY_WORK_H
+#endif //PROJECT_RECORDING_LABORATORY_WORK_H
