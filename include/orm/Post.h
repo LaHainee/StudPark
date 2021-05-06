@@ -21,10 +21,11 @@ public:
             deleted(_deleted),
             created(_created) {};
     static Post GetPost(SQLWrapper &db, int post_id);
-    static int* GetComments(SQLWrapper &db, int id);
-    static int* GetAttachmentPost(SQLWrapper &db, int id);
+    static std::vector<int> GetComments(SQLWrapper &db, int id);
+    static std::vector<int> GetAttachmentPost(SQLWrapper &db, int id);
     static int AddPost(SQLWrapper &db, const std::string &head, const std::string &body, int user_id, time_t created);
     static void DeletePost(SQLWrapper &db, int id);
+    static std::vector<Post> GetPostsByIdGroup(SQLWrapper &db, int id);
 
     int id;
     std::string post_head;

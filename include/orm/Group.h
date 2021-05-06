@@ -16,7 +16,8 @@ public:
         int user_semester,
         int user_group_number,
         const std::string &_education_level,
-        time_t user_start_week
+        time_t user_start_week,
+        const std::string &_join_code
         ) :
         id(id_group),
         faculty(user_faculty),
@@ -24,15 +25,17 @@ public:
         semester(user_semester),
         group_number(user_group_number),
         education_level(_education_level),
-        start_week(user_start_week) {}
+        start_week(user_start_week),
+        join_code(_join_code){}
     static int AddGroup(SQLWrapper &db, const std::string &user_faculty, int user_number_departament, int user_semester,
-            int user_group_number, const std::string &education_level, time_t start_week);
+            int user_group_number, const std::string &education_level, time_t start_week, const std::string &join_code);
 //    static void DeleteGroup(SQLWrapper &db,int group_id);
 // TODO(A1i5k): May be delete
     static Group GetGroup(SQLWrapper &db, int group_id);
     static void UpdateGroup(SQLWrapper &db, int id_group, int user_number_departament, int user_semester,
                             int user_group_number, time_t user_start_week, const std::string &user_faculty);
     static std::vector<int> GetMembers(SQLWrapper &db, int group_id);
+    static Group GetGroupByJoinCode(SQLWrapper &db, const std::string &join_code);
 
     int id;
     std::string faculty;
@@ -41,6 +44,7 @@ public:
     int group_number;
     std::string education_level;
     time_t start_week;
+    std::string join_code;
 };
 
 #endif //PROJECT_GROUP_H
