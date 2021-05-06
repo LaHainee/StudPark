@@ -5,8 +5,8 @@
 
 
 int User::AddUserRegistration(SQLWrapper &db, const std::string &f_name, const std::string &s_name,
-                               const std::string &user_patronymic, int user_role, const std::string &user_login,
-                               const std::string &user_password, int group_id) {
+                               const std::string &user_patronymic, const std::string &user_login,
+                               const std::string &user_password, int group_id, int user_role) {
     if (SearchLogin(db, user_login)) {
         return REPEAT_LOGIN;
     }
@@ -15,7 +15,7 @@ int User::AddUserRegistration(SQLWrapper &db, const std::string &f_name, const s
     }
 
     db << "INSERT INTO student (first_name, second_name, patronymic,"
-          " role, login, password, deleted, group_id) values ('"
+          " role, login, password, deleted, group_id, date_registration) values ('"
     << f_name << "', '"
     << s_name << "', '"
     << user_patronymic << "', '"
@@ -23,7 +23,8 @@ int User::AddUserRegistration(SQLWrapper &db, const std::string &f_name, const s
     << user_login << "', '"
     << user_password << "', "
     << "false" << ", '"
-    << group_id << "') returning id;";
+    << group_id <<
+    "', to_timestamp(" << time(nullptr) << ")) returning id;";
     db.exec();
 
     return db.get_int(0);
@@ -56,10 +57,10 @@ User User::GetUser(SQLWrapper &db,int user_id) {
                 db.get_int(10),
                 db.get_str(11),
                 db.get_str(12),
-                db.get_time_t(13),
-                db.get_bool(14),
+                db.get_bool(13),
+                db.get_int(14),
                 db.get_int(15),
-                db.get_int(16));
+                db.get_time_t(16));
     return result;
 }
 

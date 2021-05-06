@@ -17,6 +17,9 @@ public:
         GRADUATED = 2,
         GAP = 3
     };
+    enum {
+        REPEAT_LOGIN = -1
+    };
     explicit User(
         const std::string &f_name,
         const std::string &s_name,
@@ -48,13 +51,13 @@ public:
         role_university(user_role_university),
         login(user_login),
         password(user_password),
-        date_registration(date_reg),
         deleted(status_delete),
         status(user_status),
-        group_id(_group_id){}
+        group_id(_group_id),
+        date_registration(date_reg){}
     static int AddUserRegistration(SQLWrapper &db, const std::string &f_name, const std::string &s_name,
-            const std::string &user_patronymic, int user_role, const std::string &user_login,
-            const std::string &user_password, int group_id);
+            const std::string &user_patronymic, const std::string &user_login,
+            const std::string &user_password, int group_id, int user_role = STUDENT);
     static void UpdateUserExtra(SQLWrapper &db, int user_id, char user_form_educational, bool user_hostel,
             const std::string &user_stud_card,
             const std::string &user_avatar, const std::string &user_status,
@@ -67,9 +70,6 @@ public:
                            const std::string &user_status, const std::string &user_record_book,
                            int user_role, int user_role_university, const std::string &user_login,
                            const std::string &user_password, time_t user_date_admission, time_t date_reg, int group_id);
-    enum {
-        REPEAT_LOGIN = -1
-    };
 
     std::string first_name;
     std::string second_name;
@@ -83,11 +83,11 @@ public:
     int role_university;
     std::string login;
     std::string password;
-    time_t date_registration;
     std::string status;
     bool deleted;
     int id;
     int group_id;
+    time_t date_registration;
 private:
     static bool SearchLogin(SQLWrapper &db, const std::string& login);
 };

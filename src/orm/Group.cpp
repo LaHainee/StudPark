@@ -3,7 +3,7 @@
 #include "../../include/orm/utils.hpp"
 
 int Group::AddGroup(SQLWrapper &db, const std::string &user_faculty, int user_number_departament, int user_semester,
-        int user_group_number, const std::string &education_level, time_t start_week, const std::string &join_code) {
+        int user_group_number, const std::string &education_level, const std::string &join_code, time_t start_week) {
 
     db << "INSERT INTO \"group\" (faculty, number_departament, semester,"
           " group_number, education_level, start_week, join_code) values ('"
@@ -13,6 +13,7 @@ int Group::AddGroup(SQLWrapper &db, const std::string &user_faculty, int user_nu
             << user_group_number << ", '"
             << education_level << "', to_timestamp("<< start_week << "), '"
             << join_code << "') returning id;";
+    std::cout << start_week;
     db.exec();
 
     return db.get_int(0);
@@ -23,11 +24,12 @@ int Group::AddGroup(SQLWrapper &db, const std::string &user_faculty, int user_nu
 //    if (check_existence("\"group\"", "id", group_id)) {
 //        throw std::length_error("ERROR: FIELD NOT FOUND ");
 //    }
-//    db << "UPDATE \"group\" SET deleted = true WHERE id = " << group_id << ";";
+//    db << "UPDATE \"group\" SET deleted = true WHERE id = " << group_id << "; SELECT setval('id', 0);";
+//    db << "UPDATE \"group\" SET id = "<< group_id << " WHERE id = " << group_id << "; SELECT setval('group_id_seq', 1) FROM \"group\" ;";
 //    db.exec();
 //}
 
-Group Group::GetGroup(SQLWrapper &db, int group_id) {
+Group Group::GetGroupById(SQLWrapper &db, int group_id) {
     if (check_existence("\"group\"", "id", group_id)) {
         throw std::length_error("ERROR: FIELD NOT FOUND ");
     }
@@ -41,8 +43,8 @@ Group Group::GetGroup(SQLWrapper &db, int group_id) {
             db.get_int(3),
             db.get_int(4),
             db.get_str(5),
-            db.get_time_t(6),
-            db.get_str(7));
+            db.get_str(6),
+            db.get_time_t(7));
     return result;
 }
 
@@ -62,17 +64,8 @@ std::vector<int> Group::GetMembers(SQLWrapper &db, int group_id) {
     return result;
 }
 
-Group Group::GetGroupByJoinCode(SQLWrapper &db, const std::string &join_code) {
-    db << "SELECT * FROM \"group\" WHERE join_code = '" << join_code << "';";
+int Group::GetGroupByJoinCode(SQLWrapper &db, const std::string &join_code) {
+    db << "SELECT id FROM \"group\" WHERE join_code = '" << join_code << "';";
     db.exec();
-    Group result(
-            db.get_int(0),
-            db.get_str(1),
-            db.get_int(2),
-            db.get_int(3),
-            db.get_int(4),
-            db.get_str(5),
-            db.get_time_t(6),
-            db.get_str(7));
-    return result;
+    return db.get_int(0);
 }
