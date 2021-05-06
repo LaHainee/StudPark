@@ -2,14 +2,14 @@
 #include "../../include/orm/Wrapper.h"
 #include "../../include/orm/utils.hpp"
 
-int Group::AddGroup(SQLWrapper &db, const std::string &user_faculty, int user_number_departament, int user_course,
+int Group::AddGroup(SQLWrapper &db, const std::string &user_faculty, int user_number_departament, int user_semester,
         int user_group_number, const std::string &education_level, time_t start_week) {
 
-    db << "INSERT INTO \"group\" (faculty, number_departament, course,"
+    db << "INSERT INTO \"group\" (faculty, number_departament, semester,"
           " group_number, education_level, start_week) values ('"
             << user_faculty << "', "
             << user_number_departament << ", "
-            << user_course << ", "
+            << user_semester << ", "
             << user_group_number << ", '"
             << education_level << "', to_timestamp("<< start_week << ")) returning id;";
     db.exec();
@@ -27,6 +27,10 @@ int Group::AddGroup(SQLWrapper &db, const std::string &user_faculty, int user_nu
 //}
 
 Group Group::GetGroup(SQLWrapper &db, int group_id) {
+    if (check_existence("\"group\"", "id", group_id)) {
+        throw std::length_error("ERROR: FIELD NOT FOUND ");
+    }
+
     db << "SELECT * FROM \"group\" WHERE id = '" << group_id << "';";
     db.exec();
     Group result(
@@ -41,6 +45,10 @@ Group Group::GetGroup(SQLWrapper &db, int group_id) {
 }
 
 std::vector<int> Group::GetMembers(SQLWrapper &db, int group_id) {
+    if (check_existence("\"group\"", "id", group_id)) {
+        throw std::length_error("ERROR: FIELD NOT FOUND ");
+    }
+
     db << "SELECT id FROM student WHERE group_id = '" << group_id << "';";
     db.exec();
     int i = 0;

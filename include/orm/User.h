@@ -6,6 +6,17 @@
 
 class User {
 public:
+    enum Roles {
+        STUDENT = 0,
+        ADMIN = 2,
+        LEADER = 1
+    };
+    enum RolesUniversity {
+        STUDYING = 0,
+        EXPELLED = 1,
+        GRADUATED = 2,
+        GAP = 3
+    };
     explicit User(
         const std::string &f_name,
         const std::string &s_name,
@@ -44,7 +55,7 @@ public:
     static int AddUserRegistration(SQLWrapper &db, const std::string &f_name, const std::string &s_name,
             const std::string &user_patronymic, int user_role, const std::string &user_login,
             const std::string &user_password, int group_id);
-    static void UpdateUserExta(SQLWrapper &db, int user_id, char user_form_educational, bool user_hostel,
+    static void UpdateUserExtra(SQLWrapper &db, int user_id, char user_form_educational, bool user_hostel,
             const std::string &user_stud_card,
             const std::string &user_avatar, const std::string &user_status,
             const std::string &user_record_book, int user_role_university);

@@ -65,9 +65,3 @@ time_t SQLWrapper::get_time_t(int field_num, int tup_num) {
 int SQLWrapper::count_tuples() {
     return PQntuples(result);
 }
-
-SQLWrapper::SQLWrapper(SQLWrapper const &wrapper) {
-    conn = wrapper.conn;
-    result = wrapper.result;
-
-}

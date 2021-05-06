@@ -7,9 +7,11 @@
 int User::AddUserRegistration(SQLWrapper &db, const std::string &f_name, const std::string &s_name,
                                const std::string &user_patronymic, int user_role, const std::string &user_login,
                                const std::string &user_password, int group_id) {
-
     if (SearchLogin(db, user_login)) {
         return REPEAT_LOGIN;
+    }
+    if (check_existence("\"group\"", "id", group_id)) {
+        throw std::length_error("ERROR: FIELD NOT FOUND ");
     }
 
     db << "INSERT INTO student (first_name, second_name, patronymic,"
@@ -67,7 +69,7 @@ bool User::SearchLogin(SQLWrapper &db, const std::string& login) {
     return db.count_tuples() > 0;
 }
 
-void User::UpdateUserExta(SQLWrapper &db, int user_id, char user_form_educational, bool user_hostel,
+void User::UpdateUserExtra(SQLWrapper &db, int user_id, char user_form_educational, bool user_hostel,
                           const std::string &user_stud_card, const std::string &user_avatar,
                           const std::string &user_status, const std::string &user_record_book,
                           int user_role_university) {
@@ -81,6 +83,6 @@ void User::UpdateUserExta(SQLWrapper &db, int user_id, char user_form_educationa
     << "', avatar = '" << user_avatar
     << "', status = '"<< user_status
     <<"', record_book = '" << user_record_book
-    <<"', role_university = " << user_role_university << ";";
+    <<"', role_university = " << user_role_university << " WHERE id = " << user_id << ";";
     db.exec();
 }
