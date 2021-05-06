@@ -1,6 +1,7 @@
 #include "../../include/orm/Group.h"
 #include "../../include/orm/Wrapper.h"
 #include "../../include/orm/utils.hpp"
+#include "../../include/orm/Student.h"
 
 int Group::AddGroup(SQLWrapper &db, const std::string &user_faculty, int user_number_departament, int user_semester,
         int user_group_number, const std::string &education_level, const std::string &join_code, time_t start_week) {
@@ -13,7 +14,6 @@ int Group::AddGroup(SQLWrapper &db, const std::string &user_faculty, int user_nu
             << user_group_number << ", '"
             << education_level << "', to_timestamp("<< start_week << "), '"
             << join_code << "') returning id;";
-    std::cout << start_week;
     db.exec();
 
     return db.get_int(0);
@@ -31,7 +31,7 @@ int Group::AddGroup(SQLWrapper &db, const std::string &user_faculty, int user_nu
 
 Group Group::GetGroupById(SQLWrapper &db, int group_id) {
     if (check_existence("\"group\"", "id", group_id)) {
-        throw std::length_error("ERROR: FIELD NOT FOUND ");
+        throw std::length_error("ERROR: FIELD group.id NOT FOUND ");
     }
 
     db << "SELECT * FROM \"group\" WHERE id = '" << group_id << "';";
@@ -48,17 +48,34 @@ Group Group::GetGroupById(SQLWrapper &db, int group_id) {
     return result;
 }
 
-std::vector<int> Group::GetMembers(SQLWrapper &db, int group_id) {
+std::vector<Student> Group::GetMembers(SQLWrapper &db, int group_id) {
     if (check_existence("\"group\"", "id", group_id)) {
-        throw std::length_error("ERROR: FIELD NOT FOUND ");
+        throw std::length_error("ERROR: FIELD group.id NOT FOUND ");
     }
 
-    db << "SELECT id FROM student WHERE group_id = '" << group_id << "';";
+    db << "SELECT * FROM student WHERE group_id = '" << group_id << "' ORDER BY second_name;";
     db.exec();
     int i = 0;
-    std::vector<int> result;
+    std::vector<Student> result;
     while (db.count_tuples() > i) {
-        result.push_back(db.get_int(0, i));
+        Student request(db.get_str(0, i),
+                        db.get_str(1, i),
+                        db.get_str(2, i),
+                        db.get_str(3, i),
+                        db.get_bool(4, i),
+                        db.get_str(5, i),
+                        db.get_str(6, i),
+                        db.get_str(7, i),
+                        db.get_str(8, i),
+                        db.get_int(9, i),
+                        db.get_int(10, i),
+                        db.get_str(11, i),
+                        db.get_str(12, i),
+                        db.get_bool(13, i),
+                        db.get_int(14, i),
+                        db.get_int(15, i),
+                        db.get_time_t(16, i));
+        result.push_back(request);
         i++;
     }
     return result;

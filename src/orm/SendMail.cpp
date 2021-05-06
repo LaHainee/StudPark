@@ -23,7 +23,6 @@ std::vector<SendMail> SendMail::NeedSend(SQLWrapper &db) {
 
 int SendMail::AddInQueue(SQLWrapper &db, const std::string &recipient, const std::string &head_mail,
                          const std::string &body_mail, time_t time_send) {
-
     db << "INSERT INTO send_mail (recipient, head_mail, body_mail, time_send) values ('"
        << recipient << "', '"
        << head_mail << "', '"
@@ -35,7 +34,7 @@ int SendMail::AddInQueue(SQLWrapper &db, const std::string &recipient, const std
 
 void SendMail::DeleteFromQueue(SQLWrapper &db, int id) {
     if (check_existence("send_mail", "id", id)) {
-        throw std::length_error("ERROR: FIELD NOT FOUND ");
+        throw std::length_error("ERROR: FIELD send_mail.id NOT FOUND ");
     }
     db << "DELETE FROM send_mail WHERE id = " << id << ";";
     db.exec();

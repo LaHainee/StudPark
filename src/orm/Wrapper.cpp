@@ -44,6 +44,7 @@ void SQLWrapper::clear() {
 }
 
 char *SQLWrapper::get_str(int field_num, int tup_num) {
+    auto a = PQgetvalue(result, tup_num, field_num);
     return PQgetvalue(result, tup_num, field_num);
 }
 

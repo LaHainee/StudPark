@@ -4,7 +4,7 @@
 #include <iostream>
 #include "Wrapper.h"
 
-class User {
+class Student {
 public:
     enum Roles {
         STUDENT = 0,
@@ -20,7 +20,7 @@ public:
     enum {
         REPEAT_LOGIN = -1
     };
-    explicit User(
+    explicit Student(
         const std::string &f_name,
         const std::string &s_name,
         const std::string &user_patronymic,
@@ -63,7 +63,7 @@ public:
             const std::string &user_avatar, const std::string &user_status,
             const std::string &user_record_book, int user_role_university);
     static void DeleteUser(SQLWrapper &db, int user_id);
-    static User GetUser(SQLWrapper &db, int user_id);
+    static Student GetUser(SQLWrapper &db, int user_id);
     static void UpdateUser(SQLWrapper &db, int user_id, const std::string &f_name, const std::string &s_name,
                            const std::string &user_patronymic,  char user_form_educational, bool user_hostel,
                            const std::string &user_stud_card, const std::string &user_avatar,

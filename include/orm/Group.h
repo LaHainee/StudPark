@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include "Wrapper.h"
+#include "Student.h"
 
 class Group {
 public:
@@ -34,7 +35,7 @@ public:
     static Group GetGroupById(SQLWrapper &db, int group_id);
     static void UpdateGroup(SQLWrapper &db, int id_group, int user_number_departament, int user_semester,
                             int user_group_number, time_t user_start_week, const std::string &user_faculty);
-    static std::vector<int> GetMembers(SQLWrapper &db, int group_id);
+    static std::vector<Student> GetMembers(SQLWrapper &db, int group_id);
     static int GetGroupByJoinCode(SQLWrapper &db, const std::string &join_code);
 
     int id;

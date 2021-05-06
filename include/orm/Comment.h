@@ -1,6 +1,12 @@
 #ifndef PROJECT_COMMENT_H
 #define PROJECT_COMMENT_H
 
+#include <ctime>
+#include <string>
+#include <vector>
+#include "Wrapper.h"
+#include "Student.h"
+
 class Comment {
 public:
     explicit Comment(
@@ -14,9 +20,9 @@ public:
             author_id(author),
             text(body_comment),
             created(_created) {};
-    static Comment GetComment(SQLWrapper &db, int post_id);
-    static void AddComment(SQLWrapper &db, int post_id, int author_id, const std::string &body_comment, time_t created);
-    void DeleteComment(SQLWrapper &db, int post_id);
+    static std::vector<Comment> GetComment(SQLWrapper &db, int post_id);
+    static int AddComment(SQLWrapper &db, int post_id, int author_id, const std::string &body_comment);
+    static void DeleteComment(SQLWrapper &db, int comment_id);
 
     int id;
     int post_id;
