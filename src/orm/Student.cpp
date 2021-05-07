@@ -4,7 +4,7 @@
 #include "../../include/orm/Student.h"
 
 
-int Student::AddUserRegistration(SQLWrapper &db, const std::string &f_name, const std::string &s_name,
+int Student::AddStudentRegistration(SQLWrapper &db, const std::string &f_name, const std::string &s_name,
                                  const std::string &user_patronymic, const std::string &user_login,
                                  const std::string &user_password, int group_id, int user_role) {
     if (SearchLogin(db, user_login)) {
@@ -15,14 +15,13 @@ int Student::AddUserRegistration(SQLWrapper &db, const std::string &f_name, cons
     }
 
     db << "INSERT INTO student (first_name, second_name, patronymic,"
-          " role, login, password, deleted, group_id, date_registration) values ('"
+          " role, login, password, group_id, date_registration) values ('"
     << f_name << "', '"
     << s_name << "', '"
     << user_patronymic << "', '"
     << user_role << "', '"
     << user_login << "', '"
-    << user_password << "', "
-    << "false" << ", '"
+    << user_password << "', '"
     << group_id <<
     "', to_timestamp(" << time(nullptr) << ")) returning id;";
     db.exec();
@@ -30,7 +29,7 @@ int Student::AddUserRegistration(SQLWrapper &db, const std::string &f_name, cons
     return db.get_int(0);
 }
 
-void Student::DeleteUser(SQLWrapper &db, int user_id) {
+void Student::DeleteStudent(SQLWrapper &db, int user_id) {
     if (check_existence("student", "id", user_id)) {
         throw std::length_error("ERROR: FIELD student.id NOT FOUND ");
     }
@@ -38,7 +37,7 @@ void Student::DeleteUser(SQLWrapper &db, int user_id) {
     db.exec();
 }
 
-Student Student::GetUser(SQLWrapper &db, int user_id) {
+Student Student::GetStudentById(SQLWrapper &db, int user_id) {
     if (check_existence("student", "id", user_id)) {
         throw std::length_error("ERROR: FIELD student.id NOT FOUND ");
     }
@@ -47,20 +46,20 @@ Student Student::GetUser(SQLWrapper &db, int user_id) {
     Student result(db.get_str(0),
                    db.get_str(1),
                    db.get_str(2),
-                   db.get_str(3),
-                   db.get_bool(4),
+                   db.get_bool(3),
+                   db.get_str(4),
                    db.get_str(5),
                    db.get_str(6),
                    db.get_str(7),
-                   db.get_str(8),
+                   db.get_int(8),
                    db.get_int(9),
-                   db.get_int(10),
+                   db.get_str(10),
                    db.get_str(11),
-                   db.get_str(12),
-                   db.get_bool(13),
+                   db.get_bool(12),
+                   db.get_int(13),
                    db.get_int(14),
-                   db.get_int(15),
-                   db.get_time_t(16));
+                   db.get_time_t(15),
+                   db.get_int(16));
     return result;
 }
 
@@ -70,10 +69,10 @@ bool Student::SearchLogin(SQLWrapper &db, const std::string& login) {
     return db.count_tuples() > 0;
 }
 
-void Student::UpdateUserExtra(SQLWrapper &db, int user_id, char user_form_educational, bool user_hostel,
+void Student::UpdateStudentExtra(SQLWrapper &db, int user_id, bool user_hostel,
                               const std::string &user_stud_card, const std::string &user_avatar,
                               const std::string &user_status, const std::string &user_record_book,
-                              int user_role_university) {
+                              int user_role_university, int user_form_educational) {
     if (check_existence("student", "id", user_id)) {
         throw std::length_error("ERROR: FIELD student.id NOT FOUND ");
     }
@@ -86,4 +85,30 @@ void Student::UpdateUserExtra(SQLWrapper &db, int user_id, char user_form_educat
     <<"', record_book = '" << user_record_book
     <<"', role_university = " << user_role_university << " WHERE id = " << user_id << ";";
     db.exec();
+}
+
+Student Student::GetStudentBySession(SQLWrapper &db, const std::string &session) {
+    if (check_existence("session", "user_session", session)) {
+        throw std::length_error("ERROR: FIELD session.user_session NOT FOUND ");
+    }
+    db << "SELECT * FROM student WHERE id = (SELECT user_id FROM session WHERE user_session = '" << session<< "');";
+    db.exec();
+    Student result(db.get_str(0),
+                   db.get_str(1),
+                   db.get_str(2),
+                   db.get_bool(3),
+                   db.get_str(4),
+                   db.get_str(5),
+                   db.get_str(6),
+                   db.get_str(7),
+                   db.get_int(8),
+                   db.get_int(9),
+                   db.get_str(10),
+                   db.get_str(11),
+                   db.get_bool(12),
+                   db.get_int(13),
+                   db.get_int(14),
+                   db.get_time_t(15),
+                   db.get_int(16));
+    return result;
 }

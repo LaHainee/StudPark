@@ -61,20 +61,20 @@ std::vector<Student> Group::GetMembers(SQLWrapper &db, int group_id) {
         Student request(db.get_str(0, i),
                         db.get_str(1, i),
                         db.get_str(2, i),
-                        db.get_str(3, i),
-                        db.get_bool(4, i),
+                        db.get_bool(3, i),
+                        db.get_str(4, i),
                         db.get_str(5, i),
                         db.get_str(6, i),
                         db.get_str(7, i),
-                        db.get_str(8, i),
+                        db.get_int(8, i),
                         db.get_int(9, i),
-                        db.get_int(10, i),
+                        db.get_str(10, i),
                         db.get_str(11, i),
-                        db.get_str(12, i),
-                        db.get_bool(13, i),
+                        db.get_bool(12, i),
+                        db.get_int(13, i),
                         db.get_int(14, i),
-                        db.get_int(15, i),
-                        db.get_time_t(16, i));
+                        db.get_time_t(15, i),
+                        db.get_int(16, i));
         result.push_back(request);
         i++;
     }

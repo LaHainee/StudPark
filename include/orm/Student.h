@@ -17,6 +17,11 @@ public:
         GRADUATED = 2,
         GAP = 3
     };
+    enum FormEducational {
+        FREE = 0,
+        AIM = 1,
+        PAY = 2
+    };
     enum {
         REPEAT_LOGIN = -1
     };
@@ -24,7 +29,6 @@ public:
         const std::string &f_name,
         const std::string &s_name,
         const std::string &user_patronymic,
-        const std::string &user_form_educational,
         bool user_hostel,
         const std::string &user_stud_card,
         const std::string &user_avatar,
@@ -37,12 +41,12 @@ public:
         time_t date_reg,
         bool status_delete,
         int user_id,
-        int _group_id) :
+        int _group_id,
+        int user_form_educational) :
         id(user_id),
         first_name(f_name),
         second_name(s_name),
         patronymic(user_patronymic),
-        form_educational(user_form_educational),
         hostel(user_hostel),
         stud_card(user_stud_card),
         avatar(user_avatar),
@@ -54,16 +58,18 @@ public:
         deleted(status_delete),
         status(user_status),
         group_id(_group_id),
-        date_registration(date_reg){}
-    static int AddUserRegistration(SQLWrapper &db, const std::string &f_name, const std::string &s_name,
+        date_registration(date_reg),
+        form_educational(user_form_educational){}
+    static int AddStudentRegistration(SQLWrapper &db, const std::string &f_name, const std::string &s_name,
             const std::string &user_patronymic, const std::string &user_login,
             const std::string &user_password, int group_id, int user_role = STUDENT);
-    static void UpdateUserExtra(SQLWrapper &db, int user_id, char user_form_educational, bool user_hostel,
+    static void UpdateStudentExtra(SQLWrapper &db, int user_id, bool user_hostel,
             const std::string &user_stud_card,
             const std::string &user_avatar, const std::string &user_status,
-            const std::string &user_record_book, int user_role_university);
-    static void DeleteUser(SQLWrapper &db, int user_id);
-    static Student GetUser(SQLWrapper &db, int user_id);
+            const std::string &user_record_book, int user_role_university, int user_form_educational);
+    static void DeleteStudent(SQLWrapper &db, int user_id);
+    static Student GetStudentById(SQLWrapper &db, int user_id);
+    static Student GetStudentBySession(SQLWrapper &db, const std::string &session);
     static void UpdateUser(SQLWrapper &db, int user_id, const std::string &f_name, const std::string &s_name,
                            const std::string &user_patronymic,  char user_form_educational, bool user_hostel,
                            const std::string &user_stud_card, const std::string &user_avatar,
@@ -74,7 +80,6 @@ public:
     std::string first_name;
     std::string second_name;
     std::string patronymic;
-    std::string form_educational;
     bool hostel;
     std::string stud_card;
     std::string avatar;
@@ -88,6 +93,7 @@ public:
     int id;
     int group_id;
     time_t date_registration;
+    int form_educational;
 private:
     static bool SearchLogin(SQLWrapper &db, const std::string& login);
 };

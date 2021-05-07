@@ -2,20 +2,6 @@
 #include "../../include/orm/Wrapper.h"
 #include "../../include/orm/utils.hpp"
 
-Session Session::GetById(SQLWrapper &db, int id) {
-    if (check_existence("session", "id", id)) {
-        throw std::length_error("ERROR: FIELD session.id NOT FOUND ");
-    }
-    db << "SELECT * FROM session WHERE id = '" << id << "';";
-    db.exec();
-    Session result(
-            db.get_int(0),
-            db.get_int(1),
-            db.get_str(2),
-            db.get_time_t(3));
-    return result;
-}
-
 void Session::DeleteSession(SQLWrapper &db, int id) {
     if (check_existence("session", "id", id)) {
         throw std::length_error("ERROR: FIELD session.id NOT FOUND ");

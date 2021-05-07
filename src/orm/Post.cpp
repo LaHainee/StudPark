@@ -23,11 +23,11 @@ int Post::AddPost(SQLWrapper &db, const std::string &head, const std::string &bo
         throw std::length_error("ERROR: FIELD student.id student.NOT FOUND ");
     }
 
-    db << "INSERT INTO post (post_head, post_body, owner, deleted, created) values ('"
+    db << "INSERT INTO post (post_head, post_body, owner, created) values ('"
        << head << "', '"
        << body << "', '"
-       << user_id<< "', '"
-       << false << "', to_timestamp("<< created << ")) returning id;";
+       << user_id<< "', "
+       << "to_timestamp("<< created << ")) returning id;";
     db.exec();
 
     return db.get_int(0);
@@ -37,7 +37,7 @@ void Post::DeletePost(SQLWrapper &db, int id) {
     if (check_existence("post", "id", id)) {
         throw std::length_error("ERROR: FIELD post.id NOT FOUND ");
     }
-    db << "UPDATE post SET deleted = true WHERE id = " << id << "; DELETE FROM comment WHERE post_id = " << id;
+    db << "UPDATE post SET deleted = true WHERE id = " << id << "; UPDATE comment SET deleted = true WHERE post_id = " << id;
     db.exec();
 }
 

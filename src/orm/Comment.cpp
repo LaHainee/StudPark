@@ -25,7 +25,7 @@ void Comment::DeleteComment(SQLWrapper &db, int comment_id) {
     if (check_existence("comment", "id", comment_id)) {
         throw std::length_error("ERROR: FIELD comment.id NOT FOUND ");
     }
-    db << "DELETE FROM comment WHERE id = " << comment_id << ";";
+    db << "UPDATE comment SET deleted = true WHERE id = " << comment_id << ";";
     db.exec();
 }
 
