@@ -19,10 +19,10 @@ public:
     };
     enum FormEducational {
         FREE = 0,
-        AIM = 1,
+        target= 1,
         PAY = 2
     };
-    enum {
+    enum ERROR {
         REPEAT_LOGIN = -1
     };
     explicit Student(
@@ -38,10 +38,10 @@ public:
         int user_role_university,
         const std::string &user_login,
         const std::string &user_password,
-        time_t date_reg,
         bool status_delete,
         int user_id,
         int _group_id,
+        time_t date_reg,
         int user_form_educational) :
         id(user_id),
         first_name(f_name),
@@ -70,7 +70,8 @@ public:
     static void DeleteStudent(SQLWrapper &db, int user_id);
     static Student GetStudentById(SQLWrapper &db, int user_id);
     static Student GetStudentBySession(SQLWrapper &db, const std::string &session);
-    static void UpdateUser(SQLWrapper &db, int user_id, const std::string &f_name, const std::string &s_name,
+    static int GetIdByLoginPassword(SQLWrapper &db, const std::string &login, const std::string &password);
+    static void UpdateStudent(SQLWrapper &db, int user_id, const std::string &f_name, const std::string &s_name,
                            const std::string &user_patronymic,  char user_form_educational, bool user_hostel,
                            const std::string &user_stud_card, const std::string &user_avatar,
                            const std::string &user_status, const std::string &user_record_book,

@@ -91,7 +91,7 @@ Student Student::GetStudentBySession(SQLWrapper &db, const std::string &session)
     if (check_existence("session", "user_session", session)) {
         throw std::length_error("ERROR: FIELD session.user_session NOT FOUND ");
     }
-    db << "SELECT * FROM student WHERE id = (SELECT user_id FROM session WHERE user_session = '" << session<< "');";
+    db << "SELECT * FROM student WHERE id = (SELECT user_id FROM session WHERE user_session = '" << session << "');";
     db.exec();
     Student result(db.get_str(0),
                    db.get_str(1),
@@ -111,4 +111,10 @@ Student Student::GetStudentBySession(SQLWrapper &db, const std::string &session)
                    db.get_time_t(15),
                    db.get_int(16));
     return result;
+}
+
+int Student::GetIdByLoginPassword(SQLWrapper &db, const std::string &login, const std::string &password) {
+    db << "SELECT id FROM student WHERE login = '" << login << "' AND password = '" << password << "';";
+    db.exec();
+    return db.get_int(0);
 }
