@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 project(sender CXX)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS)
+set(CMAKE_CXX_FLAGS -stdlib=libc++)
 
 find_package(PostgreSQL REQUIRED)
 find_package(Threads REQUIRED)

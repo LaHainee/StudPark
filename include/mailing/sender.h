@@ -6,24 +6,30 @@
 #include <../ORM/Send_mail.h>
 #include <curl/curl.h>
 #include <cstring>
+#include <thread>
+#include <iterator>
+#include <algorithm>
 
 class EmailSender {
 public:
-    bool Send(std::vector<SendMail>);
+    static void Send(std::vector<SendMail> data, std::vector<std::string> &accountsForMailing);
 private:
-    static size_t payload_source(char *ptr, size_t size, size_t nmemb, void *userp);
-    struct upload_status {
+    static void threadSendMail(const std::vector<SendMail> &data, const std::string &account);
+    static size_t payloadSource(char *ptr, size_t size, size_t nmemb, void *userp);
+    struct uploadStatus {
         int lines_read;
         std::string subject;
         std::string body;
+        std::string account;
     };
 };
 
 class Scheduler {
 public:
-    void ScanningDB();
+    Scheduler();
+    void Scan();
 private:
-    EmailSender mail;
+    std::vector<std::string> accountsForMailing;
 };
 
 #endif //CODECARCASS_SENDER_H

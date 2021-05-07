@@ -1,56 +1,61 @@
 #include "sender.h"
-#include "../../include/ORM/Send_mail.h"
 
-void Scheduler::ScanningDB() {
+void Scheduler::Scan() {
     std::vector<SendMail> data;
     SQLWrapper wrapper;
     data = SendMail::NeedSend(wrapper);
-    if (data.size() > 0) {
-        mail.Send(data);
+    if (!data.empty()) {
+        EmailSender::Send(data, accountsForMailing);
     }
+    SendMail::DeleteFromQueue(wrapper);
 }
 
-size_t EmailSender::payload_source(char *ptr, size_t size, size_t nmemb, void *userp) {
-    struct upload_status *upload_ctx = (struct upload_status *)userp;
-    const char *payload_text[] = {
-            "From: Studpark <TESTINTERNETYSER@gmail.com> \r\n",
-            std::string("Subject: " + upload_ctx->subject + "\r\n").c_str(),
+size_t EmailSender::payloadSource(char *ptr, size_t size, size_t nmemb, void *userp) {
+    auto *uploadCtx = (struct uploadStatus *)userp;
+    std::string subject_str = "Subject: " + uploadCtx->subject + "\r\n";
+    std::string account_str = "From: Studpark <" + uploadCtx->account + ">\r\n";
+    std::string body_str = uploadCtx->body + "\r\n";
+    const char *payloadText[] = {
+            account_str.c_str(),
+            subject_str.c_str(),
             "\r\n",
-            std::string(upload_ctx->body + "\r\n").c_str(),
-            NULL
+            body_str.c_str(),
+            nullptr
     };
     const char *data;
     if((size == 0) || (nmemb == 0) || ((size*nmemb) < 1)) {
         return 0;
     }
-    data = payload_text[upload_ctx->lines_read];
+    data = payloadText[uploadCtx->lines_read];
     if(data) {
         size_t len = strlen(data);
-        std::memcpy(ptr, data, len);
-        upload_ctx->lines_read++;
+        strcpy(ptr, data);
+        uploadCtx->lines_read++;
         return len;
     }
     return 0;
 }
 
-bool EmailSender::Send(std::vector<SendMail> data) {
+void EmailSender::threadSendMail(const std::vector<SendMail> &data, const std::string &account) {
     CURL *curl;
-    CURLcode result = CURLE_OK;
-    struct upload_status upload_ctx;
+    CURLcode result;
+    struct uploadStatus uploadCtx;
     curl = curl_easy_init();
-    curl_easy_setopt(curl, CURLOPT_USERNAME, std::getenv("MAIL_USER"));
+    curl_easy_setopt(curl, CURLOPT_USERNAME, account.c_str());
     curl_easy_setopt(curl, CURLOPT_PASSWORD, std::getenv("MAIL_PASSWORD"));
     curl_easy_setopt(curl, CURLOPT_URL, std::getenv("MAIL_SERVER"));
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
     if (curl) {
-        for (int i = 0; i < data.size(); ++i) {
-            struct curl_slist *recipients = NULL;
-            upload_ctx.subject = data[i].head_mail;
-            upload_ctx.body = data[i].body_mail;
-            upload_ctx.lines_read = 0;
-            recipients = curl_slist_append(recipients, data[i].recipient.c_str());
+        for (auto &vector: data) {
+            struct curl_slist *recipients = nullptr;
+            uploadCtx.subject = vector.head_mail;
+            uploadCtx.body = vector.body_mail;
+            uploadCtx.account = account;
+            uploadCtx.lines_read = 0;
+            recipients = curl_slist_append(recipients, vector.recipient.c_str());
             curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
-            curl_easy_setopt(curl, CURLOPT_READFUNCTION, payload_source);
-            curl_easy_setopt(curl, CURLOPT_READDATA, &upload_ctx);
+            curl_easy_setopt(curl, CURLOPT_READFUNCTION, payloadSource);
+            curl_easy_setopt(curl, CURLOPT_READDATA, &uploadCtx);
             curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
             result = curl_easy_perform(curl);
             if(result != CURLE_OK)
@@ -62,3 +67,21 @@ bool EmailSender::Send(std::vector<SendMail> data) {
     }
 }
 
+void EmailSender::Send(std::vector<SendMail> data, std::vector<std::string> &accountsForMailing) {
+    const auto procsCount = std::thread::hardware_concurrency();
+    std::vector<std::thread> threads;
+    size_t length = data.size() / procsCount;
+    size_t remain = data.size() % procsCount;
+    size_t begin = 0;
+    size_t end = 0;
+    for (size_t i = 0; i < std::min<unsigned int>(procsCount, data.size()); ++i) {
+        end += (remain > 0) ? (length + !!(remain--)) : length;
+        std::vector<SendMail> threadData = std::vector<SendMail>(data.begin() + begin, data.begin() + end);
+        begin = end;
+        std::string account = accountsForMailing[i];
+        threads.emplace_back(std::thread(threadSendMail, threadData, account));
+    }
+    for (auto & thread : threads) {
+        thread.join();
+    }
+}
