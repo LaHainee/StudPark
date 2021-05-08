@@ -32,7 +32,10 @@ int SendMail::AddInQueue(SQLWrapper &db, const std::string &recipient, const std
     return db.get_int(0);
 }
 
-void SendMail::DeleteFromQueue(SQLWrapper &db) {
-    db << "DELETE FROM send_mail WHERE time_send <= now();";
+void SendMail::DeleteFromQueue(SQLWrapper &db, int id) {
+    if (check_existence("send_mail", "id", id)) {
+        throw std::length_error("ERROR: FIELD send_mail.id NOT FOUND ");
+    }
+    db << "DELETE FROM send_mail WHERE id = " << id << ";";
     db.exec();
 }

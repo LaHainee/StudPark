@@ -74,7 +74,8 @@ std::vector<Student> Group::GetMembers(SQLWrapper &db, int group_id) {
                        db.get_int(13),
                        db.get_int(14),
                        db.get_time_t(15),
-                       db.get_int(16));
+                       db.get_int(16),
+                        db.get_bool(17));
         result.push_back(request);
         i++;
     }
@@ -85,4 +86,38 @@ int Group::GetGroupByJoinCode(SQLWrapper &db, const std::string &join_code) {
     db << "SELECT id FROM \"group\" WHERE join_code = '" << join_code << "';";
     db.exec();
     return db.get_int(0);
+}
+
+std::vector<Student> Group::GetPostNotificationSubscribers(SQLWrapper &db, int id) {
+    if (check_existence("\"group\"", "id", id)) {
+        throw std::length_error("ERROR: FIELD group.id NOT FOUND ");
+    }
+
+    db << "SELECT * FROM student WHERE group_id = '" << id << "' AND notification = 'true';";
+    db.exec();
+    int i = 0;
+    std::vector<Student> result;
+    while (db.count_tuples() > i) {
+        Student request(db.get_str(0),
+                        db.get_str(1),
+                        db.get_str(2),
+                        db.get_bool(3),
+                        db.get_str(4),
+                        db.get_str(5),
+                        db.get_str(6),
+                        db.get_str(7),
+                        db.get_int(8),
+                        db.get_int(9),
+                        db.get_str(10),
+                        db.get_str(11),
+                        db.get_bool(12),
+                        db.get_int(13),
+                        db.get_int(14),
+                        db.get_time_t(15),
+                        db.get_int(16),
+                        db.get_bool(17));
+        result.push_back(request);
+        i++;
+    }
+    return result;
 }

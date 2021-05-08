@@ -59,7 +59,8 @@ Student Student::GetStudentById(SQLWrapper &db, int user_id) {
                    db.get_int(13),
                    db.get_int(14),
                    db.get_time_t(15),
-                   db.get_int(16));
+                   db.get_int(16),
+                   db.get_bool(17));
     return result;
 }
 
@@ -72,7 +73,7 @@ bool Student::SearchLogin(SQLWrapper &db, const std::string& login) {
 void Student::UpdateStudentExtra(SQLWrapper &db, int user_id, bool user_hostel,
                               const std::string &user_stud_card, const std::string &user_avatar,
                               const std::string &user_status, const std::string &user_record_book,
-                              int user_role_university, int user_form_educational) {
+                              int user_role_university, int user_form_educational, bool notification) {
     if (check_existence("student", "id", user_id)) {
         throw std::length_error("ERROR: FIELD student.id NOT FOUND ");
     }
@@ -82,8 +83,10 @@ void Student::UpdateStudentExtra(SQLWrapper &db, int user_id, bool user_hostel,
     << "', stud_card = '" << user_stud_card
     << "', avatar = '" << user_avatar
     << "', status = '"<< user_status
-    <<"', record_book = '" << user_record_book
-    <<"', role_university = " << user_role_university << " WHERE id = " << user_id << ";";
+    << "', record_book = '" << user_record_book
+    << "', role_university = " << user_role_university
+    << ", notification = '" << notification
+    << "' WHERE id = " << user_id << ";";
     db.exec();
 }
 
@@ -109,7 +112,8 @@ Student Student::GetStudentBySession(SQLWrapper &db, const std::string &session)
                    db.get_int(13),
                    db.get_int(14),
                    db.get_time_t(15),
-                   db.get_int(16));
+                   db.get_int(16),
+                   db.get_bool(17));
     return result;
 }
 

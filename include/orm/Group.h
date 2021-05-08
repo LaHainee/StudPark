@@ -37,6 +37,7 @@ public:
                             int user_group_number, time_t user_start_week, const std::string &user_faculty);
     static std::vector<Student> GetMembers(SQLWrapper &db, int group_id);
     static int GetGroupByJoinCode(SQLWrapper &db, const std::string &join_code);
+    static std::vector<Student>  GetPostNotificationSubscribers(SQLWrapper &db, int id);
 
     int id;
     std::string faculty;
