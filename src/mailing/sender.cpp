@@ -5,7 +5,7 @@ void Scheduler::Scan() {
     SQLWrapper wrapper;
     data = SendMail::NeedSend(wrapper);
     if (!data.empty()) {
-        EmailSender::Send(data, accountsForMailing);
+        EmailSender::Send(wrapper, data, accountsForMailing);
     }
     // SendMail::DeleteFromQueue(wrapper);
 }
@@ -34,7 +34,7 @@ size_t EmailSender::payloadSource(char *ptr, size_t size, size_t nmemb, void *us
     return 0;
 }
 
-void EmailSender::threadSendMail(const std::vector<SendMail> &data, const std::string &account) {
+void EmailSender::threadSendMail(const std::vector<SendMail> &data, const std::string &account, std::vector<int> &mails) {
     CURL *curl;
     CURLcode result;
     struct uploadStatus uploadCtx;
@@ -60,28 +60,31 @@ void EmailSender::threadSendMail(const std::vector<SendMail> &data, const std::s
                 fprintf(stderr, "curl_easy_perform() failed: %s\n",
                         curl_easy_strerror(result));
             curl_slist_free_all(recipients);
-            SQLWrapper wrapper;
-            SendMail::DeleteFromQueue(wrapper, vector.id);
+            mails.push_back(vector.id);
         }
         curl_easy_cleanup(curl);
     }
 }
 
-void EmailSender::Send(std::vector<SendMail> data, std::vector<std::string> &accountsForMailing) {
+void EmailSender::Send(SQLWrapper &db, std::vector<SendMail> data, std::vector<std::string> &accountsForMailing) {
     const auto procsCount = std::thread::hardware_concurrency();
     std::vector<std::thread> threads;
     size_t length = data.size() / procsCount;
     size_t remain = data.size() % procsCount;
     size_t begin = 0;
     size_t end = 0;
+    std::vector<int> mailsIdForDelete;
     for (size_t i = 0; i < std::min<unsigned int>(procsCount, data.size()); ++i) {
         end += (remain > 0) ? (length + !!(remain--)) : length;
         std::vector<SendMail> threadData = std::vector<SendMail>(data.begin() + begin, data.begin() + end);
         begin = end;
         std::string account = accountsForMailing[i];
-        threads.emplace_back(std::thread(threadSendMail, threadData, account));
+        threads.emplace_back(std::thread(threadSendMail, threadData, account, std::ref(mailsIdForDelete)));
     }
     for (auto & thread : threads) {
         thread.join();
+    }
+    for (int i : mailsIdForDelete) {
+        SendMail::DeleteFromQueue(db, i);
     }
 }
