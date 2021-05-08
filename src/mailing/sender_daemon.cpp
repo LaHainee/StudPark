@@ -13,6 +13,16 @@ Scheduler::Scheduler() {
 
 int main() {
     Scheduler sch;
+    SQLWrapper wrapper;
+    /*for (int i = 0; i < 8; ++i) {
+        SendMail::AddInQueue(
+                wrapper,
+                "studparksender@gmail.com",
+                "Заголовок тестового письма",
+                "Тело тестового письма",
+                time(NULL)
+                );
+    }*/
     sch.Scan();
     return 0;
 }

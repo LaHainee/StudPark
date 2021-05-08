@@ -7,14 +7,14 @@ void Scheduler::Scan() {
     if (!data.empty()) {
         EmailSender::Send(data, accountsForMailing);
     }
-    SendMail::DeleteFromQueue(wrapper);
+    // SendMail::DeleteFromQueue(wrapper);
 }
 
 size_t EmailSender::payloadSource(char *ptr, size_t size, size_t nmemb, void *userp) {
     auto *uploadCtx = (struct uploadStatus *)userp;
-    std::string subject_str = "Subject: " + uploadCtx->subject + "\r\n";
-    std::string account_str = "From: Studpark <" + uploadCtx->account + ">\r\n";
-    std::string body_str = uploadCtx->body + "\r\n";
+    const std::string subject_str = "Subject: " + uploadCtx->subject + "\r\n";
+    const std::string account_str = "From: Studpark <" + uploadCtx->account + ">\r\n";
+    const std::string body_str = uploadCtx->body + "\r\n";
     const char *payloadText[] = {
             account_str.c_str(),
             subject_str.c_str(),
@@ -22,16 +22,14 @@ size_t EmailSender::payloadSource(char *ptr, size_t size, size_t nmemb, void *us
             body_str.c_str(),
             nullptr
     };
-    const char *data;
     if((size == 0) || (nmemb == 0) || ((size*nmemb) < 1)) {
         return 0;
     }
-    data = payloadText[uploadCtx->lines_read];
+    const char *data = payloadText[uploadCtx->lines_read];
     if(data) {
-        size_t len = strlen(data);
         strcpy(ptr, data);
         uploadCtx->lines_read++;
-        return len;
+        return strlen(data);
     }
     return 0;
 }
@@ -62,6 +60,8 @@ void EmailSender::threadSendMail(const std::vector<SendMail> &data, const std::s
                 fprintf(stderr, "curl_easy_perform() failed: %s\n",
                         curl_easy_strerror(result));
             curl_slist_free_all(recipients);
+            SQLWrapper wrapper;
+            SendMail::DeleteFromQueue(wrapper, vector.id);
         }
         curl_easy_cleanup(curl);
     }

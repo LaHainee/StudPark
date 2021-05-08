@@ -9,6 +9,7 @@
 #include <thread>
 #include <iterator>
 #include <algorithm>
+#include <queue>
 
 class EmailSender {
 public:
