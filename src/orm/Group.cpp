@@ -58,24 +58,24 @@ std::vector<Student> Group::GetMembers(SQLWrapper &db, int group_id) {
     int i = 0;
     std::vector<Student> result;
     while (db.count_tuples() > i) {
-        Student request(db.get_str(0),
-                       db.get_str(1),
-                       db.get_str(2),
-                       db.get_bool(3),
-                       db.get_str(4),
-                       db.get_str(5),
-                       db.get_str(6),
-                       db.get_str(7),
-                       db.get_int(8),
-                       db.get_int(9),
-                       db.get_str(10),
-                       db.get_str(11),
-                       db.get_bool(12),
-                       db.get_int(13),
-                       db.get_int(14),
-                       db.get_time_t(15),
-                       db.get_int(16),
-                        db.get_bool(17));
+        Student request(db.get_str(0, i),
+                       db.get_str(1, i),
+                       db.get_str(2, i),
+                       db.get_bool(3, i),
+                       db.get_str(4, i),
+                       db.get_str(5, i),
+                       db.get_str(6, i),
+                       db.get_str(7, i),
+                       db.get_int(8, i),
+                       db.get_int(9, i),
+                       db.get_str(10, i),
+                       db.get_str(11, i),
+                       db.get_bool(12, i),
+                       db.get_int(13, i),
+                       db.get_int(14, i),
+                       db.get_time_t(15, i),
+                       db.get_int(16, i),
+                        db.get_bool(17, i));
         result.push_back(request);
         i++;
     }

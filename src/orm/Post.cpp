@@ -37,7 +37,9 @@ void Post::DeletePost(SQLWrapper &db, int id) {
     if (check_existence("post", "id", id)) {
         throw std::length_error("ERROR: FIELD post.id NOT FOUND ");
     }
-    db << "UPDATE post SET deleted = true WHERE id = " << id << "; UPDATE comment SET deleted = true WHERE post_id = " << id;
+    db << "UPDATE post SET deleted = true WHERE id = " << id <<
+    "; UPDATE comment SET deleted = true WHERE post_id = " << id <<
+    "; UPDATE attachment_post SET deleted = true WHERE post_id = " << id;
     db.exec();
 }
 
