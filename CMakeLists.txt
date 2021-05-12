@@ -3,6 +3,8 @@ project(orm)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_COMPILER "g++")
+include_directories(src/orm/)
+include_directories(include/orm/)
 file(GLOB file_proj
         "include/orm/*.h"
         "include/orm/*.hpp"
@@ -10,8 +12,6 @@ file(GLOB file_proj
         )
 include_directories(${postgresql})
 
-# arch linux
-include_directories(/usr/include)
 
 add_executable(orm ${file_proj} main.cpp)
 target_link_libraries(orm pq)

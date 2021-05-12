@@ -1,6 +1,6 @@
-#include "../../include/orm/SendMail.h"
-#include "../../include/orm/Wrapper.h"
-#include "../../include/orm/utils.hpp"
+#include "SendMail.h"
+#include "Wrapper.h"
+#include "utils.hpp"
 #include <iostream>
 
 std::vector<SendMail> SendMail::NeedSend(SQLWrapper &db) {
@@ -33,9 +33,6 @@ int SendMail::AddInQueue(SQLWrapper &db, const std::string &recipient, const std
 }
 
 void SendMail::DeleteFromQueue(SQLWrapper &db, int id) {
-    if (check_existence("send_mail", "id", id)) {
-        throw std::length_error("ERROR: FIELD send_mail.id NOT FOUND ");
-    }
     db << "DELETE FROM send_mail WHERE id = " << id << ";";
     db.exec();
 }

@@ -1,7 +1,7 @@
-#include "../../include/orm/Group.h"
-#include "../../include/orm/Wrapper.h"
-#include "../../include/orm/utils.hpp"
-#include "../../include/orm/Student.h"
+#include "Group.h"
+#include "Wrapper.h"
+#include "utils.hpp"
+#include "Student.h"
 
 int Group::AddGroup(SQLWrapper &db, const std::string &user_faculty, int user_number_departament, int user_semester,
         int user_group_number, const std::string &education_level, const std::string &join_code, time_t start_week) {

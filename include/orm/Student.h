@@ -2,6 +2,7 @@
 #define PROJECT_USER_H
 
 #include <iostream>
+#include <map>
 #include "Wrapper.h"
 
 class Student {
@@ -73,12 +74,7 @@ public:
     static Student GetStudentById(SQLWrapper &db, int user_id);
     static Student GetStudentBySession(SQLWrapper &db, const std::string &session);
     static int GetIdByLoginPassword(SQLWrapper &db, const std::string &login, const std::string &password);
-    static void UpdateStudent(SQLWrapper &db, int user_id, const std::string &f_name, const std::string &s_name,
-                           const std::string &user_patronymic,  char user_form_educational, bool user_hostel,
-                           const std::string &user_stud_card, const std::string &user_avatar,
-                           const std::string &user_status, const std::string &user_record_book,
-                           int user_role, int user_role_university, const std::string &user_login,
-                           const std::string &user_password, time_t user_date_admission, time_t date_reg, int group_id);
+    static void UpdateStudent(SQLWrapper &db, const std::map<std::string, std::string>&data);
 
     std::string first_name;
     std::string second_name;

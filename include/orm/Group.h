@@ -1,7 +1,6 @@
 #ifndef PROJECT_GROUP_H
 #define PROJECT_GROUP_H
 
-
 #include <ctime>
 #include <string>
 #include <vector>
@@ -33,8 +32,6 @@ public:
     static void DeleteGroup(SQLWrapper &db,int group_id);
 // TODO(A1i5k): May be delete
     static Group GetGroupById(SQLWrapper &db, int group_id);
-    static void UpdateGroup(SQLWrapper &db, int id_group, int user_number_departament, int user_semester,
-                            int user_group_number, time_t user_start_week, const std::string &user_faculty);
     static std::vector<Student> GetMembers(SQLWrapper &db, int group_id);
     static int GetGroupByJoinCode(SQLWrapper &db, const std::string &join_code);
     static std::vector<Student>  GetPostNotificationSubscribers(SQLWrapper &db, int id);

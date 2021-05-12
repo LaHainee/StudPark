@@ -1,11 +1,8 @@
-#include "../../include/orm/Session.h"
-#include "../../include/orm/Wrapper.h"
-#include "../../include/orm/utils.hpp"
+#include "Session.h"
+#include "Wrapper.h"
+#include "utils.hpp"
 
 void Session::DeleteSession(SQLWrapper &db, int id) {
-    if (check_existence("session", "id", id)) {
-        throw std::length_error("ERROR: FIELD session.id NOT FOUND ");
-    }
     db << "DELETE FROM session WHERE id = '" << id << "';";
     db.exec();
 }

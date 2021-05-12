@@ -1,6 +1,6 @@
-#include "../../include/orm/File.h"
-#include "../../include/orm/Wrapper.h"
-#include "../../include/orm/utils.hpp"
+#include "File.h"
+#include "Wrapper.h"
+#include "utils.hpp"
 
 int File::AddFile(SQLWrapper &db, int owner_id, const std::string &file_name, const std::string &file_path) {
     db << "INSERT INTO file (owner, path, name) values ('"

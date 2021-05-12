@@ -1,7 +1,7 @@
-#include "../../include/orm/Wrapper.h"
+#include "Wrapper.h"
 #include <iostream>
-#include "../../include/orm/utils.hpp"
-#include "../../include/orm/Student.h"
+#include "utils.hpp"
+#include "Student.h"
 
 
 int Student::AddStudentRegistration(SQLWrapper &db, const std::string &f_name, const std::string &s_name,
@@ -30,9 +30,6 @@ int Student::AddStudentRegistration(SQLWrapper &db, const std::string &f_name, c
 }
 
 void Student::DeleteStudent(SQLWrapper &db, int user_id) {
-    if (check_existence("student", "id", user_id)) {
-        throw std::length_error("ERROR: FIELD student.id NOT FOUND ");
-    }
     db << "UPDATE student SET deleted = true WHERE id = " << user_id << ";";
     db.exec();
 }
@@ -121,4 +118,16 @@ int Student::GetIdByLoginPassword(SQLWrapper &db, const std::string &login, cons
     db << "SELECT id FROM student WHERE login = '" << login << "' AND password = '" << password << "';";
     db.exec();
     return db.get_int(0);
+}
+
+void Student::UpdateStudent(SQLWrapper &db, const std::map<std::string, std::string>&data) {
+    db << "UPDATE student SET ";
+    for (const auto & iter : data) {
+        db << iter.first << " = '" << iter.second;
+        if (iter != *data.rbegin()) {
+            db << "',";
+        }
+    }
+    db << "' WHERE id = " << data.at("id") << ";";
+    db.exec();
 }

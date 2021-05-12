@@ -1,6 +1,6 @@
-#include "../../include/orm/Contact.h"
-#include "../../include/orm/Wrapper.h"
-#include "../../include/orm/utils.hpp"
+#include "Contact.h"
+#include "Wrapper.h"
+#include "utils.hpp"
 
 int Contact::AddContact(SQLWrapper &db, const int contact_type, const std::string &user_url, const int stealth, const int user_id) {
     db << "INSERT INTO contacts (stealth, type, url, user_id) values ("

@@ -1,6 +1,6 @@
-#include "../../include/orm/Subject.h"
-#include "../../include/orm/Wrapper.h"
-#include "../../include/orm/utils.hpp"
+#include "Subject.h"
+#include "Wrapper.h"
+#include "utils.hpp"
 
 int Subject::AddSubject(SQLWrapper &db, const std::string &subject, int group_id) {
 

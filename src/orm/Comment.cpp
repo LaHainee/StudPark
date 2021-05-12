@@ -1,7 +1,6 @@
-
-#include "../../include/orm/Comment.h"
-#include "../../include/orm/Wrapper.h"
-#include "../../include/orm/utils.hpp"
+#include "Wrapper.h"
+#include "Comment.h"
+#include "utils.hpp"
 
 int Comment::AddComment(SQLWrapper &db, int post_id, int author_id, const std::string &body_comment) {
     if (check_existence("post", "id", post_id)) {
@@ -22,9 +21,6 @@ int Comment::AddComment(SQLWrapper &db, int post_id, int author_id, const std::s
 }
 
 void Comment::DeleteComment(SQLWrapper &db, int comment_id) {
-    if (check_existence("comment", "id", comment_id)) {
-        throw std::length_error("ERROR: FIELD comment.id NOT FOUND ");
-    }
     db << "UPDATE comment SET deleted = true WHERE id = " << comment_id << ";";
     db.exec();
 }

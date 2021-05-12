@@ -1,6 +1,6 @@
-#include "../../include/orm/Post.h"
-#include "../../include/orm/Wrapper.h"
-#include "../../include/orm/utils.hpp"
+#include "Post.h"
+#include "Wrapper.h"
+#include "utils.hpp"
 #include <iostream>
 
 Post Post::GetPost(SQLWrapper &db, int post_id) {
@@ -34,9 +34,6 @@ int Post::AddPost(SQLWrapper &db, const std::string &head, const std::string &bo
 }
 
 void Post::DeletePost(SQLWrapper &db, int id) {
-    if (check_existence("post", "id", id)) {
-        throw std::length_error("ERROR: FIELD post.id NOT FOUND ");
-    }
     db << "UPDATE post SET deleted = true WHERE id = " << id <<
     "; UPDATE comment SET deleted = true WHERE post_id = " << id <<
     "; UPDATE attachment_post SET deleted = true WHERE post_id = " << id;

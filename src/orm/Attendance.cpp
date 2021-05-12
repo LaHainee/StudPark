@@ -1,7 +1,6 @@
-
-#include "../../include/orm/Attendance.h"
-#include "../../include/orm/Wrapper.h"
-#include "../../include/orm/utils.hpp"
+#include "Wrapper.h"
+#include "Attendance.h"
+#include "utils.hpp"
 
 int Attendance::AddAttendance(SQLWrapper &db, int user_id, int subject_id, time_t date_pass) {
     db << "INSERT INTO attendance (user_id, subject_id, date_pass) values ('"

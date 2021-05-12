@@ -1,6 +1,6 @@
-#include "../../include/orm/Wrapper.h"
-#include "../../include/orm/AttachmentPost.h"
-#include "../../include/orm/utils.hpp"
+#include "Wrapper.h"
+#include "AttachmentPost.h"
+#include "utils.hpp"
 #include <iostream>
 
 int AttachmentPost::AddAttachmentPost(SQLWrapper &db, int user_id, const std::string &file_name,

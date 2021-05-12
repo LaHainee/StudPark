@@ -1,7 +1,6 @@
-
-#include "../../include/orm/Recording_laboratory_work.h"
-#include "../../include/orm/Wrapper.h"
-#include "../../include/orm/utils.hpp"
+#include "Wrapper.h"
+#include "Recording_laboratory_work.h"
+#include "utils.hpp"
 
 int Recording_laboratory_work::AddRecording(SQLWrapper &db, int subject_id, time_t date_lab, int group_id) {
     db << "INSERT INTO recording_laboratory_work (subject, date_lab, group_id) values ("

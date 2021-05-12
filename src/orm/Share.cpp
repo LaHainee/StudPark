@@ -1,6 +1,6 @@
-#include "../../include/orm/Share.h"
-#include "../../include/orm/Wrapper.h"
-#include "../../include/orm/utils.hpp"
+#include "Share.h"
+#include "Wrapper.h"
+#include "utils.hpp"
 
 int Share::AddShare(SQLWrapper &db, int recipient_id, int owner_id, int file_id) {
     db << "INSERT INTO share (recipient, owner, file_fk) values ('"

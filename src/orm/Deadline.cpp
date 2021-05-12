@@ -1,6 +1,6 @@
-#include "../../include/orm/Deadline.h"
-#include "../../include/orm/Wrapper.h"
-#include "../../include/orm/utils.hpp"
+#include "Deadline.h"
+#include "Wrapper.h"
+#include "utils.hpp"
 
 int Deadline::AddDeadline(SQLWrapper &db, const std::string &name, int subject_id, const std::string &date_deadline_user) {
     db << "INSERT INTO deadline (name, subject_id, time_deadline) values ('"
