@@ -7,7 +7,6 @@ void Scheduler::Scan() {
     if (!data.empty()) {
         EmailSender::Send(wrapper, data, accountsForMailing);
     }
-    // SendMail::DeleteFromQueue(wrapper);
 }
 
 size_t EmailSender::payloadSource(char *ptr, size_t size, size_t nmemb, void *userp) {

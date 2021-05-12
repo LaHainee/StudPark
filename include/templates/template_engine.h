@@ -10,11 +10,11 @@ using json = nlohmann::json;
 
 class TemplateEngine {
 public:
-    std::string RenderTemplate(json data, std::string templateToParse) {
+    std::string RenderTemplate(const json& data, const std::string& templateToParse) {
         env.set_expression("{{", "}}");
         env.set_statement("{%", "%}");
         Template temp = env.parse_template(templateToParse);
-        // env.write(temp, data, "../created_templates/admin_panel.html");
+            // env.write(temp, data, "../created_templates/admin_panel.html");
         std::string result = env.render(temp, data);
         std::cout << result << std::endl;
         return result;
