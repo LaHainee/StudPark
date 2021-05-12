@@ -11,7 +11,7 @@ int Student::AddStudentRegistration(SQLWrapper &db, const std::string &f_name, c
         return REPEAT_LOGIN;
     }
     if (check_existence("\"group\"", "id", group_id)) {
-        throw std::length_error("ERROR: FIELD group.id NOT FOUND ");
+        throw std::length_error("ERROR: FIELD group.id NOT FOUND");
     }
 
     db << "INSERT INTO student (first_name, second_name, patronymic,"
@@ -36,7 +36,7 @@ void Student::DeleteStudent(SQLWrapper &db, int user_id) {
 
 Student Student::GetStudentById(SQLWrapper &db, int user_id) {
     if (check_existence("student", "id", user_id)) {
-        throw std::length_error("ERROR: FIELD student.id NOT FOUND ");
+        throw std::length_error("ERROR: FIELD student.id NOT FOUND");
     }
     db << "SELECT * FROM student WHERE id = " << user_id << ";";
     db.exec();
@@ -72,7 +72,7 @@ void Student::UpdateStudentExtra(SQLWrapper &db, int user_id, bool user_hostel,
                               const std::string &user_status, const std::string &user_record_book,
                               int user_role_university, int user_form_educational, bool notification) {
     if (check_existence("student", "id", user_id)) {
-        throw std::length_error("ERROR: FIELD student.id NOT FOUND ");
+        throw std::length_error("ERROR: FIELD student.id NOT FOUND");
     }
 
     db << "UPDATE student SET form_educational = '" << user_form_educational

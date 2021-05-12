@@ -5,7 +5,7 @@
 
 Post Post::GetPost(SQLWrapper &db, int post_id) {
     if (check_existence("post", "id", post_id)) {
-        throw std::length_error("ERROR: FIELD post.id NOT FOUND ");
+        throw std::length_error("ERROR: FIELD post.id NOT FOUND");
     }
     db << "SELECT * FROM post WHERE id = " << post_id << ";";
     db.exec();
@@ -19,10 +19,6 @@ Post Post::GetPost(SQLWrapper &db, int post_id) {
 }
 
 int Post::AddPost(SQLWrapper &db, const std::string &head, const std::string &body, int user_id, time_t created) {
-    if (check_existence("student", "id", user_id)) {
-        throw std::length_error("ERROR: FIELD student.id student.NOT FOUND ");
-    }
-
     db << "INSERT INTO post (post_head, post_body, owner, created) values ('"
        << head << "', '"
        << body << "', '"
@@ -34,6 +30,15 @@ int Post::AddPost(SQLWrapper &db, const std::string &head, const std::string &bo
 }
 
 void Post::DeletePost(SQLWrapper &db, int id) {
+    if (check_existence("post", "id", id)) {
+        throw std::length_error("ERROR: FIELD post.id NOT FOUND");
+    }
+    if (check_existence("comment", "post_id", id)) {
+        throw std::length_error("ERROR: FIELD comment.post_id NOT FOUND");
+    }
+    if (check_existence("attachment_post", "post_id ", id)) {
+        throw std::length_error("ERROR: FIELD attachment_post.post_id NOT FOUND");
+    }
     db << "UPDATE post SET deleted = true WHERE id = " << id <<
     "; UPDATE comment SET deleted = true WHERE post_id = " << id <<
     "; UPDATE attachment_post SET deleted = true WHERE post_id = " << id;
@@ -42,10 +47,10 @@ void Post::DeletePost(SQLWrapper &db, int id) {
 
 std::vector<Post> Post::GetPostsByIdGroup(SQLWrapper &db, int id) {
     if (check_existence("\"group\"", "id", id)) {
-        throw std::length_error("ERROR: FIELD group.id NOT FOUND ");
+        throw std::length_error("ERROR: FIELD group.id NOT FOUND");
     }
     if (check_existence("student", "group_id", id)) {
-        throw std::length_error("ERROR: FIELD student.group_id NOT FOUND ");
+        throw std::length_error("ERROR: FIELD student.group_id NOT FOUND");
     }
     db << "SELECT post.* FROM public.post join (select group_id, id from public.student) temp"
           " on post.owner=temp.id join (select id from public.group where id = " << id

@@ -13,17 +13,17 @@ int Contact::AddContact(SQLWrapper &db, const int contact_type, const std::strin
 }
 
 Contact Contact::GetContacts(SQLWrapper &db, int user_id) {
-    if (check_existence("contacts", "id", user_id)) {
-        throw std::length_error("ERROR: FIELD contacts.id NOT FOUND ");
+    if (check_existence("contacts", "user_id", user_id)) {
+        throw std::length_error("ERROR: FIELD contacts.user_id NOT FOUND");
     }
-    db << "SELECT * FROM contacts WHERE id = " << user_id << ";";
+    db << "SELECT * FROM contacts WHERE user_id = " << user_id << ";";
     db.exec();
     Contact result(
                    db.get_int(0),
                    db.get_int(1),
-                   db.get_str(2),
+                   db.get_int(2),
                    db.get_str(3),
-                   db.get_bool(4));
+                   db.get_int(4));
     return result;
 }
 

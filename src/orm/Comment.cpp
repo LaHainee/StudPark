@@ -21,13 +21,17 @@ int Comment::AddComment(SQLWrapper &db, int post_id, int author_id, const std::s
 }
 
 void Comment::DeleteComment(SQLWrapper &db, int comment_id) {
+    if (check_existence("comment", "id", comment_id)) {
+        throw std::length_error("ERROR: FIELD comment.id NOT FOUND");
+    }
+
     db << "UPDATE comment SET deleted = true WHERE id = " << comment_id << ";";
     db.exec();
 }
 
 std::vector<Comment> Comment::GetComment(SQLWrapper &db, int post_id) {
-    if (check_existence("post", "id", post_id)) {
-        throw std::length_error("ERROR: FIELD post.id NOT FOUND ");
+    if (check_existence("comment", "post_id", post_id)) {
+        throw std::length_error("ERROR: FIELD comment.post_id NOT FOUND");
     }
 
     db << "SELECT * FROM comment WHERE post_id = " << post_id << ";";

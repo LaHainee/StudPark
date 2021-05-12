@@ -3,13 +3,13 @@
 #include "utils.hpp"
 #include <iostream>
 
-int AttachmentPost::AddAttachmentPost(SQLWrapper &db, int user_id, const std::string &file_name,
+int AttachmentPost::AddAttachmentPost(SQLWrapper &db, int post_id, const std::string &file_name,
         const std::string &path, int type) {
     db << "INSERT INTO attachment_post (post_id, name, path, type) values ('"
-       << user_id << "', "
-       << file_name << ", "
-       << path << ", "
-       << type << "') returning id;";
+       << post_id << "', '"
+       << file_name << "', '"
+       << path << "', "
+       << type << ") returning id;";
     db.exec();
 
     return db.get_int(0);
@@ -17,7 +17,7 @@ int AttachmentPost::AddAttachmentPost(SQLWrapper &db, int user_id, const std::st
 
 std::vector<AttachmentPost> AttachmentPost::GetAttachmentPost(SQLWrapper &db, int post_id) {
     if (check_existence("attachment_post", "post_id", post_id)) {
-        throw std::length_error("ERROR: FIELD attachment_post.post_id NOT FOUND ");
+        throw std::length_error("ERROR: FIELD attachment_post.post_id NOT FOUND");
     }
 
     db << "SELECT * FROM attachment_post WHERE post_id = " << post_id << ";";
@@ -37,7 +37,10 @@ std::vector<AttachmentPost> AttachmentPost::GetAttachmentPost(SQLWrapper &db, in
     return result;
 }
 
-void AttachmentPost::DeleteAttachmentPost(SQLWrapper &db, int id_post) {
-    db << "UPDATE attachment_post SET deleted = true WHERE post_id = " << id_post << ";";
+void AttachmentPost::DeleteAttachmentPost(SQLWrapper &db, int id) {
+    if (check_existence("attachment_post", "id", id)) {
+        throw std::length_error("ERROR: FIELD attachment_post.id NOT FOUND");
+    }
+    db << "UPDATE attachment_post SET deleted = true WHERE id = " << id << ";";
     db.exec();
 }

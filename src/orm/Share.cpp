@@ -13,15 +13,18 @@ int Share::AddShare(SQLWrapper &db, int recipient_id, int owner_id, int file_id)
 }
 
 void Share::DeleteShare(SQLWrapper &db, int id) {
-    db << "UPDATE student SET deleted = true WHERE id = " << id << ";";
+    if (check_existence("share", "id", id)) {
+        throw std::length_error("ERROR: FIELD share.id NOT FOUND");
+    }
+    db << "UPDATE share SET deleted = true WHERE id = " << id << ";";
     db.exec();
 }
 
 Share Share::GetList(SQLWrapper &db, int owner_id) {
-    if (check_existence("share", "owner_id", owner_id)) {
-        throw std::length_error("ERROR: FIELD share.owner_id NOT FOUND ");
+    if (check_existence("share", "owner", owner_id)) {
+        throw std::length_error("ERROR: FIELD share.owner NOT FOUND");
     }
-    db << "SELECT * FROM share WHERE id = " << owner_id << ";";
+    db << "SELECT * FROM share WHERE owner = " << owner_id << ";";
     db.exec();
     Share result(
                    db.get_int(0),

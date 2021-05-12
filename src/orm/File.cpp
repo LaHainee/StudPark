@@ -4,8 +4,8 @@
 
 int File::AddFile(SQLWrapper &db, int owner_id, const std::string &file_name, const std::string &file_path) {
     db << "INSERT INTO file (owner, path, name) values ('"
-       << owner_id << "', "
-       << file_name << ", '"
+       << owner_id << "', '"
+       << file_name << "', '"
        << file_path << "') returning id;";
     db.exec();
     return db.get_int(0);
@@ -17,10 +17,10 @@ void File::DeleteFile(SQLWrapper &db, int file_id) {
 }
 
 File File::GetFiles(SQLWrapper &db, int user_id) {
-    if (check_existence("file", "id", user_id)) {
-        throw std::length_error("ERROR: FIELD file.user_id NOT FOUND ");
+    if (check_existence("file", "owner", user_id)) {
+        throw std::length_error("ERROR: FIELD file.owner NOT FOUND");
     }
-    db << "SELECT * FROM deadline WHERE group_id = " << user_id << ";";
+    db << "SELECT * FROM file WHERE owner = " << user_id << ";";
     db.exec();
     File result(
             db.get_int(0),

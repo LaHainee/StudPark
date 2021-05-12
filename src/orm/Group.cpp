@@ -31,7 +31,7 @@ int Group::AddGroup(SQLWrapper &db, const std::string &user_faculty, int user_nu
 
 Group Group::GetGroupById(SQLWrapper &db, int group_id) {
     if (check_existence("\"group\"", "id", group_id)) {
-        throw std::length_error("ERROR: FIELD group.id NOT FOUND ");
+        throw std::length_error("ERROR: FIELD group.id NOT FOUND");
     }
 
     db << "SELECT * FROM \"group\" WHERE id = '" << group_id << "';";
@@ -50,7 +50,7 @@ Group Group::GetGroupById(SQLWrapper &db, int group_id) {
 
 std::vector<Student> Group::GetMembers(SQLWrapper &db, int group_id) {
     if (check_existence("\"group\"", "id", group_id)) {
-        throw std::length_error("ERROR: FIELD group.id NOT FOUND ");
+        throw std::length_error("ERROR: FIELD group.id NOT FOUND");
     }
 
     db << "SELECT * FROM student WHERE group_id = '" << group_id << "' ORDER BY second_name;";
@@ -90,7 +90,7 @@ int Group::GetGroupByJoinCode(SQLWrapper &db, const std::string &join_code) {
 
 std::vector<Student> Group::GetPostNotificationSubscribers(SQLWrapper &db, int id) {
     if (check_existence("\"group\"", "id", id)) {
-        throw std::length_error("ERROR: FIELD group.id NOT FOUND ");
+        throw std::length_error("ERROR: FIELD group.id NOT FOUND");
     }
 
     db << "SELECT * FROM student WHERE group_id = '" << id << "' AND notification = 'true';";

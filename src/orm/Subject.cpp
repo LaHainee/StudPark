@@ -20,14 +20,14 @@ void Subject::DeleteSubject(SQLWrapper &db, int subject_id) {
 
 Subject Subject::ListSubject(SQLWrapper &db, int group_id) {
     if (check_existence("subject", "group_id", group_id)) {
-        throw std::length_error("ERROR: FIELD subject.group_id NOT FOUND ");
+        throw std::length_error("ERROR: FIELD subject.group_id NOT FOUND");
     }
-    db << "SELECT * FROM subject WHERE group_id) = " << group_id << ";";
+    db << "SELECT * FROM subject WHERE group_id = " << group_id << ";";
     db.exec();
     Subject result(
                    db.get_int(0),
-                   db.get_str(1),
-                   db.get_int(2));
+                   db.get_int(1),
+                   db.get_str(2));
     return result;
 }
 

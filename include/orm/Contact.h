@@ -6,26 +6,39 @@
 
 class Contact {
 public:
+    enum STEALTH {
+        YES = 1,
+        NO = 0
+    };
+    enum CONTACT_TYPE {
+        VK = 0,
+        TELEGRAM = 1,
+        INSTAGRAM = 2,
+        GIT = 3,
+        TIKTOK = 4,
+        DISCORD = 5,
+        SKYPE = 6
+    };
     explicit Contact(
             int _id,
-            int user_id,
-            const std::string &user_type_contacts,
+            int user_stealth,
+            int user_type_contacts,
             const std::string &user_url,
-            bool user_stealth) :
+            int user_id) :
             id(_id),
+            stealth(user_stealth),
             user(user_id),
             type_contacts(user_type_contacts),
-            url(user_url),
-            stealth(user_stealth) {}
+            url(user_url) {}
     static Contact GetContacts(SQLWrapper &db, int user_id);
     static int AddContact(SQLWrapper &db, const int contact_type, const std::string &user_url, const int stealth, const int user_id);
     static void DeleteContacts(SQLWrapper &db, int id);
 
     int id;
-    int user;
-    std::string type_contacts;
+    int stealth;
+    int type_contacts;
     std::string url;
-    bool stealth;
+    int user;
 };
 
 #endif //PROJECT_CONTACT_H

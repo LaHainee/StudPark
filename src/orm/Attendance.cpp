@@ -3,7 +3,7 @@
 #include "utils.hpp"
 
 int Attendance::AddAttendance(SQLWrapper &db, int user_id, int subject_id, time_t date_pass) {
-    db << "INSERT INTO attendance (user_id, subject_id, date_pass) values ('"
+    db << "INSERT INTO attendance (user_fk, subject_fk, date_pass) values ('"
        << user_id << "', "
        << subject_id << ", to_timestamp("
        << date_pass << ")) returning id;";
@@ -18,13 +18,13 @@ void Attendance::DeleteAttendance(SQLWrapper &db, int Attendance_id) {
 }
 
 Attendance Attendance::GetAttendance(SQLWrapper &db, int user_id, int subject_id) {
-    if (check_existence("attendance", "id", user_id)) {
-        throw std::length_error("ERROR: FIELD attendance.id NOT FOUND ");
+    if (check_existence("attendance", "user_fk", user_id)) {
+        throw std::length_error("ERROR: FIELD attendance.user_fk NOT FOUND");
     }
-    if (check_existence("subject", "id", user_id)) {
-        throw std::length_error("ERROR: FIELD subject.id NOT FOUND ");
+    if (check_existence("attendance", "subject_fk", subject_id)) {
+        throw std::length_error("ERROR: FIELD attendance.subject_fk NOT FOUND");
     }
-    db << "SELECT * FROM attendance WHERE user_id = " << user_id << "AND subject_id = " << subject_id << ";";
+    db << "SELECT * FROM attendance WHERE user_fk = " << user_id << " AND subject_fk = " << subject_id << ";";
     db.exec();
     Attendance result(
                    db.get_int(0),
