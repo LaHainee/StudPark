@@ -17,7 +17,7 @@ public:
         user_id(_user_id),
         session(_session),
         time_end(_time_end) {}
-    static void DeleteSession(SQLWrapper &db, int id);
+    static void DeleteSession(SQLWrapper &db, const std::string &id);
     static int AddSession(SQLWrapper &db, int user_id, const std::string &session, time_t time_end);
 
     int id;

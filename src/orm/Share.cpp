@@ -13,10 +13,7 @@ int Share::AddShare(SQLWrapper &db, int recipient_id, int owner_id, int file_id)
 }
 
 void Share::DeleteShare(SQLWrapper &db, int id) {
-    if (check_existence("share", "id", id)) {
-        throw std::length_error("ERROR: FIELD share.id NOT FOUND");
-    }
-    db << "UPDATE share SET deleted = true WHERE id = " << id << ";";
+    db << "DELETE FROM share WHERE id = " << id << ";";
     db.exec();
 }
 
@@ -30,7 +27,29 @@ Share Share::GetList(SQLWrapper &db, int owner_id) {
                    db.get_int(0),
                    db.get_int(1),
                    db.get_int(2),
-                   db.get_bool(3),
-                   db.get_int(4));
+                   db.get_int(3));
+    return result;
+}
+
+std::vector<Share> Share::GetFilesForId(SQLWrapper &db, int owner_id, int recipient_id) {
+    if (check_existence("share", "owner", owner_id)) {
+        throw std::length_error("ERROR: FIELD share.owner NOT FOUND");
+    }
+    if (check_existence("share", "recipient", owner_id)) {
+        throw std::length_error("ERROR: FIELD share.recipient NOT FOUND");
+    }
+    db << "SELECT * FROM share WHERE owner = " << owner_id << " AND recipient = " << recipient_id << ";";
+    db.exec();
+    int i = 0;
+    std::vector<Share> result;
+    while (db.count_tuples() > i) {
+        Share request(
+                db.get_int(0, i),
+                db.get_int(1, i),
+                db.get_int(2, i),
+                db.get_int(3, i));
+        result.push_back(request);
+        i++;
+    }
     return result;
 }

@@ -63,6 +63,7 @@ public:
         date_registration(date_reg),
         form_educational(user_form_educational),
         notification(_notification){}
+        Student() = default;
     static int AddStudentRegistration(SQLWrapper &db, const std::string &f_name, const std::string &s_name,
             const std::string &user_patronymic, const std::string &user_login,
             const std::string &user_password, int group_id, int user_role = STUDENT);

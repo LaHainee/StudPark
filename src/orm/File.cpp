@@ -2,11 +2,11 @@
 #include "Wrapper.h"
 #include "utils.hpp"
 
-int File::AddFile(SQLWrapper &db, int owner_id, const std::string &file_name, const std::string &file_path) {
-    db << "INSERT INTO file (owner, path, name) values ('"
+int File::AddFile(SQLWrapper &db, int owner_id, const std::string &file_name, const std::string &salt) {
+    db << "INSERT INTO file (owner, name, salt) values ('"
        << owner_id << "', '"
        << file_name << "', '"
-       << file_path << "') returning id;";
+       << salt << "') returning id;";
     db.exec();
     return db.get_int(0);
 }
@@ -16,7 +16,24 @@ void File::DeleteFile(SQLWrapper &db, int file_id) {
     db.exec();
 }
 
-File File::GetFiles(SQLWrapper &db, int user_id) {
+std::vector<std::pair<int,std::string>> File::GetListFiles(SQLWrapper &db, int user_id) {
+    if (check_existence("file", "owner", user_id)) {
+        throw std::length_error("ERROR: FIELD file.owner NOT FOUND");
+    }
+    db << "SELECT id, name FROM file WHERE owner = " << user_id << ";";
+    db.exec();
+    int i = 0;
+    std::vector<std::pair<int,std::string>> result;
+    while (db.count_tuples() > i) {
+        std::pair<int,std::string> request(
+                        db.get_int(0, i),
+                        db.get_str(1, i));
+        result.push_back(request);
+        i++;
+    }
+    return result;
+}
+File File::GetFile(SQLWrapper &db, int user_id) {
     if (check_existence("file", "owner", user_id)) {
         throw std::length_error("ERROR: FIELD file.owner NOT FOUND");
     }
