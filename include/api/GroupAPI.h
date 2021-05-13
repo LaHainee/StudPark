@@ -1,13 +1,32 @@
+#include <map>
+#include <string>
+#include "API.h"
+#include "Group.h"
+#include "Student.h"
+#include "Subject.h"
+#include "Wrapper.h"
+#include "SendMail.h"
+
+#define WEEK 604800
+#define DAY  86400
+
 class GroupAPI : API {
-  public:
-      GroupAPI();
-      static API::Response GetGroupMembers();
-      static API::Response AddGroupMembers();    // Для старосты
-      static API::Response DeleteGroupMember();  // Для старосты
-      static API::Response ExportGroupList();    // Ссылка на скачивание csv
-      static API::Response AddJournalEntry();    // Проставление посещаемости от лица старосты
-      static API::Response CreateLabQueue();     // Создать очередь на лабы
-      static API::Response EditLabQueue();       // Кто-то поменялся или сдал (отправляется в конец очереди или вылетает)
-  private:
-      std::string createCsvFromData();  // Шаблонный метод
-}
+public:
+    GroupAPI() = default;
+
+    std::string Create(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) override;
+
+    std::string Get(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) override;
+
+    std::string Update(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) override;
+
+    std::string Delete(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) override;
+
+    std::string ExportContacts(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
+
+    int AddSubject(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
+
+    int AddDeadline(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
+private:
+    Student getStudentBySession(std::string &session, SQLWrapper &db);
+};
