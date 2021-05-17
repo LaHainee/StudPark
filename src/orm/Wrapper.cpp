@@ -1,4 +1,4 @@
-#include "../../include/orm/Wrapper.h"
+#include "Wrapper.h"
 #include <iostream>
 #include <cstring>
 
@@ -16,28 +16,15 @@ bool SQLWrapper::exec() {
     result = PQexec(conn, query.c_str());
     if (PQresultStatus(result) != PGRES_COMMAND_OK && PQresultStatus(result) != PGRES_TUPLES_OK) {
         std::cout << strError(conn, result, query.c_str()) << std::endl;
-//        disconnect();
+        disconnect();
         throw std::runtime_error("db error");
     }
     return true;
 }
 
-
-//bool SQLWrapper::check_connect() {
-//    if (PQstatus(conn) != CONNECTION_OK) {
-//        disconnect();
-//        throw std::runtime_error("ERROR: DATABASE NOT CONNECTED: " + std::string(PQerrorMessage(conn)));
-//    }
-//    return true;
-//}
-
-//PGconn *SQLWrapper::getConn() {
-//    return conn;
-//}
-
-//void SQLWrapper::disconnect() {
-//    close(PQsocket(conn));
-//}
+void SQLWrapper::disconnect() {
+    close(PQsocket(conn));
+}
 
 void SQLWrapper::clear() {
     os.str("");

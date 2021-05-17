@@ -4,7 +4,7 @@
 #include <iostream>
 
 Post Post::GetPost(SQLWrapper &db, int post_id) {
-    if (check_existence("post", "id", post_id)) {
+    if (check_existence(db, "post", "id", post_id)) {
         throw std::length_error("ERROR: FIELD post.id NOT FOUND");
     }
     db << "SELECT * FROM post WHERE id = " << post_id << ";";
@@ -30,7 +30,7 @@ int Post::AddPost(SQLWrapper &db, const std::string &head, const std::string &bo
 }
 
 void Post::DeletePost(SQLWrapper &db, int id) {
-    if (check_existence("post", "id", id)) {
+    if (check_existence(db, "post", "id", id)) {
         throw std::length_error("ERROR: FIELD post.id NOT FOUND");
     }
     db << "UPDATE post SET deleted = true WHERE id = " << id <<
@@ -40,10 +40,10 @@ void Post::DeletePost(SQLWrapper &db, int id) {
 }
 
 std::vector<Post> Post::GetPostsByIdGroup(SQLWrapper &db, int id) {
-    if (check_existence("\"group\"", "id", id)) {
+    if (check_existence(db, "\"group\"", "id", id)) {
         throw std::length_error("ERROR: FIELD group.id NOT FOUND");
     }
-    if (check_existence("student", "group_id", id)) {
+    if (check_existence(db, "student", "group_id", id)) {
         throw std::length_error("ERROR: FIELD student.group_id NOT FOUND");
     }
     db << "SELECT post.* FROM public.post join (select group_id, id from public.student) temp"

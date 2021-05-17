@@ -29,12 +29,11 @@ public:
         start_week(user_start_week){}
     static int AddGroup(SQLWrapper &db, const std::string &user_faculty, int user_number_departament, int user_semester,
             int user_group_number, const std::string &education_level, const std::string &join_code, time_t start_week);
-    static void DeleteGroup(SQLWrapper &db,int group_id);
-// TODO(A1i5k): May be delete
     static Group GetGroupById(SQLWrapper &db, int group_id);
     static std::vector<Student> GetMembers(SQLWrapper &db, int group_id);
     static int GetGroupByJoinCode(SQLWrapper &db, const std::string &join_code);
-    static std::vector<Student>  GetPostNotificationSubscribers(SQLWrapper &db, int id);
+    static std::vector<Student> GetPostNotificationSubscribers(SQLWrapper &db, int id);
+    static std::string GetGroupName(SQLWrapper &db, int id);
 
     int id;
     std::string faculty;

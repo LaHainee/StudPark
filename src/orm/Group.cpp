@@ -19,18 +19,8 @@ int Group::AddGroup(SQLWrapper &db, const std::string &user_faculty, int user_nu
     return db.get_int(0);
 }
 
-// TODO(A1i5k): May be delete
-//void Group::DeleteGroup(SQLWrapper &db, int group_id) {
-//    if (check_existence("\"group\"", "id", group_id)) {
-//        throw std::length_error("ERROR: FIELD NOT FOUND ");
-//    }
-//    db << "UPDATE \"group\" SET deleted = true WHERE id = " << group_id << "; SELECT setval('id', 0);";
-//    db << "UPDATE \"group\" SET id = "<< group_id << " WHERE id = " << group_id << "; SELECT setval('group_id_seq', 1) FROM \"group\" ;";
-//    db.exec();
-//}
-
 Group Group::GetGroupById(SQLWrapper &db, int group_id) {
-    if (check_existence("\"group\"", "id", group_id)) {
+    if (check_existence(db, "\"group\"", "id", group_id)) {
         throw std::length_error("ERROR: FIELD group.id NOT FOUND");
     }
 
@@ -49,7 +39,7 @@ Group Group::GetGroupById(SQLWrapper &db, int group_id) {
 }
 
 std::vector<Student> Group::GetMembers(SQLWrapper &db, int group_id) {
-    if (check_existence("\"group\"", "id", group_id)) {
+    if (check_existence(db, "\"group\"", "id", group_id)) {
         throw std::length_error("ERROR: FIELD group.id NOT FOUND");
     }
 
@@ -89,7 +79,7 @@ int Group::GetGroupByJoinCode(SQLWrapper &db, const std::string &join_code) {
 }
 
 std::vector<Student> Group::GetPostNotificationSubscribers(SQLWrapper &db, int id) {
-    if (check_existence("\"group\"", "id", id)) {
+    if (check_existence(db, "\"group\"", "id", id)) {
         throw std::length_error("ERROR: FIELD group.id NOT FOUND");
     }
 
@@ -119,5 +109,15 @@ std::vector<Student> Group::GetPostNotificationSubscribers(SQLWrapper &db, int i
         result.push_back(request);
         i++;
     }
+    return result;
+}
+
+std::string Group::GetGroupName(SQLWrapper &db, int id) {
+    if (check_existence(db, "\"group\"", "id", id)) {
+        throw std::length_error("ERROR: FIELD group.id NOT FOUND");
+    }
+    db << "SELECT faculty, number_departament, semester, group_number, education_level FROM \"group\" WHERE id = '" << id << "';";
+    db.exec();
+    std::string result = std::string(db.get_str(0)) + db.get_str(1) + db.get_str(2) + db.get_str(3) + db.get_str(4);
     return result;
 }

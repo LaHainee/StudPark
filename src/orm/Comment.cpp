@@ -3,10 +3,10 @@
 #include "utils.hpp"
 
 int Comment::AddComment(SQLWrapper &db, int post_id, int author_id, const std::string &body_comment) {
-    if (check_existence("post", "id", post_id)) {
+    if (check_existence(db, "post", "id", post_id)) {
         throw std::length_error("ERROR: FIELD post.id NOT FOUND ");
     }
-    if (check_existence("student", "id", author_id)) {
+    if (check_existence(db, "student", "id", author_id)) {
         throw std::length_error("ERROR: FIELD student.id student.NOT FOUND ");
     }
 
@@ -21,7 +21,7 @@ int Comment::AddComment(SQLWrapper &db, int post_id, int author_id, const std::s
 }
 
 void Comment::DeleteComment(SQLWrapper &db, int comment_id) {
-    if (check_existence("comment", "id", comment_id)) {
+    if (check_existence(db, "comment", "id", comment_id)) {
         throw std::length_error("ERROR: FIELD comment.id NOT FOUND");
     }
 
@@ -30,7 +30,7 @@ void Comment::DeleteComment(SQLWrapper &db, int comment_id) {
 }
 
 std::vector<Comment> Comment::GetComment(SQLWrapper &db, int post_id) {
-    if (check_existence("comment", "post_id", post_id)) {
+    if (check_existence(db, "comment", "post_id", post_id)) {
         throw std::length_error("ERROR: FIELD comment.post_id NOT FOUND");
     }
 

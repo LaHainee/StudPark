@@ -30,7 +30,7 @@ public:
             user(user_id),
             type_contacts(user_type_contacts),
             url(user_url) {}
-    static Contact GetContacts(SQLWrapper &db, int user_id);
+    static std::vector<Contact> GetContacts(SQLWrapper &db, int user_id);
     static int AddContact(SQLWrapper &db, const int contact_type, const std::string &user_url, const int stealth, const int user_id);
     static void DeleteContacts(SQLWrapper &db, int id);
 

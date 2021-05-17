@@ -18,7 +18,7 @@ void Share::DeleteShare(SQLWrapper &db, int id) {
 }
 
 Share Share::GetList(SQLWrapper &db, int owner_id) {
-    if (check_existence("share", "owner", owner_id)) {
+    if (check_existence(db, "share", "owner", owner_id)) {
         throw std::length_error("ERROR: FIELD share.owner NOT FOUND");
     }
     db << "SELECT * FROM share WHERE owner = " << owner_id << ";";
@@ -32,10 +32,10 @@ Share Share::GetList(SQLWrapper &db, int owner_id) {
 }
 
 std::vector<Share> Share::GetFilesForId(SQLWrapper &db, int owner_id, int recipient_id) {
-    if (check_existence("share", "owner", owner_id)) {
+    if (check_existence(db, "share", "owner", owner_id)) {
         throw std::length_error("ERROR: FIELD share.owner NOT FOUND");
     }
-    if (check_existence("share", "recipient", owner_id)) {
+    if (check_existence(db, "share", "recipient", owner_id)) {
         throw std::length_error("ERROR: FIELD share.recipient NOT FOUND");
     }
     db << "SELECT * FROM share WHERE owner = " << owner_id << " AND recipient = " << recipient_id << ";";

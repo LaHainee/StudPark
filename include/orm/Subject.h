@@ -15,7 +15,7 @@ public:
             group_id(_group_id) {}
     static int AddSubject(SQLWrapper &db, const std::string &subject, int group_id);
     static void DeleteSubject(SQLWrapper &db, int subject_id);
-    static Subject ListSubject(SQLWrapper &db, int group_id);
+    static std::vector<Subject> ListSubject(SQLWrapper &db, int group_id);
 
     int id;
     int group_id;

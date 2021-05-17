@@ -10,7 +10,6 @@
 class SQLWrapper {
 public:
     SQLWrapper() : os(""), result(nullptr) {
-//    SQLWrapper(PGconn *connector) : os(""), result(nullptr), conn(connector)
         std::string conn_info;
         std::string host = std::string(std::getenv("HOST"));
         conn_info = "host=" + host;
@@ -21,10 +20,11 @@ public:
         conn = PQconnectdb(conn_info.c_str());
     }
 
-    SQLWrapper(SQLWrapper const &wrapper);
+    SQLWrapper(SQLWrapper const &wrapper) {
+        conn = wrapper.conn;
+    }
 
-    ~SQLWrapper() = default;
-//    ~SQLWrapper() {close(PQsocket(conn));}
+    ~SQLWrapper() {close(PQsocket(conn));}
 
     template<class Value>
     std::ostream &operator<<(const Value &value) {
@@ -33,10 +33,7 @@ public:
     }
 
     void clear();
-
-//    PGconn *getConn();
-//    void disconnect();
-//    bool check_connect();
+    void disconnect();
 
     bool exec();
     int count_tuples();

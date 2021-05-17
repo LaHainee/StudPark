@@ -18,10 +18,10 @@ void Attendance::DeleteAttendance(SQLWrapper &db, int Attendance_id) {
 }
 
 Attendance Attendance::GetAttendance(SQLWrapper &db, int user_id, int subject_id) {
-    if (check_existence("attendance", "user_fk", user_id)) {
+    if (check_existence(db, "attendance", "user_fk", user_id)) {
         throw std::length_error("ERROR: FIELD attendance.user_fk NOT FOUND");
     }
-    if (check_existence("attendance", "subject_fk", subject_id)) {
+    if (check_existence(db, "attendance", "subject_fk", subject_id)) {
         throw std::length_error("ERROR: FIELD attendance.subject_fk NOT FOUND");
     }
     db << "SELECT * FROM attendance WHERE user_fk = " << user_id << " AND subject_fk = " << subject_id << ";";

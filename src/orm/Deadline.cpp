@@ -17,7 +17,7 @@ void Deadline::DeleteDeadline(SQLWrapper &db, int deadline_id) {
 }
 
 Deadline Deadline::GetDeadlines(SQLWrapper &db, int subject_id) {
-    if (check_existence("deadline", "subject_id", subject_id)) {
+    if (check_existence(db, "deadline", "subject_id", subject_id)) {
         throw std::length_error("ERROR: FIELD deadline.subject_id NOT FOUND");
     }
     db << "SELECT * FROM deadline WHERE subject_id = " << subject_id << ";";
