@@ -34,7 +34,6 @@ public:
         const std::string &user_stud_card,
         const std::string &user_avatar,
         const std::string &user_status,
-        const std::string &user_record_book,
         int user_role,
         int user_role_university,
         const std::string &user_login,
@@ -44,7 +43,8 @@ public:
         int _group_id,
         time_t date_reg,
         int user_form_educational,
-        bool _notification):
+        bool _notification,
+        const std::string &_birthday):
         id(user_id),
         first_name(f_name),
         second_name(s_name),
@@ -52,7 +52,6 @@ public:
         hostel(user_hostel),
         stud_card(user_stud_card),
         avatar(user_avatar),
-        record_book(user_record_book),
         role(user_role),
         role_university(user_role_university),
         login(user_login),
@@ -62,15 +61,17 @@ public:
         group_id(_group_id),
         date_registration(date_reg),
         form_educational(user_form_educational),
-        notification(_notification){}
+        notification(_notification),
+        birthday(_birthday){}
         Student() = default;
     static int AddStudentRegistration(SQLWrapper &db, const std::string &f_name, const std::string &s_name,
             const std::string &user_patronymic, const std::string &user_login,
-            const std::string &user_password, int group_id, int user_role = STUDENT);
+            const std::string &user_password, int group_id, const std::string &birthday, int user_role = STUDENT);
     static void UpdateStudentExtra(SQLWrapper &db, int user_id, bool user_hostel,
             const std::string &user_stud_card,
             const std::string &user_avatar, const std::string &user_status,
-            const std::string &user_record_book, int user_role_university, int user_form_educational, bool notification);
+            int user_role_university, int user_form_educational,
+            bool notification, const std::string &birthday);
     static void DeleteStudent(SQLWrapper &db, int user_id);
     static Student GetStudentById(SQLWrapper &db, int user_id);
     static Student GetStudentBySession(SQLWrapper &db, const std::string &session);
@@ -83,7 +84,6 @@ public:
     bool hostel;
     std::string stud_card;
     std::string avatar;
-    std::string record_book;
     int role;
     int role_university;
     std::string login;
@@ -95,6 +95,7 @@ public:
     time_t date_registration;
     int form_educational;
     bool notification;
+    std::string birthday;
 private:
     static bool SearchLogin(SQLWrapper &db, const std::string& login);
 };

@@ -6,7 +6,7 @@
 
 int Student::AddStudentRegistration(SQLWrapper &db, const std::string &f_name, const std::string &s_name,
                                  const std::string &user_patronymic, const std::string &user_login,
-                                 const std::string &user_password, int group_id, int user_role) {
+                                 const std::string &user_password, int group_id, const std::string &birthday, int user_role) {
     if (SearchLogin(db, user_login)) {
         return REPEAT_LOGIN;
     }
@@ -15,14 +15,15 @@ int Student::AddStudentRegistration(SQLWrapper &db, const std::string &f_name, c
     }
 
     db << "INSERT INTO student (first_name, second_name, patronymic,"
-          " role, login, password, group_id, date_registration) values ('"
+          " role, login, password, group_id, birthday, date_registration) values ('"
     << f_name << "', '"
     << s_name << "', '"
     << user_patronymic << "', '"
     << user_role << "', '"
     << user_login << "', '"
     << user_password << "', '"
-    << group_id <<
+    << group_id << "', '"
+    << birthday <<
     "', to_timestamp(" << time(nullptr) << ")) returning id;";
     db.exec();
 
@@ -47,17 +48,17 @@ Student Student::GetStudentById(SQLWrapper &db, int user_id) {
                    db.get_str(4),
                    db.get_str(5),
                    db.get_str(6),
-                   db.get_str(7),
+                   db.get_int(7),
                    db.get_int(8),
-                   db.get_int(9),
+                   db.get_str(9),
                    db.get_str(10),
-                   db.get_str(11),
-                   db.get_bool(12),
+                   db.get_bool(11),
+                   db.get_int(12),
                    db.get_int(13),
-                   db.get_int(14),
-                   db.get_time_t(15),
-                   db.get_int(16),
-                   db.get_bool(17));
+                   db.get_time_t(14),
+                   db.get_int(15),
+                   db.get_bool(16),
+                   db.get_str(17));
     return result;
 }
 
@@ -69,8 +70,8 @@ bool Student::SearchLogin(SQLWrapper &db, const std::string& login) {
 
 void Student::UpdateStudentExtra(SQLWrapper &db, int user_id, bool user_hostel,
                               const std::string &user_stud_card, const std::string &user_avatar,
-                              const std::string &user_status, const std::string &user_record_book,
-                              int user_role_university, int user_form_educational, bool notification) {
+                              const std::string &user_status,
+                              int user_role_university, int user_form_educational, bool notification, const std::string &birthday) {
     if (check_existence(db, "student", "id", user_id)) {
         throw std::length_error("ERROR: FIELD student.id NOT FOUND");
     }
@@ -80,9 +81,9 @@ void Student::UpdateStudentExtra(SQLWrapper &db, int user_id, bool user_hostel,
     << "', stud_card = '" << user_stud_card
     << "', avatar = '" << user_avatar
     << "', status = '"<< user_status
-    << "', record_book = '" << user_record_book
     << "', role_university = " << user_role_university
     << ", notification = '" << notification
+    << "', birthday = '" << birthday
     << "' WHERE id = " << user_id << ";";
     db.exec();
 }
@@ -100,17 +101,17 @@ Student Student::GetStudentBySession(SQLWrapper &db, const std::string &session)
                    db.get_str(4),
                    db.get_str(5),
                    db.get_str(6),
-                   db.get_str(7),
+                   db.get_int(7),
                    db.get_int(8),
-                   db.get_int(9),
+                   db.get_str(9),
                    db.get_str(10),
-                   db.get_str(11),
-                   db.get_bool(12),
+                   db.get_bool(11),
+                   db.get_int(12),
                    db.get_int(13),
-                   db.get_int(14),
-                   db.get_time_t(15),
-                   db.get_int(16),
-                   db.get_bool(17));
+                   db.get_time_t(14),
+                   db.get_int(15),
+                   db.get_bool(16),
+                   db.get_str(17));
     return result;
 }
 

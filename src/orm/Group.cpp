@@ -49,23 +49,23 @@ std::vector<Student> Group::GetMembers(SQLWrapper &db, int group_id) {
     std::vector<Student> result;
     while (db.count_tuples() > i) {
         Student request(db.get_str(0, i),
-                       db.get_str(1, i),
-                       db.get_str(2, i),
-                       db.get_bool(3, i),
-                       db.get_str(4, i),
-                       db.get_str(5, i),
-                       db.get_str(6, i),
-                       db.get_str(7, i),
-                       db.get_int(8, i),
-                       db.get_int(9, i),
-                       db.get_str(10, i),
-                       db.get_str(11, i),
-                       db.get_bool(12, i),
-                       db.get_int(13, i),
-                       db.get_int(14, i),
-                       db.get_time_t(15, i),
-                       db.get_int(16, i),
-                        db.get_bool(17, i));
+                        db.get_str(1, i),
+                        db.get_str(2, i),
+                        db.get_bool(3, i),
+                        db.get_str(4, i),
+                        db.get_str(5, i),
+                        db.get_str(6, i),
+                        db.get_int(7, i),
+                        db.get_int(8, i),
+                        db.get_str(9, i),
+                        db.get_str(10, i),
+                        db.get_bool(11, i),
+                        db.get_int(12, i),
+                        db.get_int(13, i),
+                        db.get_time_t(14, i),
+                        db.get_int(15, i),
+                        db.get_bool(16, i),
+                        db.get_str(17, i));
         result.push_back(request);
         i++;
     }
@@ -95,17 +95,17 @@ std::vector<Student> Group::GetPostNotificationSubscribers(SQLWrapper &db, int i
                         db.get_str(4, i),
                         db.get_str(5, i),
                         db.get_str(6, i),
-                        db.get_str(7, i),
+                        db.get_int(7, i),
                         db.get_int(8, i),
-                        db.get_int(9, i),
+                        db.get_str(9, i),
                         db.get_str(10, i),
-                        db.get_str(11, i),
-                        db.get_bool(12, i),
+                        db.get_bool(11, i),
+                        db.get_int(12, i),
                         db.get_int(13, i),
-                        db.get_int(14, i),
-                        db.get_time_t(15, i),
-                        db.get_int(16, i),
-                        db.get_bool(17, i));
+                        db.get_time_t(14, i),
+                        db.get_int(15, i),
+                        db.get_bool(16, i),
+                        db.get_str(17, i));
         result.push_back(request);
         i++;
     }
@@ -118,6 +118,5 @@ std::string Group::GetGroupName(SQLWrapper &db, int id) {
     }
     db << "SELECT faculty, number_departament, semester, group_number, education_level FROM \"group\" WHERE id = '" << id << "';";
     db.exec();
-    std::string result = std::string(db.get_str(0)) + db.get_str(1) + db.get_str(2) + db.get_str(3) + db.get_str(4);
-    return result;
+    std::string result = std::string(db.get_str(0)) + db.get_str(1) + "-" + db.get_str(2) + db.get_str(3) + db.get_str(4);    return result;
 }

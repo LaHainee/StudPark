@@ -37,3 +37,28 @@ void Contact::DeleteContacts(SQLWrapper &db, int id) {
     db << "DELETE FROM contacts WHERE id = " << id << ";";
     db.exec();
 }
+
+std::string Contact::GetNameContact(const int contact_type) {
+    switch (contact_type) {
+        case 0:
+            return "VK";
+        case 1:
+            return "Telegram";
+        case 2:
+            return "Instagram";
+        case 3:
+            return "Git";
+        case 4:
+            return "TikTok";
+        case 5:
+            return "Discord";
+        case 6:
+            return "Skype";
+        case 7:
+            return "Номер телефона";
+        case 8:
+            return "Email";
+        default:
+            return "Another";
+    }
+}
