@@ -1,6 +1,6 @@
 #include "SendMail.h"
 #include "Wrapper.h"
-#include "utils.hpp"
+#include "utils_wrapper.hpp"
 #include <iostream>
 
 std::vector<SendMail> SendMail::NeedSend(SQLWrapper &db) {

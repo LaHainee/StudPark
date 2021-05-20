@@ -1,9 +1,9 @@
 #include "Session.h"
 #include "Wrapper.h"
-#include "utils.hpp"
+#include "utils_wrapper.hpp"
 
-void Session::DeleteSession(SQLWrapper &db, const std::string &id) {
-    db << "DELETE FROM session WHERE session = '" << id << "';";
+void Session::DeleteSession(SQLWrapper &db, const std::string &session) {
+    db << "DELETE FROM session WHERE user_session = '" << session << "';";
     db.exec();
 }
 

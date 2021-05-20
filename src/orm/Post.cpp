@@ -1,6 +1,6 @@
 #include "Post.h"
 #include "Wrapper.h"
-#include "utils.hpp"
+#include "utils_wrapper.hpp"
 #include <iostream>
 
 Post Post::GetPost(SQLWrapper &db, int post_id) {

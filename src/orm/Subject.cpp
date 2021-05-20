@@ -1,6 +1,6 @@
 #include "Subject.h"
 #include "Wrapper.h"
-#include "utils.hpp"
+#include "utils_wrapper.hpp"
 
 int Subject::AddSubject(SQLWrapper &db, const std::string &subject, int group_id) {
 

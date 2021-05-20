@@ -1,12 +1,12 @@
 #include "Deadline.h"
 #include "Wrapper.h"
-#include "utils.hpp"
+#include "utils_wrapper.hpp"
 
 int Deadline::AddDeadline(SQLWrapper &db, const std::string &name, int subject_id, const std::string &date_deadline_user) {
     db << "INSERT INTO deadline (name, subject_id, time_deadline) values ('"
     << name << "', "
     << subject_id
-    << ", " << date_deadline_user << ") returning id;";
+    << ", '" << date_deadline_user << "') returning id;";
     db.exec();
     return db.get_int(0);
 }

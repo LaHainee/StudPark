@@ -1,6 +1,6 @@
 #include "Group.h"
 #include "Wrapper.h"
-#include "utils.hpp"
+#include "utils_wrapper.hpp"
 #include "Student.h"
 
 int Group::AddGroup(SQLWrapper &db, const std::string &user_faculty, int user_number_departament, int user_semester,

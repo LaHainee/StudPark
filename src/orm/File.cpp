@@ -1,6 +1,6 @@
 #include "File.h"
 #include "Wrapper.h"
-#include "utils.hpp"
+#include "utils_wrapper.hpp"
 
 int File::AddFile(SQLWrapper &db, int owner_id, const std::string &file_name, const std::string &salt) {
     db << "INSERT INTO file (owner, name, salt) values ('"
@@ -33,11 +33,11 @@ std::vector<std::pair<int,std::string>> File::GetListFiles(SQLWrapper &db, int u
     }
     return result;
 }
-File File::GetFile(SQLWrapper &db, int user_id) {
-    if (check_existence(db, "file", "owner", user_id)) {
-        throw std::length_error("ERROR: FIELD file.owner NOT FOUND");
+File File::GetFile(SQLWrapper &db, int file_id) {
+    if (check_existence(db, "file", "id", file_id)) {
+        throw std::length_error("ERROR: FIELD file.id NOT FOUND");
     }
-    db << "SELECT * FROM file WHERE owner = " << user_id << ";";
+    db << "SELECT * FROM file WHERE id = " << file_id << ";";
     db.exec();
     File result(
             db.get_int(0),

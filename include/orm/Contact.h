@@ -35,7 +35,7 @@ public:
     static std::vector<Contact> GetContacts(SQLWrapper &db, int user_id);
     static int AddContact(SQLWrapper &db, int contact_type, const std::string &user_url, int stealth, int user_id);
     static void DeleteContacts(SQLWrapper &db, int id);
-    std::string GetNameContact(int contact_type);
+    static std::string GetNameContact(int contact_type);
 
     int id;
     int stealth;

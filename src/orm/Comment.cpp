@@ -1,6 +1,6 @@
 #include "Wrapper.h"
 #include "Comment.h"
-#include "utils.hpp"
+#include "utils_wrapper.hpp"
 
 int Comment::AddComment(SQLWrapper &db, int post_id, int author_id, const std::string &body_comment) {
     if (check_existence(db, "post", "id", post_id)) {
