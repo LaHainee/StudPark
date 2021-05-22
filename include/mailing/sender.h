@@ -2,6 +2,7 @@
 #define CODECARCASS_SENDER_H
 
 #include <algorithm>
+#include <chrono>
 #include <cstring>
 #include <curl/curl.h>
 #include <iostream>
@@ -9,7 +10,9 @@
 #include <thread>
 #include <vector>
 
-#include <../ORM/Send_mail.h>
+#include "SendMail.h"
+
+#define PERIOD 10
 
 class EmailSender {
 public:

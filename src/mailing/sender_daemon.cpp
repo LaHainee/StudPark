@@ -1,21 +1,42 @@
 #include "sender.h"
 
 Scheduler::Scheduler() {
-    accountsForMailing.emplace_back(std::getenv("MAIL_USER_1"));
-    accountsForMailing.emplace_back(std::getenv("MAIL_USER_2"));
-    accountsForMailing.emplace_back(std::getenv("MAIL_USER_3"));
-    accountsForMailing.emplace_back(std::getenv("MAIL_USER_4"));
-    accountsForMailing.emplace_back(std::getenv("MAIL_USER_5"));
-    accountsForMailing.emplace_back(std::getenv("MAIL_USER_6"));
-    accountsForMailing.emplace_back(std::getenv("MAIL_USER_7"));
-    accountsForMailing.emplace_back(std::getenv("MAIL_USER_8"));
+    const int accountsAmount = 8;
+    for (int i = 0; i < accountsAmount; ++i) {
+        std::string envVariable = "MAIL_USER_" + std::to_string(i + 1);
+        accountsForMailing.emplace_back(std::getenv(envVariable.c_str()));
+    }
 }
 
 int main() {
-    Scheduler sch;
+    Scheduler scheduler;
+    SQLWrapper wrapper;
+    int testEmailsAmount = 2;
+    int secondsCounter = 0;
+
+    while (true) {
+        std::this_thread::sleep_for(std::chrono::seconds(PERIOD));
+        secondsCounter += 10;
+        std::cout << "nope" << std::endl;
+        for (int i = 0; i < testEmailsAmount; ++i) {
+            SendMail::AddInQueue(
+                    wrapper,
+                    "studparksender@gmail.com",
+                    "Заголовок тестового письма",
+                    "Тело тестового письма",
+                    time(nullptr)
+            );
+        }
+        scheduler.Scan();
+        std::cout << secondsCounter << " seconds" << std::endl;
+    }
+
+    /*Scheduler sch;
     // Data for testing
-    /*SQLWrapper wrapper;
-    for (int i = 0; i < 8; ++i) {
+    SQLWrapper wrapper;
+
+    int testEmailsAmount = 2;
+    for (int i = 0; i < testEmailsAmount; ++i) {
         SendMail::AddInQueue(
                 wrapper,
                 "studparksender@gmail.com",
@@ -23,7 +44,7 @@ int main() {
                 "Тело тестового письма",
                 time(nullptr)
                 );
-    }*/
-    sch.Scan();
-    return 0;
+    }
+
+    sch.Scan();*/
 }

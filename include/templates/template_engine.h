@@ -1,24 +1,30 @@
 #ifndef CODECARCASS_TEMPLATE_ENGINE_H
 #define CODECARCASS_TEMPLATE_ENGINE_H
 
+#include <algorithm>
 #include <iostream>
+
+#include "Post.h"
+#include "Student.h"
 #include "inja.hpp"
+#include "Wrapper.h"
+#include "Contact.h"
+#include "Student.h"
+#include "Group.h"
 
 using namespace inja;
 using json = nlohmann::json;
 
-
 class TemplateEngine {
 public:
-    std::string RenderTemplate(const json& data, const std::string& templateToParse) {
-        env.set_expression("{{", "}}");
-        env.set_statement("{%", "%}");
-        Template temp = env.parse_template(templateToParse);
-            // env.write(temp, data, "../created_templates/admin_panel.html");
-        std::string result = env.render(temp, data);
-        std::cout << result << std::endl;
-        return result;
-    }
+    std::string RenderTemplate(const json& data, const std::string& templateToParse);
+    std::string RenderPosts(SQLWrapper &wrapper, const std::vector<Post>& posts);
+    std::string RenderProfile(SQLWrapper &wrapper, const std::vector<Contact> &contacts,
+                                              const Student &student);
+    std::string RenderSettings(SQLWrapper &wrapper, const std::vector<Contact> &contacts,
+                                               const Student &student);
+    std::string RenderErrors(const std::string &error);
+    std::string RenderGroupList(SQLWrapper &wrapper, int groupId);
 private:
     Environment env;
 };

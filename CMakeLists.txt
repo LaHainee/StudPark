@@ -12,13 +12,14 @@ include_directories(vendor/inja/include/inja)
 include_directories(/opt/homebrew/include)
 include_directories(/opt/homebrew/lib)
 include_directories(${PostgreSQL_INCLUDE_DIRS})
+include_directories(include/ORM)
 
 add_executable(
         sender
         include/mailing/sender.h
         src/mailing/sender_daemon.cpp
         src/mailing/sender.cpp
-        src/ORM/Send_mail.cpp
+        src/ORM/SendMail.cpp
         src/ORM/Wrapper.cpp
 )
 
@@ -26,6 +27,11 @@ add_executable(
         template_engine
         include/templates/template_engine.h
         src/templates/template_engine.cpp
+        src/ORM/Wrapper.cpp
+        src/ORM/Post.cpp
+        src/ORM/Student.cpp
+        src/ORM/Contact.cpp
+        src/ORM/Group.cpp
 )
 
 add_executable(
@@ -40,7 +46,7 @@ add_executable(
 
 target_link_libraries(tests_sender gtest Threads::Threads)
 target_link_libraries(tests_template_engine gtest Threads::Threads)
-target_link_libraries(template_engine inja)
+target_link_libraries(template_engine inja PostgreSQL::PostgreSQL)
 target_link_libraries(tests_template_engine inja)
 target_link_libraries(sender PostgreSQL::PostgreSQL curl)
 

@@ -4,6 +4,7 @@
 
 	// Setup the calendar with the current date
 $(document).ready(function(){
+    console.log("Document ready");
     var date = new Date();
     var today = date.getDate();
     // Set click handlers for DOM elements
@@ -16,6 +17,8 @@ $(document).ready(function(){
     init_calendar(date);
     var events = check_events(today, date.getMonth()+1, date.getFullYear());
     show_events(events, months[date.getMonth()], today);
+    new_event_json("Отчисление", 1, new Date(2021, 4, 18), 19);
+    console.log("Event created");
 });
 
 // Initialize the calendar by appending the HTML dates

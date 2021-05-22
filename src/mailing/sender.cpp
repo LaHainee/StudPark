@@ -60,6 +60,7 @@ void EmailSender::threadSendMail(const std::vector<SendMail> &data, const std::s
                         curl_easy_strerror(result));
             curl_slist_free_all(recipients);
             mails.push_back(vector.id);
+            std::cout << "Email with id = " << vector.id << " successfully sent OK" << std::endl;
         }
         curl_easy_cleanup(curl);
     }
@@ -73,16 +74,19 @@ void EmailSender::Send(SQLWrapper &db, std::vector<SendMail> data, std::vector<s
     size_t begin = 0;
     size_t end = 0;
     std::vector<int> mailsIdForDelete;
+
     for (size_t i = 0; i < std::min<unsigned int>(procsCount, data.size()); ++i) {
         end += (remain > 0) ? (length + !!(remain--)) : length;
         std::vector<SendMail> threadData = std::vector<SendMail>(data.begin() + begin, data.begin() + end);
         begin = end;
         std::string account = accountsForMailing[i];
-        threads.emplace_back(std::thread(threadSendMail, threadData, account, std::ref(mailsIdForDelete)));
+        threads.emplace_back(
+                std::thread(threadSendMail, threadData, account, std::ref(mailsIdForDelete)));
     }
     for (auto & thread : threads) {
         thread.join();
     }
+
     for (int i : mailsIdForDelete) {
         SendMail::DeleteFromQueue(db, i);
     }
