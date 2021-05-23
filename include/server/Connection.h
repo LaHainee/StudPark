@@ -1,7 +1,3 @@
-//
-// Created by matroskin on 01.05.2021.
-//
-
 #ifndef SERVER_CONNECTION_H
 #define SERVER_CONNECTION_H
 
@@ -15,8 +11,8 @@
 
 #include "Transportation.h"
 
-
 class ConnectionManager;
+
 class Connection: public std::enable_shared_from_this<Connection> {
 public:
     Connection(const Connection&) = delete;
@@ -26,7 +22,7 @@ public:
     void start();
     void stop() { socket_.close();}
 
-    boost::asio::ip::tcp::socket& socket() { return this->socket_;};s
+    boost::asio::ip::tcp::socket& socket() { return this->socket_;}  // получить сокет связанный с подключением
 private:
     boost::asio::ip::tcp::socket socket_;
     ConnectionManager& manager_;
@@ -34,8 +30,8 @@ private:
 
     std::array<char, 8192> buffer_;
 
-    void doRead(const boost::system::error_code& e, std::size_t bytes_transferred);
-    void doWrite(const boost::system::error_code& e);
+    void doRead(const boost::system::error_code& e, std::size_t bytes_transferred);  //  requests
+    void doWrite(const boost::system::error_code& e);  //  response клиенту
 
 };
 

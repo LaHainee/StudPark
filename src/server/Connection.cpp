@@ -1,7 +1,3 @@
-//
-// Created by matroskin on 01.05.2021.
-//
-
 #include "Connection.h"
 #include "ConnectionManager.h"
 
@@ -25,9 +21,11 @@ void Connection::doRead(const boost::system::error_code& error, std::size_t byte
         std::cout << std::string(buffer_.begin(), buffer_.end()) << std::endl;
         Request request_(std::string(buffer_.begin(), buffer_.end()));
 
-        Response response_; 
-
-
+        Response response_;  // default 200
+        if (request_.header("Host") != "studpark.ru") {
+            response_.setStatus(status::BadRequest);  // not our host
+        }
+        transportation_.userTransportation(request_, response_);
         async::async_write(
                 socket_,
                 async::buffer(response_.str(), response_.str().max_size()),
@@ -35,7 +33,7 @@ void Connection::doRead(const boost::system::error_code& error, std::size_t byte
         );
     } else if (error != async::error::operation_aborted) {
         manager_.stop(shared_from_this());
-    }  // if
+    }
 }
 
 void Connection::doWrite(const boost::system::error_code &e) {

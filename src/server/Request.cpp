@@ -1,7 +1,3 @@
-//
-// Created by matroskin on 01.05.2021.
-//
-
 #include "Request.h"
 #include <regex>
 #include <iostream>
@@ -20,16 +16,19 @@ Request::Request(const std::string &request) {
     }
     parseStartLine(request.cbegin(), endHeaders);
     parseHeaders(request.cbegin(), endHeaders);
+
     parseCookies();
+
     if (_method == "GET") {
         parseDataFromPath();
     } else if (_method == "POST") {
         parseDataFromBody(endHeaders, request.cend());
+        parseDataPost();
     }
 }
 
 void Request::parseStartLine(const std::string::const_iterator &begin, const std::string::const_iterator &end){
-    const std::regex startLine(R"((PUT|GET|POST|HEAD)\s(\/[^\n\s\r\t\0]*)\sHTTP\/([\d.]+))");
+    const std::regex startLine(R"((PUT|GET|POST|HEAD)\s(\/[^\n\s\r\t\0]*)\sHTTP\/([\d.]+)\r\n)");
     std::sregex_iterator match(begin, end, startLine);
     _method = match->format("$1");
     _path = match->format("$2");
@@ -96,8 +95,7 @@ void Request::parseDataFromBody(const std::string::const_iterator &begin, const 
     } else if (contentType == "text/plain") {
         body = std::string(start, end);
     } else if (contentType == "application/json") {
-        start++;
-   
+
     }
 }
 
@@ -131,8 +129,25 @@ void Request::parseCookies() {
     }
 }
 
+void Request::parseDataPost() {
+    std::string dataPostStr = header("Data");
+    if (dataPostStr.empty()) {
+        return;
+    }
+    std::regex parameter(R"(([^\n\r\t\0\s;]+?)=([^\n\r\t\0\s;]+))");
+    std::sregex_iterator parameterMatch(dataPostStr.cbegin(), dataPostStr.cend(), parameter);
+    std::sregex_iterator none;
+    while(parameterMatch != none) {
+        dataPosts[boost::to_lower_copy(parameterMatch->format("$1"))] = parameterMatch->format("$2");
+        parameterMatch++;
+    }
+}
+
 std::string Request::cookie(const std::string &key) {
     return cookies[boost::to_lower_copy(key)];
+}
+std::string Request::dataPost(const std::string &key) {
+    return dataPosts[boost::to_lower_copy(key)];
 }
 
 std::string Request::urlDecode(const std::string& url) {

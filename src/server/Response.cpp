@@ -1,7 +1,3 @@
-//
-// Created by matroskin on 01.05.2021.
-//
-
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <memory>
 #include <sstream>
@@ -9,11 +5,13 @@
 
 void Response::setCookie(const std::string &key, const std::string &value, const int &daysExpires) {
     std::string _value = value;
-
     cookies[key] = _value;
 }
 
-
+void Response::setDate() {
+    auto now = boost::posix_time::second_clock::universal_time();
+    setHeader("Date", "100500");
+}
 
 Response::Response(const int &status) : statusCode(status) {
     setDate();

@@ -1,7 +1,3 @@
-//
-// Created by matroskin on 01.05.2021.
-//
-
 #include "server.h"
 #include "boost/bind.hpp"
 #include "boost/thread.hpp"

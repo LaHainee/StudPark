@@ -1,7 +1,3 @@
-//
-// Created by matroskin on 01.05.2021.
-//
-
 #ifndef SERVER_CONNECTIONMANAGER_H
 #define SERVER_CONNECTIONMANAGER_H
 
@@ -14,8 +10,8 @@ class ConnectionManager: private boost::noncopyable {
 public:
     ConnectionManager();
 
-    void start(std::shared_ptr<Connection> connection);
-    void stop(std::shared_ptr<Connection> connection);
+    void start(std::shared_ptr<Connection> connection);  // добавить соединение для pull
+    void stop(std::shared_ptr<Connection> connection);   // закрыть соедниние и удалить из pull
     void stopAll();
 
     size_t connectionsNumber();

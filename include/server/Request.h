@@ -1,7 +1,3 @@
-//
-// Created by matroskin on 01.05.2021.
-//
-
 #ifndef SERVER_REQUEST_H
 #define SERVER_REQUEST_H
 
@@ -17,6 +13,7 @@ public:
     std::string data(const std::string& key);
     std::string data();
     std::string cookie(const std::string & key);
+    std::string dataPost(const std::string & key);
     std::unordered_multimap<std::string, std::string> dataTable();
 
 private:
@@ -26,10 +23,12 @@ private:
     std::unordered_multimap<std::string, std::string> headers;
     std::unordered_multimap<std::string, std::string> _data;
     std::unordered_map<std::string, std::string> cookies;
+    std::unordered_map<std::string, std::string> dataPosts;
 
     void parseStartLine(const std::string::const_iterator &begin, const std::string::const_iterator &end);
     void parseHeaders(const std::string::const_iterator &begin, const std::string::const_iterator &end);
     void parseCookies();
+    void parseDataPost();
     void parseDataFromPath();
     void parseDataFromBody(const std::string::const_iterator &begin, const std::string::const_iterator &end);
     std::string urlDecode(const std::string::const_iterator &begin, const std::string::const_iterator &end);

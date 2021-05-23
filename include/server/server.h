@@ -1,7 +1,3 @@
-//
-// Created by matroskin on 01.05.2021.
-//
-
 #ifndef SERVER_SERVER_H
 #define SERVER_SERVER_H
 

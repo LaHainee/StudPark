@@ -1,7 +1,3 @@
-//
-// Created by matroskin on 01.05.2021.
-//
-
 #ifndef SERVER_RESPONSE_H
 #define SERVER_RESPONSE_H
 
@@ -53,6 +49,7 @@ public:
     void setHeader(const std::string &key, const std::string &value);
     void setStatus(const int &status);
 private:
+    void setDate();
     std::string statusToStr() const;
     void startLineToStream(std::stringstream & ss);
     void headersToStream(std::stringstream & ss);
