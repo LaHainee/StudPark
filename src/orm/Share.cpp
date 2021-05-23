@@ -32,11 +32,9 @@ Share Share::GetList(SQLWrapper &db, int owner_id) {
 }
 
 std::vector<Share> Share::GetFilesForId(SQLWrapper &db, int owner_id, int recipient_id) {
-    if (check_existence(db, "share", "owner", owner_id)) {
-        throw std::length_error("ERROR: FIELD share.owner NOT FOUND");
-    }
-    if (check_existence(db, "share", "recipient", owner_id)) {
-        throw std::length_error("ERROR: FIELD share.recipient NOT FOUND");
+    if ((check_existence(db, "share", "owner", owner_id)) || (check_existence(db, "share", "recipient", owner_id))) {
+        std::vector<Share> result;
+        return result;
     }
     db << "SELECT * FROM share WHERE owner = " << owner_id << " AND recipient = " << recipient_id << ";";
     db.exec();

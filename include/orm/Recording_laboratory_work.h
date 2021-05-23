@@ -17,7 +17,7 @@ public:
             group(group_id),
             deleted(_deleted) {}
     static int AddRecording(SQLWrapper &db, int subject_id, time_t date_lab, int group_id);
-    void DeleteRecording(SQLWrapper &db, int record_id);
+    static void DeleteRecording(SQLWrapper &db, int record_id);
     static void UpdateRecording(SQLWrapper &db, int recording_id, int user_id, int subject_id,
             time_t date_lab, int group_id, unsigned int user_position);
     static Recording_laboratory_work GetRecording(SQLWrapper &db, int user_id, int subject_id);

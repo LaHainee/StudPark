@@ -20,7 +20,8 @@ void Subject::DeleteSubject(SQLWrapper &db, int subject_id) {
 
 std::vector<Subject> Subject::ListSubject(SQLWrapper &db, int group_id) {
     if (check_existence(db, "subject", "group_id", group_id)) {
-        throw std::length_error("ERROR: FIELD subject.group_id NOT FOUND");
+        std::vector<Subject> result;
+        return result;
     }
     db << "SELECT * FROM subject WHERE group_id = " << group_id << ";";
     db.exec();

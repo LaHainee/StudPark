@@ -17,7 +17,8 @@ int AttachmentPost::AddAttachmentPost(SQLWrapper &db, int post_id, const std::st
 
 std::vector<AttachmentPost> AttachmentPost::GetAttachmentPost(SQLWrapper &db, int post_id) {
     if (check_existence(db, "attachment_post", "post_id", post_id)) {
-        throw std::length_error("ERROR: FIELD attachment_post.post_id NOT FOUND");
+        std::vector<AttachmentPost> result;
+        return result;
     }
 
     db << "SELECT * FROM attachment_post WHERE post_id = " << post_id << ";";

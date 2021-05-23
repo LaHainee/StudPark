@@ -14,7 +14,8 @@ int Contact::AddContact(SQLWrapper &db, const int contact_type, const std::strin
 
 std::vector<Contact> Contact::GetContacts(SQLWrapper &db, int user_id) {
     if (check_existence(db, "contacts", "user_id", user_id)) {
-        throw std::length_error("ERROR: FIELD contacts.user_id NOT FOUND");
+        std::vector<Contact> result;
+        return result;
     }
     db << "SELECT * FROM contacts WHERE user_id = " << user_id << ";";
     db.exec();

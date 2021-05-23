@@ -40,11 +40,9 @@ void Post::DeletePost(SQLWrapper &db, int id) {
 }
 
 std::vector<Post> Post::GetPostsByIdGroup(SQLWrapper &db, int id) {
-    if (check_existence(db, "\"group\"", "id", id)) {
-        throw std::length_error("ERROR: FIELD group.id NOT FOUND");
-    }
-    if (check_existence(db, "student", "group_id", id)) {
-        throw std::length_error("ERROR: FIELD student.group_id NOT FOUND");
+    if (check_existence(db, "\"group\"", "id", id) || (check_existence(db, "student", "group_id", id))) {
+        std::vector<Post> result;
+        return result;
     }
     db << "SELECT post.* FROM public.post join (select group_id, id from public.student) temp"
           " on post.owner=temp.id join (select id from public.group where id = " << id
