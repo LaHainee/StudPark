@@ -7,12 +7,14 @@ std::string UserAPI::Create(const std::unordered_map<std::string, std::string> &
     std::string password_enc = sha256(password);
     std::string email = data.find("user_login")->second;
     if (!emailIsValid(email)) {
+        std::cout << "Email is invalid" << std::endl;
         // Render template `error(email_is_invalid)`
     }
-    if (!passwordMeetsRequirements(password)) {
-        // Render template `error(wrong_password)`
-        return "";
-    }
+//    if (!passwordMeetsRequirements(password)) {
+//        std::cout << "Password does not meet the requirements" << std::endl;
+//        // Render template `error(wrong_password)`
+//        return "";
+//    }
     int groupID;
     try {
         groupID = Group::GetGroupByJoinCode(db, data.find("join_code")->second);
@@ -24,7 +26,7 @@ std::string UserAPI::Create(const std::unordered_map<std::string, std::string> &
 
     int userID = Student::AddStudentRegistration(db, data.find("f_name")->second, data.find("s_name")->second,
                               data.find("user_patronymic")->second, email,
-                              password, groupID);
+                              password_enc, groupID, data.find("birthday")->second, Student::Roles::STUDENT);
     return std::string(std::to_string(userID));
 }
 
@@ -39,7 +41,12 @@ std::string UserAPI::Delete(const std::unordered_map<std::string, std::string> &
 }
 
 std::string UserAPI::Authenticate(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
-    int student = Student::GetIdByLoginPassword(db, data.find("login")->second, sha256(data.find("password")->second));
+    int student = 0;
+    try {
+        student = Student::GetIdByLoginPassword(db, data.find("login")->second, sha256(data.find("password")->second));
+    } catch (std::exception &e) {
+        std::cout << e.what() << std::endl;
+    }
     std::string token = randomString(64);
     int session = Session::AddSession(db, student, token, time(nullptr));
     std::cout << "Created session " << session << std::endl;

@@ -41,7 +41,7 @@ std::string FilesAPI::Get(const std::unordered_map <std::string, std::string> &d
     if (!std::filesystem::exists(storagePath) ) {
         std::filesystem::create_directory(storagePath);
     }
-    std::cout << "Creating synlink to " << std::getenv("FILE_STORAGE") + sha256(file.name + file.salt) << std::endl;
+    std::cout << "Creating symlink to " << std::getenv("FILE_STORAGE") + sha256(file.name + file.salt) << std::endl;
     std::cout << "Name: " << file.name << " Salt: " << file.salt << file.salt.length() << std::endl;
 
     try {

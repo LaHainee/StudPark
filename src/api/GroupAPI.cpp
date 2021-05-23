@@ -7,10 +7,11 @@ std::string GroupAPI::Create(const std::unordered_map<std::string, std::string> 
     try {
         admin = Student::GetStudentBySession(db, data.find("session")->second);
     } catch (std::exception &e) {
-            std::cout << e.what() << std::endl;
+        std::cout << "ERROR" << e.what() << std::endl;
     }
     int group;
-    if (admin.role != Student::Roles::LEADER) {
+    std::cout << admin.role << std::endl;
+    if (admin.role != Student::Roles::ADMIN) {
         throw std::invalid_argument("Not enough privileges");
     }
     std::string joinCode = randomString(8);
@@ -32,12 +33,12 @@ std::string GroupAPI::Create(const std::unordered_map<std::string, std::string> 
     try {
         Student::AddStudentRegistration(db, data.find("head_f_name")->second, data.find("head_s_name")->second,
                                   data.find("head_patronymic")->second, data.find("head_user_login")->second,
-                                  sha256(password), group, Student::LEADER);
+                                  password, group, data.find("head_birthday")->second, Student::Roles::LEADER);
     } catch (std::exception &e) {
             std::cout << e.what() << std::endl;
     }
 
-    return password;  // Render template "Group created, head password is: <pwd>
+    return joinCode;  // Render template "Group created, head password is: <pwd>
 }
 std::string GroupAPI::Get(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
     return "";  // Delete
