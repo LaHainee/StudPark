@@ -1,10 +1,10 @@
 (function($) {
-
 	"use strict";
 
-	// Setup the calendar with the current date
 $(document).ready(function(){
-    console.log("Document ready");
+    get_subjects();
+    get_deadlines();
+
     var date = new Date();
     var today = date.getDate();
     // Set click handlers for DOM elements
@@ -14,11 +14,11 @@ $(document).ready(function(){
     $("#add-button").click({date: date}, new_event);
     // Set current month as active
     $(".months-row").children().eq(date.getMonth()).addClass("active-month");
+    
+
     init_calendar(date);
     var events = check_events(today, date.getMonth()+1, date.getFullYear());
     show_events(events, months[date.getMonth()], today);
-    new_event_json("Отчисление", 1, new Date(2021, 4, 18), 19);
-    console.log("Event created");
 });
 
 // Initialize the calendar by appending the HTML dates
@@ -121,14 +121,11 @@ function prev_year(event) {
 
 // Event handler for clicking the new event button
 function new_event(event) {
-    // if a date isn't selected then do nothing
     if($(".active-date").length===0)
         return;
-    // remove red error input on click
     $("input").click(function(){
         $(this).removeClass("error-input");
     })
-    // empty inputs and hide events
     $("#dialog input[type=text]").val('');
     $("#dialog input[type=number]").val('');
     $(".events-container").hide(250);
@@ -144,19 +141,18 @@ function new_event(event) {
     $("#ok-button").unbind().click({date: event.data.date}, function() {
         var date = event.data.date;
         var name = $("#name").val().trim();
-        var count = parseInt($("#count").val().trim());
+        var time = $("#time").val();
         var day = parseInt($(".active-date").html());
+        var discipline = $("#discipline").val();
+        
         // Basic form validation
-        if(name.length === 0) {
+        if(name.length === 0 || time.length === 0) {
             $("#name").addClass("error-input");
-        }
-        else if(isNaN(count)) {
-            $("#count").addClass("error-input");
         }
         else {
             $("#dialog").hide(250);
-            console.log("new event");
-            new_event_json(name, count, date, day);
+            
+            new_event_json(name, time, date, day, discipline);
             date.setDate(day);
             init_calendar(date);
         }
@@ -164,14 +160,23 @@ function new_event(event) {
 }
 
 // Adds a json event to event_data
-function new_event_json(name, count, date, day) {
+function new_event_json(name, time, date, day, discipline) {
     var event = {
         "occasion": name,
-        "invited_count": count,
+        "time": time,
         "year": date.getFullYear(),
         "month": date.getMonth()+1,
-        "day": day
+        "day": day,
+        "discipline": subjects.find(x => x.id == discipline)['name'],
     };
+    let month_zero = date.getMonth() < 9 ? '0' : '';
+    let day_zero = day < 10 ? '0' : '';
+
+    $.post("/GroupAPI/AddDeadline", {
+        name: name,
+        time: `${date.getFullYear()}-${month_zero}${date.getMonth()+1}-${day_zero}${day} ${time}:00`,
+        subject: discipline
+    });
     event_data["events"].push(event);
 }
 
@@ -180,7 +185,7 @@ function show_events(events, month, day) {
     // Clear the dates container
     $(".events-container").empty();
     $(".events-container").show(250);
-    console.log(event_data["events"]);
+    
     // If there are no events for this date, notify the user
     if(events.length===0) {
         var event_card = $("<div class='event-card'></div>");
@@ -193,14 +198,16 @@ function show_events(events, month, day) {
         // Go through and add each event as a card to the events container
         for(var i=0; i<events.length; i++) {
             var event_card = $("<div class='event-card'></div>");
-            var event_name = $("<div class='event-name'>"+events[i]["occasion"]+":</div>");
-            var event_count = $("<div class='event-count'>"+events[i]["invited_count"]+" Invited</div>");
-            if(events[i]["cancelled"]===true) {
-                $(event_card).css({
-                    "border-left": "10px solid #FF1744"
-                });
-                event_count = $("<div class='event-cancelled'>Cancelled</div>");
-            }
+            var event_name = $("<div class='event-name'>"+events[i]["occasion"]+" по " + 
+                events[i]["discipline"] 
+                +" в </div>");
+            var event_count = $("<div class='event-count'>"+events[i]["time"]+"</div>");
+            // if(events[i]["cancelled"]===true) {
+            //     $(event_card).css({
+            //         "border-left": "10px solid #FF1744"
+            //     });
+            //     event_count = $("<div class='event-cancelled'>Cancelled</div>");
+            // }
             $(event_card).append(event_name).append(event_count);
             $(".events-container").append(event_card);
         }
@@ -221,94 +228,54 @@ function check_events(day, month, year) {
     return events;
 }
 
+function get_subjects() {
+    $.get( "/GroupAPI/GetSubjects", function( data ) {
+     
+     var json = JSON.parse(data);
+     json["subjects"].forEach(e=>{
+        
+        subjects.push(e);
+        $("#discipline").append(`<option value="${e.id}">${e.name}</option>`);
+     });
+    });
+}
+
+function get_deadlines() {
+    $.get( "/GroupAPI/GetDeadlines", function( data ) {
+     var json = JSON.parse(data);
+     json["deadlines"].forEach(e=>{
+        var date = new Date(e.date);
+        
+        //new_event_json(e.name, );
+        event_data["events"].push({
+            "occasion": e.name,
+            "year": date.getFullYear(),
+            "month": date.getUTCMonth() + 1,
+            "day": date.getUTCDate(),
+            "time": `${date.getUTCHours()}:${date.getUTCMinutes()}`,
+            "discipline": subjects.find(x => x.id == e.subject)['name'],
+        });
+     });
+     let today = new Date();
+     init_calendar(today);
+    });
+}
+
 // Given data for events in JSON format
 var event_data = {
     "events": [
-    {
-        "occasion": " Repeated Test Event ",
-        "invited_count": 120,
-        "year": 2020,
-        "month": 5,
-        "day": 10,
-        "cancelled": true
-    },
-    {
-        "occasion": " Repeated Test Event ",
-        "invited_count": 120,
-        "year": 2020,
-        "month": 5,
-        "day": 10,
-        "cancelled": true
-    },
-        {
-        "occasion": " Repeated Test Event ",
-        "invited_count": 120,
-        "year": 2020,
-        "month": 5,
-        "day": 10,
-        "cancelled": true
-    },
-    {
-        "occasion": " Repeated Test Event ",
-        "invited_count": 120,
-        "year": 2020,
-        "month": 5,
-        "day": 10
-    },
-        {
-        "occasion": " Repeated Test Event ",
-        "invited_count": 120,
-        "year": 2020,
-        "month": 5,
-        "day": 10,
-        "cancelled": true
-    },
-    {
-        "occasion": " Repeated Test Event ",
-        "invited_count": 120,
-        "year": 2020,
-        "month": 5,
-        "day": 10
-    },
-        {
-        "occasion": " Repeated Test Event ",
-        "invited_count": 120,
-        "year": 2020,
-        "month": 5,
-        "day": 10,
-        "cancelled": true
-    },
-    {
-        "occasion": " Repeated Test Event ",
-        "invited_count": 120,
-        "year": 2020,
-        "month": 5,
-        "day": 10
-    },
-        {
-        "occasion": " Repeated Test Event ",
-        "invited_count": 120,
-        "year": 2020,
-        "month": 5,
-        "day": 10,
-        "cancelled": true
-    },
-    {
-        "occasion": " Repeated Test Event ",
-        "invited_count": 120,
-        "year": 2020,
-        "month": 5,
-        "day": 10
-    },
-    {
-        "occasion": " Test Event",
-        "invited_count": 120,
-        "year": 2020,
-        "month": 5,
-        "day": 11
-    }
+        // {
+        //     "occasion": "Repeated Test Event",
+        //     "year": 2021,
+        //     "month": 5,
+        //     "day": 10,
+        //     "discipline"
+        // },
     ]
 };
+
+var subjects = [];
+var deadlines = [];
 
 const months = [ 
     "January", 
