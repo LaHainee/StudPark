@@ -6,6 +6,7 @@
 #include "Subject.h"
 #include "Wrapper.h"
 #include "SendMail.h"
+#include <boost/algorithm/string.hpp>
 
 #define WEEK 604800
 #define DAY  86400
@@ -27,6 +28,8 @@ public:
     int AddSubject(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
 
     int AddDeadline(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
+
+    std::string CreatePage(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
 private:
     Student getStudentBySession(std::string &session, SQLWrapper &db);
 };

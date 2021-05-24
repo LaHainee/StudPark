@@ -1,4 +1,5 @@
 #include "Wrapper.h"
+#include "template_engine.h"
 
 #pragma once
 
@@ -13,4 +14,5 @@ class API {
     virtual std::string Get(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db)    = 0;
     virtual std::string Update(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) = 0;
     virtual std::string Delete(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) = 0;
+    TemplateEngine render;
 };

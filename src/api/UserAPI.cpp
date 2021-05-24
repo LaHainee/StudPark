@@ -2,13 +2,17 @@
 #include "Student.h"
 #include "Group.h"
 
+std::string UserAPI::Login() {
+    return render.RenderLoginPage();
+}
+
 std::string UserAPI::Create(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
     std::string password = data.find("password")->second;
     std::string password_enc = sha256(password);
     std::string email = data.find("user_login")->second;
     if (!emailIsValid(email)) {
         std::cout << "Email is invalid" << std::endl;
-        // Render template `error(email_is_invalid)`
+        return render.RenderErrors("Формат Email неверный");
     }
 //    if (!passwordMeetsRequirements(password)) {
 //        std::cout << "Password does not meet the requirements" << std::endl;
@@ -20,8 +24,7 @@ std::string UserAPI::Create(const std::unordered_map<std::string, std::string> &
         groupID = Group::GetGroupByJoinCode(db, data.find("join_code")->second);
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
-        // Render template `error(wrong_join_code)`
-        return "";
+        return render.RenderErrors("Неверный код доступа");
     }
 
     int userID = Student::AddStudentRegistration(db, data.find("f_name")->second, data.find("s_name")->second,
@@ -40,17 +43,26 @@ std::string UserAPI::Delete(const std::unordered_map<std::string, std::string> &
     return "";  // Only for admin, AJAX
 }
 
-std::string UserAPI::Authenticate(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::pair<std::string, std::string> UserAPI::Authenticate(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
     int student = 0;
+    std::cout << data.find("login")->second << " " << data.find("password")->second << std::endl;
     try {
         student = Student::GetIdByLoginPassword(db, data.find("login")->second, sha256(data.find("password")->second));
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }
-    std::string token = randomString(64);
-    int session = Session::AddSession(db, student, token, time(nullptr));
-    std::cout << "Created session " << session << std::endl;
-    return token;  // Should be passed to server to Set-Cookie & Render template feed(student.group)
+    if (student != 0) {
+        std::string token = randomString(64);
+        int session = Session::AddSession(db, student, token, time(nullptr));
+        std::cout << "New session: " << token << std::endl;
+        if (Student::GetStudentById(db, student).role == Student::Roles::ADMIN) {
+            return {token, render.RenderAdminPage()};
+        } else {
+            return {token, "FEED"};
+        }
+    } else {
+        return {"", render.RenderErrors("Проверьте правильность ввода логина и пароля")};
+    }
 }
 
 std::string UserAPI::Authorize(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
@@ -97,4 +109,8 @@ bool UserAPI::emailIsValid(std::string &email) {
 bool UserAPI::passwordMeetsRequirements(std::string &password) {
     std::regex regexPassword("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
     return std::regex_match(password, regexPassword);
+}
+
+std::string UserAPI::SignupPage() {
+    return render.RenderSignupPage();
 }

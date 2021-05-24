@@ -2,25 +2,41 @@
 #include "GroupAPI.h"
 #include "Utils.h"
 
+std::string GroupAPI::CreatePage(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+    Student admin;
+    try {
+        admin = Student::GetStudentBySession(db, data.find("session")->second);
+    } catch (std::exception &e) {
+        return render.RenderErrors(e.what());
+    }
+    if (admin.role != Student::Roles::ADMIN) {
+        return render.RenderErrors("Недостаточно прав");
+    }
+    return render.RenderAdminPage();
+}
+
 std::string GroupAPI::Create(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
     Student admin;
     try {
         admin = Student::GetStudentBySession(db, data.find("session")->second);
     } catch (std::exception &e) {
         std::cout << "ERROR" << e.what() << std::endl;
+        return render.RenderErrors(e.what());
     }
-    int group;
     std::cout << admin.role << std::endl;
     if (admin.role != Student::Roles::ADMIN) {
-        throw std::invalid_argument("Not enough privileges");
+        return render.RenderErrors("Недостаточно прав");
     }
     std::string joinCode = randomString(8);
+    std::string faculty = data.find("user_faculty")->second;
+    boost::to_upper(faculty);
+    int group = std::stoi(data.find("group")->second);
     try {
         group = Group::AddGroup(db,
-                                data.find("user_faculty")->second,
+                                faculty,
                                 std::stoi(data.find("user_number_department")->second),
-                                std::stoi(data.find("user_semester")->second),
-                                std::stoi(data.find("user_group_number")->second),
+                                (group % 100) / 10,
+                                group % 10,
                                 data.find("education_level")->second,
                                 joinCode,
                                 time(nullptr)
@@ -33,12 +49,12 @@ std::string GroupAPI::Create(const std::unordered_map<std::string, std::string> 
     try {
         Student::AddStudentRegistration(db, data.find("head_f_name")->second, data.find("head_s_name")->second,
                                   data.find("head_patronymic")->second, data.find("head_user_login")->second,
-                                  password, group, data.find("head_birthday")->second, Student::Roles::LEADER);
+                                  sha256(password), group, data.find("head_birthday")->second, Student::Roles::LEADER);
     } catch (std::exception &e) {
             std::cout << e.what() << std::endl;
     }
 
-    return joinCode;  // Render template "Group created, head password is: <pwd>
+    return render.RenderErrors("Пароль старосты: " + password + "\nКод присоединения: " + joinCode);  // Render template "Group created, head password is: <pwd>
 }
 std::string GroupAPI::Get(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
     return "";  // Delete
