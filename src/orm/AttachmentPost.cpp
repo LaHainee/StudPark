@@ -16,11 +16,6 @@ int AttachmentPost::AddAttachmentPost(SQLWrapper &db, int post_id, const std::st
 }
 
 std::vector<AttachmentPost> AttachmentPost::GetAttachmentPost(SQLWrapper &db, int post_id) {
-    if (check_existence(db, "attachment_post", "post_id", post_id)) {
-        std::vector<AttachmentPost> result;
-        return result;
-    }
-
     db << "SELECT * FROM attachment_post WHERE post_id = " << post_id << ";";
     db.exec();
     int i = 0;

@@ -13,10 +13,6 @@ int Contact::AddContact(SQLWrapper &db, const int contact_type, const std::strin
 }
 
 std::vector<Contact> Contact::GetContacts(SQLWrapper &db, int user_id) {
-    if (check_existence(db, "contacts", "user_id", user_id)) {
-        std::vector<Contact> result;
-        return result;
-    }
     db << "SELECT * FROM contacts WHERE user_id = " << user_id << ";";
     db.exec();
     int i = 0;

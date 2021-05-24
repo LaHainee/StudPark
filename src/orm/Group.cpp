@@ -39,11 +39,6 @@ Group Group::GetGroupById(SQLWrapper &db, int group_id) {
 }
 
 std::vector<Student> Group::GetMembers(SQLWrapper &db, int group_id) {
-    if (check_existence(db, "\"group\"", "id", group_id)) {
-        std::vector<Student> result;
-        return result;
-    }
-
     db << "SELECT * FROM student WHERE group_id = '" << group_id << "' ORDER BY second_name;";
     db.exec();
     int i = 0;
@@ -80,11 +75,6 @@ int Group::GetGroupByJoinCode(SQLWrapper &db, const std::string &join_code) {
 }
 
 std::vector<Student> Group::GetPostNotificationSubscribers(SQLWrapper &db, int id) {
-    if (check_existence(db, "\"group\"", "id", id)) {
-        std::vector<Student> result;
-        return result;
-    }
-
     db << "SELECT * FROM student WHERE group_id = '" << id << "' AND notification = 'true';";
     db.exec();
     int i = 0;

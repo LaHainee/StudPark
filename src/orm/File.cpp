@@ -17,10 +17,6 @@ void File::DeleteFile(SQLWrapper &db, int file_id) {
 }
 
 std::vector<std::pair<int,std::string>> File::GetListFiles(SQLWrapper &db, int user_id) {
-    if (check_existence(db, "file", "owner", user_id)) {
-        std::vector<std::pair<int,std::string>> result;
-        return result;
-    }
     db << "SELECT id, name FROM file WHERE owner = " << user_id << ";";
     db.exec();
     int i = 0;
