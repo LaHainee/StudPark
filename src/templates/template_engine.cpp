@@ -5,16 +5,20 @@ std::string TemplateEngine::RenderTemplate(const json& data, const std::string& 
     env.set_statement("{%", "%}");
     Template temp = env.parse_template("../templates/" + templateToParse);
     env.write(temp, data, "../created_templates/" + templateToParse);
-    /*std::string result = env.render(temp, data);
-    std::cout << result << std::endl;*/
-    return templateToParse + " rendered ";
+    return "Created";
 }
 
-std::string TemplateEngine::RenderPosts(SQLWrapper &wrapper, const std::vector<Post>& posts) {
-    json data;
-    data["posts"] = {};
+std::string TemplateEngine::RenderPosts(SQLWrapper &wrapper, int groupId, bool isLeader) {
+    json data {
+            {"isLeader", isLeader},
+            {"group_name", Group::GetGroupName(wrapper, groupId)},
+            {"posts",
+                {}
+            }
+    };
+    std::vector<Post> posts = Post::GetPostsByIdGroup(wrapper, groupId);
     for (const auto& post : posts) {
-        std::string author = (Student::GetStudentById(wrapper, post.owner).second_name +
+        std::string author = (Student::GetStudentById(wrapper, post.owner).second_name + " " +
                 Student::GetStudentById(wrapper, post.owner).first_name);
         data["posts"] += {
             {"title", post.post_head},
@@ -133,6 +137,27 @@ std::string TemplateEngine::RenderErrors(const std::string &error) {
     return "Errors rendered\n";
 }
 
+std::string TemplateEngine::RenderSubjectsList(SQLWrapper &wrapper, int groupId) {
+    json data {
+        {"group_name", Group::GetGroupName(wrapper, groupId)},
+        {"subjects",
+            {}
+        }
+    };
+    int index = 1;
+    std::vector<Subject> subjects = Subject::ListSubject(wrapper, groupId);
+    for (auto &subject : subjects) {
+        data["subjects"] += {
+            {"index", index},
+            {"id", subject.id},
+            {"name", subject.subject}
+        };
+        index += 2;
+    }
+    std::cout << RenderTemplate(data, "subjects_list.html") << std::endl;
+    return "Subjects list rendered\n";
+}
+
 int main() {
     json data;
     TemplateEngine templateEngine;
@@ -144,15 +169,17 @@ int main() {
 
 
     // Рендеринг профиля
-    std::cout << templateEngine.RenderProfile(wrapper, contacts, student) << std::endl;
+    //std::cout << templateEngine.RenderProfile(wrapper, contacts, student) << std::endl;
     // Рендеринг настроек
-    std::cout << templateEngine.RenderSettings(wrapper, contacts, student) << std::endl;
+    // std::cout << templateEngine.RenderSettings(wrapper, contacts, student) << std::endl;
     // Рендеринг главной страницы
-    std::cout << templateEngine.RenderPosts(wrapper, posts) << std::endl;
+    std::cout << templateEngine.RenderPosts(wrapper, 3, false) << std::endl;
     // Рендеринг ошибок
-    std::cout << templateEngine.RenderErrors("Неправильный логин или пароль") << std::endl;
+    // std::cout << templateEngine.RenderErrors("Неправильный логин или пароль") << std::endl;
     // Рендеринг списка группы
-    std::cout << templateEngine.RenderGroupList(wrapper, 3);
+    // std::cout << templateEngine.RenderGroupList(wrapper, 3);*/
+    // Рендеринг списка дисциплин
+    // std::cout << templateEngine.RenderSubjectsList(wrapper, 3);
     return 0;
 }
 

@@ -24,13 +24,22 @@
         <div class="row">
             <!-- Left column with questions -->
             <div class="col">
+                <!-- Староста ?? -->
+                {% if isLeader %}
+                <form class="form-horizontal" action="#" method="post">
+                    <button type="submit" class="btn btn-secondary" style="width: 200px; font-size: 15px;">
+                        Добавить пост
+                    </button>
+                </form>
+                {% endif %}
+                <br>
                 <div class="row">
                     <div class="col">
-                        <h1 style="color: black;">Последние посты</h1>
+                        <h1 style="color: black;">Последние посты в группе {{ group_name }}</h1>
                     </div>
                 </div>
                 <br>
-                <!--One question -->
+                <!-- Посты -->
                 {% for post in posts %}
                 <div class="row">
                     <div class="col">

@@ -16,8 +16,7 @@ int main() {
 
     while (true) {
         std::this_thread::sleep_for(std::chrono::seconds(PERIOD));
-        secondsCounter += 10;
-        std::cout << "nope" << std::endl;
+        secondsCounter += PERIOD;
         for (int i = 0; i < testEmailsAmount; ++i) {
             SendMail::AddInQueue(
                     wrapper,

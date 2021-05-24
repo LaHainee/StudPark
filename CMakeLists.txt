@@ -32,6 +32,7 @@ add_executable(
         src/ORM/Student.cpp
         src/ORM/Contact.cpp
         src/ORM/Group.cpp
+        src/ORM/Subject.cpp
 )
 
 add_executable(
