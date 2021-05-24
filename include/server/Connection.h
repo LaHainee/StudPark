@@ -7,7 +7,6 @@
 #include "boost/asio.hpp"
 #include "boost/bind.hpp"
 #include "boost/logic/tribool.hpp"
-#include "Connection.h"
 
 #include "Transportation.h"
 

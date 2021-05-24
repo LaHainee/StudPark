@@ -23,7 +23,7 @@ Request::Request(const std::string &request) {
         parseDataFromPath();
     } else if (_method == "POST") {
         parseDataFromBody(endHeaders, request.cend());
-        parseDataPost();
+//        parseDataPost();
     }
 }
 
@@ -82,11 +82,14 @@ void Request::parseDataFromBody(const std::string::const_iterator &begin, const 
     std::string::const_iterator start = begin;
     start++;
     std::string contentType = header("Content-Type");
-    if (contentType == "application/x-www-form-urlencoded") {
+    std::cout << "CONTENT TYPE " << contentType << std::endl;
+    if (contentType == "application/x-www-form-urlencoded" || contentType == "application/x-www-form-urlencoded; charset=UTF-8") {
+        std::cout << "urlencoded" << std::endl;
         std::regex parameter(R"(([^&]+)=([^&]+))");
         std::sregex_iterator parameterMatch(start, end, parameter);
         std::sregex_iterator none;
         while (parameterMatch != none) {
+            std::cout << parameterMatch->format("$2") << std::endl;
             _data.insert({parameterMatch->format("$1"), urlDecode(parameterMatch->format("$2"))});
             parameterMatch++;
         }
@@ -111,7 +114,7 @@ std::string Request::data() {
     return body;
 }
 
-std::unordered_multimap<std::string, std::string> Request::dataTable() {
+std::unordered_map<std::string, std::string> Request::dataTable() {
     return _data;
 }
 
@@ -130,14 +133,16 @@ void Request::parseCookies() {
 }
 
 void Request::parseDataPost() {
-    std::string dataPostStr = header("Data");
+    std::string dataPostStr = body;
+    std::cout << "HEADER" << header("Data") << std::endl;
     if (dataPostStr.empty()) {
         return;
     }
-    std::regex parameter(R"(([^\n\r\t\0\s;]+?)=([^\n\r\t\0\s;]+))");
+    std::regex parameter(R"(([^&]+)=([^&]+))");
     std::sregex_iterator parameterMatch(dataPostStr.cbegin(), dataPostStr.cend(), parameter);
     std::sregex_iterator none;
     while(parameterMatch != none) {
+        std::cout << "MATCHED" << std::endl;
         dataPosts[boost::to_lower_copy(parameterMatch->format("$1"))] = parameterMatch->format("$2");
         parameterMatch++;
     }
@@ -174,4 +179,8 @@ void Request::replacePlusToSpace(std::string &str) {
         }
         it++;
     }
+}
+
+std::unordered_map<std::string, std::string> Request::getData() const {
+    return _data;
 }

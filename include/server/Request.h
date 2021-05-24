@@ -14,14 +14,14 @@ public:
     std::string data();
     std::string cookie(const std::string & key);
     std::string dataPost(const std::string & key);
-    std::unordered_multimap<std::string, std::string> dataTable();
-
+    std::unordered_map<std::string, std::string> dataTable();
+    std::unordered_map<std::string, std::string> getData() const;
 private:
     std::string _method;
     std::string _path;
     std::string body;
     std::unordered_multimap<std::string, std::string> headers;
-    std::unordered_multimap<std::string, std::string> _data;
+    std::unordered_map<std::string, std::string> _data;
     std::unordered_map<std::string, std::string> cookies;
     std::unordered_map<std::string, std::string> dataPosts;
 

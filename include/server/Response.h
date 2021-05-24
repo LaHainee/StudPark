@@ -45,7 +45,7 @@ public:
     Response(const Response& other);
 
     std::string str();
-    void setCookie(const std::string &key, const std::string &value, const int &daysExpires = 0);
+    void setCookie(const std::string &key, const std::string &value);
     void setHeader(const std::string &key, const std::string &value);
     void setStatus(const int &status);
 private:

@@ -18,7 +18,6 @@ void Connection::start() {
 
 void Connection::doRead(const boost::system::error_code& error, std::size_t bytes_transferred) {
     if (!error) {
-        std::cout << std::string(buffer_.begin(), buffer_.end()) << std::endl;
         Request request_(std::string(buffer_.begin(), buffer_.end()));
 
         Response response_;  // default 200

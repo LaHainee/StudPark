@@ -28,7 +28,7 @@ Server::Server(const std::string &addr, const std::string &port):
 void Server::startServer() {
     std::vector<std::thread> threads;
 
-    for (unsigned int i = 0; i < 1; i++) {
+    for (unsigned int i = 0; i < 4; i++) {
         threads.emplace_back([service = &service_] { service->run();});
     }
 

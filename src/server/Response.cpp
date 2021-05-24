@@ -3,7 +3,7 @@
 #include <sstream>
 #include "Response.h"
 
-void Response::setCookie(const std::string &key, const std::string &value, const int &daysExpires) {
+void Response::setCookie(const std::string &key, const std::string &value) {
     std::string _value = value;
     cookies[key] = _value;
 }
@@ -47,7 +47,7 @@ void Response::headersToStream(std::stringstream & ss) {
 
 void Response::cookiesToStream(std::stringstream &ss) {
     for (auto &pair : cookies) {
-        ss << "Set-Cookie: " << pair.first << "=" << pair.second << "\r\n";
+        ss << "Set-Cookie: " << pair.first << "=" << pair.second << "; Path=/" << "\r\n";
     }
 }
 
@@ -100,4 +100,3 @@ Response::Response(const Response &other) {
     body = other.body;
     statusCode = other.statusCode;
 }
-
