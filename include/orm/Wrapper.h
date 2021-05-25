@@ -41,6 +41,7 @@ public:
     int get_int(int field_num, int tup_num = 0);
     bool get_bool(int field_num, int tup_num = 0);
     time_t get_time_t(int field_num, int tup_num = 0);
+    void update_semester();
 
 private:
     PGconn *conn;

@@ -17,7 +17,7 @@ public:
             subject(subject_id){}
     static int AddDeadline(SQLWrapper &db, const std::string &name, int subject_id, const std::string &date_deadline_user);
     static void DeleteDeadline(SQLWrapper &db, int deadline_id);
-    static std::vector<Deadline> GetDeadlines(SQLWrapper &db, int subject_id);
+    static std::vector<Deadline> GetDeadlines(SQLWrapper &db, int group_id);
 
     int id;
     std::string name;

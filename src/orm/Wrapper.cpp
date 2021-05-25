@@ -52,3 +52,15 @@ time_t SQLWrapper::get_time_t(int field_num, int tup_num) {
 int SQLWrapper::count_tuples() {
     return PQntuples(result);
 }
+
+void SQLWrapper::update_semester() {
+//    std::string query_clear = "UPDATE \"group\" SET semester = semester + 1 WHERE semester < 10; SELECT setval('deadline_id_seq', 1, false) FROM public.deadline; SELECT setval('subject_id_seq', 1, false) FROM public.subject; DELETE FROM deadline; DELETE FROM subject;";
+    std::string query_clear = "UPDATE \"group\" SET semester = semester + 1 WHERE semester < 10; DELETE FROM deadline; DELETE FROM subject;";
+    result = PQexec(conn, query_clear.c_str());
+    if (PQresultStatus(result) != PGRES_COMMAND_OK && PQresultStatus(result) != PGRES_TUPLES_OK) {
+        std::cout << strError(conn, result, query_clear.c_str()) << std::endl;
+        disconnect();
+        throw std::runtime_error("db error");
+    }
+
+}

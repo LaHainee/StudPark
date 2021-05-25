@@ -77,6 +77,7 @@ public:
     static Student GetStudentBySession(SQLWrapper &db, const std::string &session);
     static int GetIdByLoginPassword(SQLWrapper &db, const std::string &login, const std::string &password);
     static void UpdateStudent(SQLWrapper &db, const std::map<std::string, std::string>&data);
+    std::string FullName();
 
     std::string first_name;
     std::string second_name;

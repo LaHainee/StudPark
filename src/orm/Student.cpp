@@ -132,3 +132,7 @@ void Student::UpdateStudent(SQLWrapper &db, const std::map<std::string, std::str
     db << "' WHERE id = " << data.at("id") << ";";
     db.exec();
 }
+
+std::string Student::FullName() {
+    return first_name + ' ' + second_name;
+}

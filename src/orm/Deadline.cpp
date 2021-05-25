@@ -16,7 +16,7 @@ void Deadline::DeleteDeadline(SQLWrapper &db, int deadline_id) {
 }
 
 std::vector<Deadline> Deadline::GetDeadlines(SQLWrapper &db, int group_id) {
-    db << "SELECT deadline.id, name, subject_id, time_deadline FROM deadline INNER JOIN subject ON subject.id = deadline.subject_id WHERE subject.group_id = " << group_id << ";";
+    db << "SELECT deadline.id, name, time_deadline, subject_id FROM deadline INNER JOIN subject ON subject.id = deadline.subject_id WHERE subject.group_id = " << group_id << ";";
     db.exec();
     int i = 0;
     std::vector<Deadline> result;
@@ -24,7 +24,7 @@ std::vector<Deadline> Deadline::GetDeadlines(SQLWrapper &db, int group_id) {
         Deadline request(
                 db.get_int(0, i),
                 db.get_str(1, i),
-                db.get_str(2,i),
+                db.get_str(2, i),
                 db.get_int(3, i));
         result.push_back(request);
         i++;
