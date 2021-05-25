@@ -14,8 +14,6 @@ $(document).ready(function(){
     $("#add-button").click({date: date}, new_event);
     // Set current month as active
     $(".months-row").children().eq(date.getMonth()).addClass("active-month");
-    
-
     init_calendar(date);
     var events = check_events(today, date.getMonth()+1, date.getFullYear());
     show_events(events, months[date.getMonth()], today);
@@ -150,8 +148,15 @@ function new_event(event) {
             $("#name").addClass("error-input");
         }
         else {
+    
+            const time_regex = new RegExp('[0-2]?[0-9]:[0-5][0-9]');
+            const hours_regex = new RegExp('[4-9]');
+            if (!time.match(time_regex) || (time.length == 5 && time[1].match(hours_regex))) {
+                alert("Проверьте правильность ввода времени");
+                return;
+            }
             $("#dialog").hide(250);
-            
+    
             new_event_json(name, time, date, day, discipline);
             date.setDate(day);
             init_calendar(date);
@@ -229,19 +234,27 @@ function check_events(day, month, year) {
 }
 
 function get_subjects() {
-    $.get( "/GroupAPI/GetSubjects", function( data ) {
-     
-     var json = JSON.parse(data);
-     json["subjects"].forEach(e=>{
-        
-        subjects.push(e);
-        $("#discipline").append(`<option value="${e.id}">${e.name}</option>`);
-     });
+    
+    $.ajax({
+        type: 'GET',
+        url: '/GroupAPI/GetSubjects',
+        success: (data) => {
+         var json = JSON.parse(data);
+         json["subjects"].forEach(e=>{
+            subjects.push(e);
+            $("#discipline").append(`<option value="${e.id}">${e.name}</option>`);
+         });
+        },
+        async: false
     });
 }
 
 function get_deadlines() {
-    $.get( "/GroupAPI/GetDeadlines", function( data ) {
+
+    $.ajax({
+        type: 'GET',
+        url: '/GroupAPI/GetDeadlines',
+        success: (data) => {
      var json = JSON.parse(data);
      json["deadlines"].forEach(e=>{
         var date = new Date(e.date);
@@ -256,9 +269,11 @@ function get_deadlines() {
             "discipline": subjects.find(x => x.id == e.subject)['name'],
         });
      });
-     let today = new Date();
-     init_calendar(today);
+    },
+        async: false
     });
+
+    $.get( "/GroupAPI/GetDeadlines",  );
 }
 
 // Given data for events in JSON format

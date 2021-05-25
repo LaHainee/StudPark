@@ -15,44 +15,13 @@
             <div class="row">
                 <div class="col">
                     {% if isAuthenticated %}
-                    <div class="row">
-                        <div class="col-4">
-                            <p style="font-size: 20px; color: white;">
-                                Вы авторизовались как
-                                <!-- Добавить ссылку? -->
-                                {{ user }}
-                            </p>
-                        </div>
-                        <div class="col-4" style="margin-top: 10px;">
-                            <!-- Добавить ссылку -->
-                            <button type="button" class="btn btn-light" style="width: 200px; font-size: 20px;">
-                                Настройки
-                            </button>
-                        </div>
-                        <div class="col-4" style="margin-top: 10px;">
-                            <!-- Добавить ссылку -->
-                            <button type="button" class="btn btn-light" style="width: 200px; font-size: 20px;">
-                                Выход
-                            </button>
-                        </div>
-                    </div>
+                        {% if role == 2 %}
+                            {% include "superuserButtonsList.html" %}
+                        {% else %}
+                            {% include "userButtonsList.html" %}
+                        {% endif %}
                     {% else %}
-                    <div class="row">
-                        <div class="col-4" style="margin-top: 10px;">
-                            <a href="/login">
-                            <button type="button" class="btn btn-light" style="width: 200px; font-size: 20px;">
-                                Авторизация
-                            </button>
-                            </a>
-                        </div>
-                        <div class="col-4" style="margin-top: 10px;">
-                            <a href="/signup">
-                            <button type="button" class="btn btn-light" style="width: 200px; font-size: 20px;">
-                                Регистрация
-                            </button>
-                            </a>
-                        </div>
-                    </div>
+                        {% include "anonymousButtonsList.html" %}
                     {% endif %}
                 </div>
             </div>
