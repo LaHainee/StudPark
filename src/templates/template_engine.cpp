@@ -9,7 +9,7 @@ std::string TemplateEngine::RenderTemplate(const json& data, const std::string& 
 }
 
 std::string TemplateEngine::RenderProfile(SQLWrapper &wrapper, const std::vector<Contact> &contacts,
-                                          const Student& student, bool isAuthenticated, const std::string &user) {
+                                          const Student& student, bool isAuthenticated=false, std::string user="") {
     json data {
             {"isAuthenticated", isAuthenticated},
             {"user", user},
@@ -43,7 +43,7 @@ std::string TemplateEngine::RenderProfile(SQLWrapper &wrapper, const std::vector
 }
 
 std::string TemplateEngine::RenderSettings(SQLWrapper &wrapper, const std::vector<Contact> &contacts,
-                                           const Student &student, bool isAuthenticated, const std::string &user) {
+                                           const Student &student, bool isAuthenticated=false, std::string user="") {
     json data {
             {"isAuthenticated", isAuthenticated},
             {"user", user},
@@ -74,7 +74,7 @@ std::string TemplateEngine::RenderSettings(SQLWrapper &wrapper, const std::vecto
     return RenderTemplate(data, "settings.html"); 
 }
 
-std::string TemplateEngine::RenderGroupList(SQLWrapper &wrapper, int groupId, bool isAuthenticated, const std::string &user) {
+std::string TemplateEngine::RenderGroupList(SQLWrapper &wrapper, int groupId, bool isAuthenticated=false, std::string user="") {
     std::vector<Student> students = Group::GetMembers(wrapper, groupId);
     json data {
         {"isAuthenticated", isAuthenticated},
@@ -107,7 +107,7 @@ std::string TemplateEngine::RenderGroupList(SQLWrapper &wrapper, int groupId, bo
     return RenderTemplate(data, "group_list.html");
 }
 
-std::string TemplateEngine::RenderErrors(const std::string &error, bool isAuthenticated, const std::string &user) {
+std::string TemplateEngine::RenderErrors(const std::string &error, bool isAuthenticated=false, std::string user="") {
     json data {
         {"isAuthenticated", isAuthenticated},
         {"user", user},
@@ -116,7 +116,7 @@ std::string TemplateEngine::RenderErrors(const std::string &error, bool isAuthen
     return RenderTemplate(data, "errors.html");
 }
 
-std::string TemplateEngine::RenderLoginPage(bool isAuthenticated, const std::string &user) {
+std::string TemplateEngine::RenderLoginPage(bool isAuthenticated=false, std::string user="") {
     json data{
         {"isAuthenticated", isAuthenticated},
         {"user", user},
@@ -124,7 +124,7 @@ std::string TemplateEngine::RenderLoginPage(bool isAuthenticated, const std::str
     return RenderTemplate(data, "login.html");
 }
 
-std::string TemplateEngine::RenderAdminPage(bool isAuthenticated, const std::string &user) {
+std::string TemplateEngine::RenderAdminPage(bool isAuthenticated=false, std::string user="") {
     json data{
         {"isAuthenticated", isAuthenticated},
         {"user", user},
@@ -132,7 +132,7 @@ std::string TemplateEngine::RenderAdminPage(bool isAuthenticated, const std::str
     return RenderTemplate(data, "admin_panel.html");
 }
 
-std::string TemplateEngine::RenderSignupPage(bool isAuthenticated, const std::string &user) {
+std::string TemplateEngine::RenderSignupPage(bool isAuthenticated=false, std::string user="") {
     json data{
         {"isAuthenticated", isAuthenticated},
         {"user", user},
@@ -141,7 +141,7 @@ std::string TemplateEngine::RenderSignupPage(bool isAuthenticated, const std::st
 }
 
 std::string TemplateEngine::RenderPosts(
-        SQLWrapper &wrapper, int groupId, bool isLeader, bool isAuthenticated, const std::string &user) {
+        SQLWrapper &wrapper, int groupId, bool isLeader, bool isAuthenticated=false, std::string user="") {
     json data {
             {"isLeader", isLeader},
             {"isAuthenticated", isAuthenticated},
