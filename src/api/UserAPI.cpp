@@ -3,7 +3,7 @@
 #include "Group.h"
 
 std::string UserAPI::Login() {
-    return render.RenderLoginPage();
+    return templates.RenderLoginPage();
 }
 
 std::string UserAPI::Create(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
@@ -12,25 +12,25 @@ std::string UserAPI::Create(const std::unordered_map<std::string, std::string> &
     std::string email = data.find("user_login")->second;
     if (!emailIsValid(email)) {
         std::cout << "Email is invalid" << std::endl;
-        return render.RenderErrors("Формат Email неверный");
+        return templates.RenderErrors("Формат Email неверный");
     }
-//    if (!passwordMeetsRequirements(password)) {
-//        std::cout << "Password does not meet the requirements" << std::endl;
-//        // Render template `error(wrong_password)`
-//        return "";
-//    }
+   // if (!passwordMeetsRequirements(password)) {
+   //     std::cout << "Password does not meet the requirements" << std::endl;
+   //     // Render template `error(wrong_password)`
+   //     return "";
+   // }
     int groupID;
     try {
         groupID = Group::GetGroupByJoinCode(db, data.find("join_code")->second);
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
-        return render.RenderErrors("Неверный код доступа");
+        return templates.RenderErrors("Неверный код доступа");
     }
 
     int userID = Student::AddStudentRegistration(db, data.find("f_name")->second, data.find("s_name")->second,
                               data.find("user_patronymic")->second, email,
                               password_enc, groupID, data.find("birthday")->second, Student::Roles::STUDENT);
-    return std::string(std::to_string(userID));
+    return "";
 }
 
 std::string UserAPI::Get(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
@@ -56,12 +56,12 @@ std::pair<std::string, std::string> UserAPI::Authenticate(const std::unordered_m
         int session = Session::AddSession(db, student, token, time(nullptr));
         std::cout << "New session: " << token << std::endl;
         if (Student::GetStudentById(db, student).role == Student::Roles::ADMIN) {
-            return {token, render.RenderAdminPage()};
+            return {token, templates.RenderAdminPage()};
         } else {
             return {token, "FEED"};
         }
     } else {
-        return {"", render.RenderErrors("Проверьте правильность ввода логина и пароля")};
+        return {"", templates.RenderErrors("Проверьте правильность ввода логина и пароля")};
     }
 }
 
@@ -112,5 +112,5 @@ bool UserAPI::passwordMeetsRequirements(std::string &password) {
 }
 
 std::string UserAPI::SignupPage() {
-    return render.RenderSignupPage();
+    return templates.RenderSignupPage();
 }

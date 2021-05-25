@@ -7,12 +7,12 @@ std::string GroupAPI::CreatePage(const std::unordered_map<std::string, std::stri
     try {
         admin = Student::GetStudentBySession(db, data.find("session")->second);
     } catch (std::exception &e) {
-        return render.RenderErrors(e.what());
+        return templates.RenderErrors(e.what());
     }
     if (admin.role != Student::Roles::ADMIN) {
-        return render.RenderErrors("Недостаточно прав");
+        return templates.RenderErrors("Недостаточно прав");
     }
-    return render.RenderAdminPage();
+    return templates.RenderAdminPage();
 }
 
 std::string GroupAPI::Create(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
@@ -21,11 +21,11 @@ std::string GroupAPI::Create(const std::unordered_map<std::string, std::string> 
         admin = Student::GetStudentBySession(db, data.find("session")->second);
     } catch (std::exception &e) {
         std::cout << "ERROR" << e.what() << std::endl;
-        return render.RenderErrors(e.what());
+        return templates.RenderErrors(e.what());
     }
     std::cout << admin.role << std::endl;
     if (admin.role != Student::Roles::ADMIN) {
-        return render.RenderErrors("Недостаточно прав");
+        return templates.RenderErrors("Недостаточно прав");
     }
     std::string joinCode = randomString(8);
     std::string faculty = data.find("user_faculty")->second;
@@ -54,7 +54,7 @@ std::string GroupAPI::Create(const std::unordered_map<std::string, std::string> 
             std::cout << e.what() << std::endl;
     }
 
-    return render.RenderErrors("Пароль старосты: " + password + "\nКод присоединения: " + joinCode);  // Render template "Group created, head password is: <pwd>
+    return templates.RenderErrors("Пароль старосты: " + password + "\nКод присоединения: " + joinCode);  // Render template "Group created, head password is: <pwd>
 }
 std::string GroupAPI::Get(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
     return "";  // Delete
@@ -121,7 +121,7 @@ int GroupAPI::AddDeadline(const std::unordered_map<std::string, std::string> &da
     Student admin = getStudentBySession(session, db);
     std::string time = data.find("time")->second;
     std::string deadlineName = data.find("name")->second;
-    if (admin.role == Student::Roles::LEADER) {
+    if (admin.role == Student::Roles::LEADER || admin.role == Student::Roles::ADMIN) {
         try {
             Deadline::AddDeadline(db, deadlineName, std::stoi(data.find("subject")->second), time);
         } catch (std::exception &e) {
@@ -142,4 +142,55 @@ int GroupAPI::AddDeadline(const std::unordered_map<std::string, std::string> &da
         throw std::invalid_argument("Not enough privileges");
     }
     return 200;
+}
+
+std::string GroupAPI::GetDeadlines(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+    Student st;
+    try {
+        st = Student::GetStudentBySession(db, data.find("session")->second);
+    } catch (std::exception &e) {
+        return templates.RenderErrors(e.what());
+    }
+    std::vector<Deadline> deadlines;
+    try {
+        deadlines = Deadline::GetDeadlines(db, st.group_id);
+    } catch (std::exception &e) {
+        return templates.RenderErrors(e.what());
+    }
+    json dead;
+    dead["deadlines"] = {};
+    for (auto &e : deadlines) {
+        dead["deadlines"] += {
+            {"name", e.name},
+            {"subject", e.subject},
+            {"date", e.date_deadline},
+        };
+    }
+    return dead.dump();
+}
+
+std::string GroupAPI::GetSubjects(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+    Student st;
+    try {
+        st = Student::GetStudentBySession(db, data.find("session")->second);
+    } catch (std::exception &e) {
+        return templates.RenderErrors(e.what());
+    }
+    std::vector<Subject> subjects;
+    try {
+        subjects = Subject::ListSubject(db, st.group_id);
+    } catch (std::exception &e) {
+        return templates.RenderErrors(e.what());
+    }
+
+    json subj;
+    subj["subjects"] = {};
+    for (auto &e : subjects) {
+        subj["subjects"] += {
+            {"id", e.id},
+            {"name", e.subject},
+        };
+    }
+
+    return subj.dump();
 }

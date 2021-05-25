@@ -1,5 +1,6 @@
 #include "PostAPI.h"
-#include "Post.h"
+
+TemplateEngine templates;
 
 std::string PostAPI::Create(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
     Student admin;
@@ -26,7 +27,7 @@ std::string PostAPI::Create(const std::unordered_map<std::string, std::string> &
 }
 
 std::string PostAPI::Get(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
-    return "";  // Single post page, probably not implemented
+    return "";  // Single post page, not implemented
 }
 std::string PostAPI::Update(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
     return "";  // Not implemented
@@ -60,4 +61,21 @@ int PostAPI::DeletePostComment(const std::unordered_map<std::string, std::string
     Student st = Student::GetStudentBySession(db, data.find("session")->second);
     Comment::DeleteComment(db, std::stoi(data.find("id")->second));
     return 200;
+}
+
+std::string PostAPI::Feed(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+    Student st;
+    std::vector<Post> posts;
+    try {
+        st = Student::GetStudentBySession(db, data.find("session")->second);
+    } catch (std::exception &e) {
+        return templates.RenderErrors(e.what());
+    }
+    try {
+        posts = Post::GetPostsByIdGroup(db, st.group_id);
+    } catch (std::exception &e) { 
+        return templates.RenderErrors(e.what());
+    }
+
+    return templates.RenderPosts(db, posts);
 }

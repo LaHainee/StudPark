@@ -1,5 +1,4 @@
 #include "API.h"
-#include "Wrapper.h"
 #include "openssl/sha.h"
 #include "Utils.h"
 #include "Session.h"
@@ -7,8 +6,6 @@
 #include <map>
 #include <string>
 #include <regex>
-
-using json = nlohmann::json;
 
 class UserAPI : API {
 public:
