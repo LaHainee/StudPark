@@ -29,4 +29,4 @@ public:
     bool deleted;
 };
 
-#endif //PROJECT_RECORDING_LABORATORY_WORK_H
+#endif // PROJECT_RECORDING_LABORATORY_WORK_H

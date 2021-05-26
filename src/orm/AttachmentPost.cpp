@@ -16,7 +16,7 @@ int AttachmentPost::AddAttachmentPost(SQLWrapper &db, int post_id, const std::st
 }
 
 std::vector<AttachmentPost> AttachmentPost::GetAttachmentPost(SQLWrapper &db, int post_id) {
-    db << "SELECT * FROM attachment_post WHERE post_id = " << post_id << ";";
+    db << "SELECT * FROM attachment_post WHERE post_id = " << post_id << " AND deleted = false;";
     db.exec();
     int i = 0;
     std::vector<AttachmentPost> result;

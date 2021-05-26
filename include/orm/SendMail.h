@@ -12,8 +12,7 @@ public:
         const std::string &_recipient,
         const std::string &_head_mail,
         const std::string &_body_mail,
-        time_t _time_send
-        ) :
+        time_t _time_send) :
         id(_id),
         recipient(_recipient),
         head_mail(_head_mail),
@@ -30,4 +29,4 @@ public:
     std::string body_mail;
     time_t time_send;
 };
-#endif //PROJECT_SENDMAIL_H
+#endif // PROJECT_SENDMAIL_H

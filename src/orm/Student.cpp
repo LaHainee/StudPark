@@ -7,9 +7,6 @@
 int Student::AddStudentRegistration(SQLWrapper &db, const std::string &f_name, const std::string &s_name,
                                  const std::string &user_patronymic, const std::string &user_login,
                                  const std::string &user_password, int group_id, const std::string &birthday, int user_role) {
-    if (SearchLogin(db, user_login)) {
-        return REPEAT_LOGIN;
-    }
     if (check_existence(db, "\"group\"", "id", group_id)) {
         throw std::length_error("ERROR: FIELD group.id NOT FOUND");
     }
@@ -39,7 +36,7 @@ Student Student::GetStudentById(SQLWrapper &db, int user_id) {
     if (check_existence(db, "student", "id", user_id)) {
         throw std::length_error("ERROR: FIELD student.id NOT FOUND");
     }
-    db << "SELECT * FROM student WHERE id = " << user_id << ";";
+    db << "SELECT * FROM student WHERE id = " << user_id << " AND deleted = false;";
     db.exec();
     Student result(db.get_str(0),
                    db.get_str(1),
@@ -60,12 +57,6 @@ Student Student::GetStudentById(SQLWrapper &db, int user_id) {
                    db.get_bool(16),
                    db.get_str(17));
     return result;
-}
-
-bool Student::SearchLogin(SQLWrapper &db, const std::string& login) {
-    db << "SELECT login FROM student WHERE login = '" << login << "';";
-    db.exec();
-    return db.count_tuples() > 0;
 }
 
 void Student::UpdateStudentExtra(SQLWrapper &db, int user_id, bool user_hostel,
@@ -92,7 +83,7 @@ Student Student::GetStudentBySession(SQLWrapper &db, const std::string &session)
     if (check_existence(db, "session", "user_session", session)) {
         throw std::length_error("ERROR: FIELD session.user_session NOT FOUND ");
     }
-    db << "SELECT * FROM student WHERE id = (SELECT user_id FROM session WHERE user_session = '" << session << "');";
+    db << "SELECT * FROM student WHERE id = (SELECT user_id FROM session WHERE user_session = '" << session << "') AND deleted = false;";
     db.exec();
     Student result(db.get_str(0),
                    db.get_str(1),

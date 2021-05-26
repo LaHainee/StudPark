@@ -19,7 +19,7 @@ public:
             post_body(body),
             owner(user_id),
             deleted(_deleted),
-            created(_created) {};
+            created(_created) {}
     static Post GetPost(SQLWrapper &db, int post_id);
     static int AddPost(SQLWrapper &db, const std::string &head, const std::string &body, int user_id, time_t created);
     static void DeletePost(SQLWrapper &db, int id);
@@ -33,4 +33,4 @@ public:
     time_t created;
 };
 
-#endif //PROJECT_POST_H
+#endif // PROJECT_POST_H

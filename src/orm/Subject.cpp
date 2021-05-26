@@ -3,7 +3,6 @@
 #include "utils_wrapper.hpp"
 
 int Subject::AddSubject(SQLWrapper &db, const std::string &subject, int group_id) {
-
     db << "INSERT INTO subject (subject, group_id) values ('"
     << subject << "', "
     << group_id
@@ -15,7 +14,6 @@ int Subject::AddSubject(SQLWrapper &db, const std::string &subject, int group_id
 void Subject::DeleteSubject(SQLWrapper &db, int subject_id) {
     db << "DELETE FROM subject WHERE id = " << subject_id << ";";
     db.exec();
-
 }
 
 std::vector<Subject> Subject::ListSubject(SQLWrapper &db, int group_id) {
@@ -33,4 +31,3 @@ std::vector<Subject> Subject::ListSubject(SQLWrapper &db, int group_id) {
     }
     return result;
 }
-

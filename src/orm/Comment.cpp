@@ -30,7 +30,7 @@ void Comment::DeleteComment(SQLWrapper &db, int comment_id) {
 }
 
 std::vector<Comment> Comment::GetComment(SQLWrapper &db, int post_id) {
-    db << "SELECT * FROM comment WHERE post_id = " << post_id << ";";
+    db << "SELECT * FROM comment WHERE post_id = " << post_id << " AND deleted = false;";
     db.exec();
     int i = 0;
     std::vector<Comment> result;

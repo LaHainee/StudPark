@@ -1,7 +1,6 @@
 #ifndef PROJECT_SESSION_H
 #define PROJECT_SESSION_H
 
-
 #include <string>
 #include "Wrapper.h"
 
@@ -11,8 +10,7 @@ public:
         int _id,
         int _user_id,
         const std::string &_session,
-        time_t _time_end
-        ) :
+        time_t _time_end) :
         id(_id),
         user_id(_user_id),
         session(_session),
@@ -25,4 +23,4 @@ public:
     std::string session;
     time_t time_end;
 };
-#endif //PROJECT_SESSION_H
+#endif // PROJECT_SESSION_H

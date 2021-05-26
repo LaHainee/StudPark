@@ -62,5 +62,4 @@ void SQLWrapper::update_semester() {
         disconnect();
         throw std::runtime_error("db error");
     }
-
 }

@@ -20,7 +20,7 @@ public:
     };
     enum FormEducational {
         FREE = 0,
-        target= 1,
+        TARGET = 1,
         PAY = 2
     };
     enum ERROR {
@@ -44,7 +44,7 @@ public:
         time_t date_reg,
         int user_form_educational,
         bool _notification,
-        const std::string &_birthday):
+        const std::string &_birthday) :
         id(user_id),
         first_name(f_name),
         second_name(s_name),
@@ -62,7 +62,7 @@ public:
         date_registration(date_reg),
         form_educational(user_form_educational),
         notification(_notification),
-        birthday(_birthday){}
+        birthday(_birthday) {}
         Student() = default;
     static int AddStudentRegistration(SQLWrapper &db, const std::string &f_name, const std::string &s_name,
             const std::string &user_patronymic, const std::string &user_login,
@@ -97,8 +97,6 @@ public:
     int form_educational;
     bool notification;
     std::string birthday;
-private:
-    static bool SearchLogin(SQLWrapper &db, const std::string& login);
 };
 
-#endif //PROJECT_USER_H
+#endif // PROJECT_USER_H

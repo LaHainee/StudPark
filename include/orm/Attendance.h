@@ -14,7 +14,7 @@ public:
             id(id_attendance),
             user(user_id),
             subject(subject_id),
-            date_pass(date_pass_user){}
+            date_pass(date_pass_user) {}
     static int AddAttendance(SQLWrapper &db, int user_id, int subject_id, time_t date_pass);
     static void DeleteAttendance(SQLWrapper &db, int Attendance_id);
     static Attendance GetAttendance(SQLWrapper &db, int user_id, int subject_id);
@@ -25,4 +25,4 @@ public:
     int user;
 };
 
-#endif //PROJECT_ATTENDANCE_H
+#endif // PROJECT_ATTENDANCE_H

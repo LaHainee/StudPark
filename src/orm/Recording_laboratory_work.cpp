@@ -15,4 +15,3 @@ void Recording_laboratory_work::DeleteRecording(SQLWrapper &db, int record_id) {
     db << "DELETE FROM recording_laboratory_work WHERE id = " << record_id << ";";
     db.exec();
 }
-

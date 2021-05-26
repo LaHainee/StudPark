@@ -16,13 +16,13 @@ void File::DeleteFile(SQLWrapper &db, int file_id) {
     db.exec();
 }
 
-std::vector<std::pair<int,std::string>> File::GetListFiles(SQLWrapper &db, int user_id) {
+std::vector<std::pair<int, std::string>> File::GetListFiles(SQLWrapper &db, int user_id) {
     db << "SELECT id, name FROM file WHERE owner = " << user_id << ";";
     db.exec();
     int i = 0;
-    std::vector<std::pair<int,std::string>> result;
+    std::vector<std::pair<int, std::string>> result;
     while (db.count_tuples() > i) {
-        std::pair<int,std::string> request(
+        std::pair<int, std::string> request(
                         db.get_int(0, i),
                         db.get_str(1, i));
         result.push_back(request);

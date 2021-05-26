@@ -44,4 +44,4 @@ public:
     int user;
 };
 
-#endif //PROJECT_CONTACT_H
+#endif // PROJECT_CONTACT_H

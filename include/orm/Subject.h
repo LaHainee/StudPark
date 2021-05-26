@@ -22,4 +22,4 @@ public:
     std::string subject;
 };
 
-#endif //PROJECT_SUBJECT_H
+#endif // PROJECT_SUBJECT_H

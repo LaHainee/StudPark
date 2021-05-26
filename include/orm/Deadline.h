@@ -14,7 +14,7 @@ public:
             id(deadlines_id),
             name(_name),
             date_deadline(date_deadline_user),
-            subject(subject_id){}
+            subject(subject_id) {}
     static int AddDeadline(SQLWrapper &db, const std::string &name, int subject_id, const std::string &date_deadline_user);
     static void DeleteDeadline(SQLWrapper &db, int deadline_id);
     static std::vector<Deadline> GetDeadlines(SQLWrapper &db, int group_id);
@@ -25,4 +25,4 @@ public:
     int subject;
 };
 
-#endif //PROJECT_DEADLINE_H
+#endif // PROJECT_DEADLINE_H

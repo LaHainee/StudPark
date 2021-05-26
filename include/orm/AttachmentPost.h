@@ -21,7 +21,7 @@ public:
             post_id(_post_id),
             type(_type),
             name(file_name),
-            path(_path) {};
+            path(_path) {}
     static std::vector<AttachmentPost> GetAttachmentPost(SQLWrapper &db, int post_id);
     static int AddAttachmentPost(SQLWrapper &db, int post_id, const std::string &file_name,
             const std::string &path, int type = AttachmentPost::PHOTO);
@@ -34,4 +34,4 @@ public:
     std::string path;
 };
 
-#endif //PROJECT_ATTACHMENTPOST_H
+#endif // PROJECT_ATTACHMENTPOST_H

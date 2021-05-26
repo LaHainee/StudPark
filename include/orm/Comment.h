@@ -19,7 +19,7 @@ public:
             post_id(post),
             author_id(author),
             text(body_comment),
-            created(_created) {};
+            created(_created) {}
     static std::vector<Comment> GetComment(SQLWrapper &db, int post_id);
     static int AddComment(SQLWrapper &db, int post_id, int author_id, const std::string &body_comment);
     static void DeleteComment(SQLWrapper &db, int comment_id);
@@ -31,4 +31,4 @@ public:
     time_t created;
 };
 
-#endif //PROJECT_COMMENT_H
+#endif // PROJECT_COMMENT_H

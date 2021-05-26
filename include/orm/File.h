@@ -14,7 +14,7 @@ public:
             id(file_id),
             owner(owner_id),
             name(file_name),
-            salt(file_salt){}
+            salt(file_salt) {}
     static int AddFile(SQLWrapper &db, int owner_id, const std::string &file_name, const std::string &salt);
     static void DeleteFile(SQLWrapper &db, int user_id);
     static File GetFile(SQLWrapper &db, int user_id);
@@ -26,4 +26,4 @@ public:
     std::string salt;
 };
 
-#endif //PROJECT_FILE_H
+#endif // PROJECT_FILE_H

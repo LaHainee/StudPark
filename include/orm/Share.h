@@ -26,4 +26,4 @@ public:
     int file_fk;
 };
 
-#endif //PROJECT_SHARE_H
+#endif // PROJECT_SHARE_H

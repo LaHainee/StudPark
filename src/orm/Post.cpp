@@ -7,7 +7,7 @@ Post Post::GetPost(SQLWrapper &db, int post_id) {
     if (check_existence(db, "post", "id", post_id)) {
         throw std::length_error("ERROR: FIELD post.id NOT FOUND");
     }
-    db << "SELECT * FROM post WHERE id = " << post_id << ";";
+    db << "SELECT * FROM post WHERE id = " << post_id << " AND deleted = false;";
     db.exec();
     Post result(db.get_int(0),
                 db.get_str(1),
@@ -42,7 +42,7 @@ void Post::DeletePost(SQLWrapper &db, int id) {
 std::vector<Post> Post::GetPostsByIdGroup(SQLWrapper &db, int id) {
     db << "SELECT post.* FROM public.post join (select group_id, id from public.student) temp"
           " on post.owner=temp.id join (select id from public.group where id = " << id
-    << ") temp1 on temp.group_id=temp1.id;";
+    << ") temp1 on temp.group_id=temp1.id WHERE deleted = false;";
     db.exec();
     std::vector<Post> result;
     int i = 0;

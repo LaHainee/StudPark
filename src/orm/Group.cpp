@@ -5,7 +5,6 @@
 
 int Group::AddGroup(SQLWrapper &db, const std::string &user_faculty, int user_number_departament, int user_semester,
         int user_group_number, const std::string &education_level, const std::string &join_code, time_t start_week) {
-
     db << "INSERT INTO \"group\" (faculty, number_departament, semester,"
           " group_number, education_level, start_week, join_code) values ('"
             << user_faculty << "', "

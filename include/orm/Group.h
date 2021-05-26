@@ -17,8 +17,7 @@ public:
         int user_group_number,
         const std::string &_education_level,
         const std::string &_join_code,
-        time_t user_start_week
-        ) :
+        time_t user_start_week) :
         id(id_group),
         faculty(user_faculty),
         number_departament(user_number_departament),
@@ -26,7 +25,7 @@ public:
         group_number(user_group_number),
         education_level(_education_level),
         join_code(_join_code),
-        start_week(user_start_week){}
+        start_week(user_start_week) {}
     static int AddGroup(SQLWrapper &db, const std::string &user_faculty, int user_number_departament, int user_semester,
             int user_group_number, const std::string &education_level, const std::string &join_code, time_t start_week);
     static Group GetGroupById(SQLWrapper &db, int group_id);
@@ -45,4 +44,4 @@ public:
     time_t start_week;
 };
 
-#endif //PROJECT_GROUP_H
+#endif // PROJECT_GROUP_H
