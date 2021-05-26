@@ -31,3 +31,16 @@ std::vector<Subject> Subject::ListSubject(SQLWrapper &db, int group_id) {
     }
     return result;
 }
+
+Subject Subject::GetSubjectById(SQLWrapper &db, int subject_id) {
+    if (check_existence(db, "subject", "id", subject_id)) {
+        throw std::length_error("ERROR: FIELD subject.id NOT FOUND");
+    }
+    db << "SELECT * FROM subject WHERE id = " << subject_id << ";";
+    db.exec();
+    Subject result(
+            db.get_int(0),
+            db.get_int(1),
+            db.get_str(2));
+    return result;
+}

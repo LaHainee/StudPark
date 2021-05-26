@@ -13,8 +13,10 @@ public:
             id(id_subject),
             subject(_subject),
             group_id(_group_id) {}
+    Subject() = default;
     static int AddSubject(SQLWrapper &db, const std::string &subject, int group_id);
     static void DeleteSubject(SQLWrapper &db, int subject_id);
+    static Subject GetSubjectById(SQLWrapper &db, int subject_id);
     static std::vector<Subject> ListSubject(SQLWrapper &db, int group_id);
 
     int id;
