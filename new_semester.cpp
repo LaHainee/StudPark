@@ -4,4 +4,3 @@ int main() {
     db.update_semester();
     return 0;
 }
-

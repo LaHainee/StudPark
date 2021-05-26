@@ -4,15 +4,15 @@
 #include "Student.h"
 
 int Group::AddGroup(SQLWrapper &db, const std::string &user_faculty, int user_number_departament, int user_semester,
-        int user_group_number, const std::string &education_level, const std::string &join_code, time_t start_week) {
+                    int user_group_number, const std::string &education_level, const std::string &join_code, const std::string &start_week) {
     db << "INSERT INTO \"group\" (faculty, number_departament, semester,"
           " group_number, education_level, start_week, join_code) values ('"
-            << user_faculty << "', "
-            << user_number_departament << ", "
-            << user_semester << ", "
-            << user_group_number << ", '"
-            << education_level << "', to_timestamp("<< start_week << "), '"
-            << join_code << "') returning id;";
+       << user_faculty << "', "
+       << user_number_departament << ", "
+       << user_semester << ", "
+       << user_group_number << ", '"
+       << education_level << "', '"<< start_week << "-09-01 00:00:00', '"
+       << join_code << "') returning id;";
     db.exec();
 
     return db.get_int(0);
