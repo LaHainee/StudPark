@@ -3,11 +3,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
     <title>Studpark</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="sticky-footer-navbar.css" rel="stylesheet">
-
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -46,22 +43,31 @@
                 <div class="row">
                     <div class="col">
                         <div class="p-3 border bg-light">
+                            {% if role >= 1 %}
+                            <button type="submit" id="delete_post" class="btn btn-danger" style="width: 50px; height: 40px; float: right;">
+                                &#10008;
+                            </button>
+                            {% endif %}
                             <div class="row">
                                 <div class="col">
                                     <div class="container-fluid justify-content-center">
                                         <div class="row">
-                                            <h3><a href="#">{{ post.title }}</a></h3>
+                                            <div class="col">
+                                                <h3><a href="#" style="color: navy;">{{ post.title }}</a></h3>
+                                            </div>
                                         </div>
                                         <div class="Question-Text">
                                             <div class="row">
-                                                <p>
-                                                    {{ post.text }}
-                                                </p>
+                                                <div class="col">
+                                                    <p style="color: black;">
+                                                        {{ post.text }}
+                                                    </p>
+                                                </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="text-right">
-                                                        <small><i>{{ post.author }} | 24.03.2021 17:26</i></small>
+                                                        <small style="color: black;"><i>{{ post.author }} | {{ post.datetime }}</i></small>
                                                     </div>
                                                 </div>
                                             </div>

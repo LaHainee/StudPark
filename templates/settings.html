@@ -26,7 +26,7 @@
                         </label>
                     </div>
                     <div class="col">
-                        <input type="text" id="fio" class="form-control" placeholder="{{ FIO }}" style="width: 300px;">
+                        <input type="text" id="fio" name="fio" class="form-control" placeholder="{{ FIO }}" style="width: 300px;">
                     </div>
                 </div>
                 <br>
@@ -38,7 +38,7 @@
                         </label>
                     </div>
                     <div class="col">
-                        <input type="text" id="birthday" class="form-control" placeholder="{{ birthday }}" style="width: 300px;">
+                        <input type="text" id="birthday" name="birthday" class="form-control" placeholder="{{ birthday }}" style="width: 300px;">
                     </div>
                 </div>
                 <br>
@@ -50,7 +50,7 @@
                         </label>
                     </div>
                     <div class="col">
-                        <input type="text" id="variant" class="form-control" style="width: 300px;">
+                        <input type="text" id="variant" name="variant" class="form-control" style="width: 300px;">
                     </div>
                 </div>
                 <br>
@@ -63,14 +63,16 @@
                         </label>
                     </div>
                     <div class="col">
-                        <input type="text" id="{{ contact.id }}" class="form-control" placeholder="{{ contact.data }}" style="width: 300px;">
+                        <input type="text" id="{{ contact.id }}" name="{{ contact.id }}" class="form-control" placeholder="{{ contact.data }}" style="width: 300px;">
                     </div>
                 </div>
                 {% endfor %}
                 <!-- Получение рассылок -->
                 <div class="row g-3 align-items-center">
                     <div class="col">
-                        <label style="font-size: 20px;">&bull;Хочу получать рассылку на почту<input type="checkbox" style="margin-left: 20px;"/></label>
+                        <label style="font-size: 20px;">&bull;Хочу получать рассылку на почту
+                            <input type="checkbox" {% if notification %} checked {% endif %} style="margin-left: 20px;"/>
+                        </label>
                     </div>
                 </div><br>
                 <button type="submit" class="btn btn-secondary" style="width: 150px;">Сохранить</button><br>
