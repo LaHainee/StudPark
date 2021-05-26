@@ -42,7 +42,7 @@ void Post::DeletePost(SQLWrapper &db, int id) {
 std::vector<Post> Post::GetPostsByIdGroup(SQLWrapper &db, int id) {
     db << "SELECT post.* FROM public.post join (select group_id, id from public.student) temp"
           " on post.owner=temp.id join (select id from public.group where id = " << id
-    << ") temp1 on temp.group_id=temp1.id WHERE deleted = false;";
+    << ") temp1 on temp.group_id=temp1.id WHERE deleted = false ORDER BY created DESC;";
     db.exec();
     std::vector<Post> result;
     int i = 0;
