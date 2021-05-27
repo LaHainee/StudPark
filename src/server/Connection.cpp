@@ -5,15 +5,14 @@ namespace async = boost::asio;
 namespace net = boost::asio::ip;
 
 Connection::Connection(boost::asio::io_service& service, ConnectionManager& manager):
-        socket_(service), manager_(manager), transportation_(), buffer_() { };
+        socket_(service), manager_(manager), transportation_(), buffer_() { }
 
 void Connection::start() {
     socket_.async_read_some(
             boost::asio::buffer(buffer_),
             boost::bind(&Connection::doRead, shared_from_this(),
                         async::placeholders::error,
-                        async::placeholders::bytes_transferred)
-    );
+                        async::placeholders::bytes_transferred));
 }
 
 void Connection::doRead(const boost::system::error_code& error, std::size_t bytes_transferred) {

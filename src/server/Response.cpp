@@ -56,7 +56,7 @@ void Response::setHeader(const std::string &key, const std::string &value) {
 }
 
 std::string Response::statusToStr() const {
-    switch(statusCode) {
+    switch ( statusCode ) {
         case (100): return "Continue";
         case (101): return "Switching Protocol";
         case (102): return "Processing";

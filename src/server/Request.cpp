@@ -27,7 +27,7 @@ Request::Request(const std::string &request) {
     }
 }
 
-void Request::parseStartLine(const std::string::const_iterator &begin, const std::string::const_iterator &end){
+void Request::parseStartLine(const std::string::const_iterator &begin, const std::string::const_iterator &end) {
     const std::regex startLine(R"((PUT|GET|POST|HEAD)\s(\/[^\n\s\r\t\0]*)\sHTTP\/([\d.]+)\r\n)");
     std::sregex_iterator match(begin, end, startLine);
     _method = match->format("$1");
@@ -46,7 +46,7 @@ void Request::parseHeaders(const std::string::const_iterator &begin, const std::
     std::regex header(R"(([\w-]+):\s([^\n\r]+)\r\n)");
     std::sregex_iterator headerMatch(begin, end, header);
     std::sregex_iterator none;
-    while(headerMatch != none) {
+    while ( headerMatch != none ) {
         std::string str = headerMatch->str();
         headers.insert({boost::to_lower_copy(headerMatch->format("$1")), urlDecode(headerMatch->format("$2"))});
         headerMatch++;
@@ -55,7 +55,7 @@ void Request::parseHeaders(const std::string::const_iterator &begin, const std::
 
 std::string Request::header(const std::string &key) {
     auto match =  headers.find(boost::to_lower_copy(key));
-    if (match != headers.end()){
+    if (match != headers.end()) {
         return match->second;
     }
     return "";
@@ -67,7 +67,7 @@ void Request::parseDataFromPath() {
     if (!separatorMatch->ready()) {
         return;
     }
-    std::regex parameter(R"(([\w-_]+)=([^&\n\r]+))"); // мб перед - поставить \, есть \-
+    std::regex parameter(R"(([\w-_]+)=([^&\n\r]+))");  // мб перед - поставить \, есть \-
     std::sregex_iterator parameterMatch(separatorMatch->suffix().first, _path.cend(), parameter);
     std::sregex_iterator none;
     while (parameterMatch != none) {
@@ -94,11 +94,9 @@ void Request::parseDataFromBody(const std::string::const_iterator &begin, const 
             parameterMatch++;
         }
     } else if (contentType == "multipart/form-data") {
-
     } else if (contentType == "text/plain") {
         body = std::string(start, end);
     } else if (contentType == "application/json") {
-
     }
 }
 
@@ -126,7 +124,7 @@ void Request::parseCookies() {
     std::regex parameter(R"(([^\n\r\t\0\s;]+?)=([^\n\r\t\0\s;]+))");
     std::sregex_iterator parameterMatch(cookiesStr.cbegin(), cookiesStr.cend(), parameter);
     std::sregex_iterator none;
-    while(parameterMatch != none) {
+    while ( parameterMatch != none ) {
         cookies[boost::to_lower_copy(parameterMatch->format("$1"))] = parameterMatch->format("$2");
         parameterMatch++;
     }
@@ -141,7 +139,7 @@ void Request::parseDataPost() {
     std::regex parameter(R"(([^&]+)=([^&]+))");
     std::sregex_iterator parameterMatch(dataPostStr.cbegin(), dataPostStr.cend(), parameter);
     std::sregex_iterator none;
-    while(parameterMatch != none) {
+    while ( parameterMatch != none ) {
         std::cout << "MATCHED" << std::endl;
         dataPosts[boost::to_lower_copy(parameterMatch->format("$1"))] = parameterMatch->format("$2");
         parameterMatch++;

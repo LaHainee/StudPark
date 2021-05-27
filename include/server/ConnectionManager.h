@@ -7,16 +7,16 @@
 #include "Connection.h"
 
 class ConnectionManager: private boost::noncopyable {
-public:
+ public:
     ConnectionManager();
 
     void start(std::shared_ptr<Connection> connection);  // добавить соединение для pull
-    void stop(std::shared_ptr<Connection> connection);   // закрыть соедниние и удалить из pull
+    void stop(std::shared_ptr<Connection> connection);  // закрыть соедниние и удалить из pull
     void stopAll();
 
     size_t connectionsNumber();
-private:
+ private:
     std::set<std::shared_ptr<Connection>> connections_;
 };
 
-#endif //SERVER_CONNECTIONMANAGER_H
+#endif  // SERVER_CONNECTIONMANAGER_H

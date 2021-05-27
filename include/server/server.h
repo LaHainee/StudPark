@@ -9,12 +9,12 @@ namespace async = boost::asio;
 namespace net   = async::ip;
 
 class Server: private boost::asio::noncopyable {
-public:
+ public:
     Server(const std::string& addr, const std::string& port);
     void startServer();
     void stopServer();
 
-private:
+ private:
     void accept(const boost::system::error_code& error);
     void stop();
 
@@ -26,4 +26,4 @@ private:
     std::shared_ptr<Connection> connection_;
 };
 
-#endif //SERVER_SERVER_H
+#endif  // SERVER_SERVER_H

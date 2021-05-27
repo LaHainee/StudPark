@@ -38,7 +38,7 @@ namespace status {
 }
 
 class Response {
-public:
+ public:
     explicit Response(const int &status = status::OK);
     explicit Response(const std::string & html, const int &status = status::OK);
     Response& operator=(Response&& other);
@@ -48,7 +48,11 @@ public:
     void setCookie(const std::string &key, const std::string &value);
     void setHeader(const std::string &key, const std::string &value);
     void setStatus(const int &status);
-private:
+    void redirect(const std::string &url) {
+        setStatus(301);
+        setHeader("Location", url);
+    }
+ private:
     void setDate();
     std::string statusToStr() const;
     void startLineToStream(std::stringstream & ss);
@@ -61,4 +65,4 @@ private:
     int statusCode;
 };
 
-#endif //SERVER_RESPONSE_H
+#endif  // SERVER_RESPONSE_H

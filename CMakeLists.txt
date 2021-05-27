@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.12)
 set(CMAKE_CXX_STANDARD 17)
 project(studpark CXX)
+set(CMAKE_BUILD_TYPE Debug)
+
+add_compile_options(-O0 -Wno-deprecated-declarations)
 
 find_package(PostgreSQL REQUIRED)
 find_package(Threads REQUIRED)
@@ -60,6 +63,7 @@ target_link_libraries(studpark
 	PostgreSQL::PostgreSQL
 	pthread
 	boost_system
+	boost_locale
 	OpenSSL::Crypto
 	curl
 )

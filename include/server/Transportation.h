@@ -12,11 +12,11 @@
 #include "UserAPI.h"
 
 class Transportation {
-public:
+ public:
     Transportation() = default;
     void userTransportation(Request request, Response& response);
 
-private:
+ private:
     UserAPI userApi;
     FilesAPI filesApi;
     GroupAPI groupApi;
@@ -24,8 +24,4 @@ private:
     SQLWrapper sqlWrapper;
 };
 
-
-
-
-
-#endif //SERVER_HANDLER_H
+#endif  // SERVER_HANDLER_H
