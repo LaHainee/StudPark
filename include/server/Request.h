@@ -5,7 +5,7 @@
 #include <unordered_map>
 
 class Request {
- public:
+public:
     explicit Request(const std::string &request);
     std::string method();
     std::string header(const std::string& key);
@@ -16,7 +16,7 @@ class Request {
     std::string dataPost(const std::string & key);
     std::unordered_map<std::string, std::string> dataTable();
     std::unordered_map<std::string, std::string> getData() const;
- private:
+private:
     std::string _method;
     std::string _path;
     std::string body;
@@ -37,4 +37,4 @@ class Request {
     void replacePlusToSpace(std::string &str);
 };
 
-#endif  // SERVER_REQUEST_H
+#endif //SERVER_REQUEST_H

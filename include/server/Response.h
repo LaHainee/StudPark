@@ -38,7 +38,7 @@ namespace status {
 }
 
 class Response {
- public:
+public:
     explicit Response(const int &status = status::OK);
     explicit Response(const std::string & html, const int &status = status::OK);
     Response& operator=(Response&& other);
@@ -52,7 +52,7 @@ class Response {
         setStatus(301);
         setHeader("Location", url);
     }
- private:
+private:
     void setDate();
     std::string statusToStr() const;
     void startLineToStream(std::stringstream & ss);
@@ -65,4 +65,4 @@ class Response {
     int statusCode;
 };
 
-#endif  // SERVER_RESPONSE_H
+#endif //SERVER_RESPONSE_H
