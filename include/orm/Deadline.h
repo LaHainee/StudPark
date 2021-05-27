@@ -2,10 +2,12 @@
 #define PROJECT_DEADLINE_H
 
 #include <iostream>
+#include <vector>
+#include <string>
 #include "Wrapper.h"
 
 class Deadline {
-public:
+ public:
     explicit Deadline(
             int deadlines_id,
             const std::string &_name,

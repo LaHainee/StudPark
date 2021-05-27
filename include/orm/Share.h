@@ -3,9 +3,10 @@
 
 #include <string>
 #include "Wrapper.h"
+#include <vector>
 
 class Share {
-public:
+ public:
     explicit Share(
             int share_id,
             int recipient_id,

@@ -4,9 +4,10 @@
 #include <iostream>
 #include <vector>
 #include "Wrapper.h"
+#include <string>
 
 class Post {
-public:
+ public:
     explicit Post(
             int _id,
             const std::string &head,

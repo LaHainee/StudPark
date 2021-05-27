@@ -112,11 +112,12 @@ int Student::GetIdByLoginPassword(SQLWrapper &db, const std::string &login, cons
     return db.get_int(0);
 }
 
-void Student::UpdateStudent(SQLWrapper &db, const std::map<std::string, std::string>&data) {
+void Student::UpdateStudent(SQLWrapper &db, const std::unordered_map<std::string, std::string>&data) {
     db << "UPDATE student SET ";
-    for (const auto & iter : data) {
-        db << iter.first << " = '" << iter.second;
-        if (iter != *data.rbegin()) {
+    for (auto iter = data.begin(); iter != data.end();) {
+        db << iter->first << " = '" << iter->second;
+        ++iter;
+        if (iter != data.end()) {
             db << "',";
         }
     }

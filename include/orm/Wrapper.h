@@ -6,9 +6,10 @@
 #include <vector>
 #include <sstream>
 #include <zconf.h>
+#include <string>
 
 class SQLWrapper {
-public:
+ public:
     SQLWrapper() : os(""), result(nullptr) {
         std::string conn_info;
         std::string host = std::string(std::getenv("HOST"));
@@ -43,7 +44,7 @@ public:
     time_t get_time_t(int field_num, int tup_num = 0);
     void update_semester();
 
-private:
+ private:
     PGconn *conn;
     std::ostringstream os;
     PGresult *result;

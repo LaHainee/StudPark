@@ -2,10 +2,13 @@
 #define PROJECT_FILE_H
 
 #include <iostream>
+#include <vector>
+#include <string>
 #include "Wrapper.h"
+#include <utility>
 
 class File {
-public:
+ public:
     explicit File(
             int file_id,
             int owner_id,
@@ -18,7 +21,7 @@ public:
     static int AddFile(SQLWrapper &db, int owner_id, const std::string &file_name, const std::string &salt);
     static void DeleteFile(SQLWrapper &db, int user_id);
     static File GetFile(SQLWrapper &db, int user_id);
-    static std::vector<std::pair<int,std::string>> GetListFiles(SQLWrapper &db, int user_id);
+    static std::vector<std::pair<int, std::string>> GetListFiles(SQLWrapper &db, int user_id);
 
     int id;
     int owner;

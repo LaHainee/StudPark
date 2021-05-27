@@ -4,7 +4,7 @@
 #include "Wrapper.h"
 
 class Recording_laboratory_work {
-public:
+ public:
     explicit Recording_laboratory_work(
             int recording_id,
             int subject_id,

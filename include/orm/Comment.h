@@ -8,7 +8,7 @@
 #include "Student.h"
 
 class Comment {
-public:
+ public:
     explicit Comment(
             int comment_id,
             int post,

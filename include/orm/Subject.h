@@ -2,10 +2,12 @@
 #define PROJECT_SUBJECT_H
 
 #include <iostream>
+#include <vector>
+#include <string>
 #include "Wrapper.h"
 
 class Subject {
-public:
+ public:
     explicit Subject(
             int id_subject,
             int _group_id,

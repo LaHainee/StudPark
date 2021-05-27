@@ -5,7 +5,7 @@
 #include "Wrapper.h"
 
 class Session {
-public:
+ public:
     explicit Session(
         int _id,
         int _user_id,

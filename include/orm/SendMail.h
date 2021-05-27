@@ -4,9 +4,10 @@
 #include <iostream>
 #include <vector>
 #include "Wrapper.h"
+#include <string>
 
 class SendMail {
-public:
+ public:
     explicit SendMail(
         int _id,
         const std::string &_recipient,

@@ -2,11 +2,12 @@
 #define PROJECT_USER_H
 
 #include <iostream>
-#include <map>
+#include <unordered_map>
+#include <string>
 #include "Wrapper.h"
 
 class Student {
-public:
+ public:
     enum Roles {
         STUDENT = 0,
         ADMIN = 2,
@@ -76,7 +77,7 @@ public:
     static Student GetStudentById(SQLWrapper &db, int user_id);
     static Student GetStudentBySession(SQLWrapper &db, const std::string &session);
     static int GetIdByLoginPassword(SQLWrapper &db, const std::string &login, const std::string &password);
-    static void UpdateStudent(SQLWrapper &db, const std::map<std::string, std::string>&data);
+    static void UpdateStudent(SQLWrapper &db, const std::unordered_map<std::string, std::string>&data);
     std::string FullName();
 
     std::string first_name;

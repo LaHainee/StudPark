@@ -2,10 +2,12 @@
 #define PROJECT_CONTACT_H
 
 #include <iostream>
+#include <vector>
+#include <string>
 #include "Wrapper.h"
 
 class Contact {
-public:
+ public:
     enum STEALTH {
         YES = 1,
         NO = 0

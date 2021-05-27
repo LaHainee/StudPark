@@ -5,7 +5,7 @@
 #include "Wrapper.h"
 
 class Attendance {
-public:
+ public:
     explicit Attendance(
             int id_attendance,
             int user_id,

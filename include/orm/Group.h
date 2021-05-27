@@ -8,7 +8,7 @@
 #include "Student.h"
 
 class Group {
-public:
+ public:
     explicit Group(
         int id_group,
         const std::string &user_faculty,

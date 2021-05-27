@@ -2,10 +2,12 @@
 #define PROJECT_ATTACHMENTPOST_H
 
 #include <iostream>
+#include <vector>
+#include <string>
 #include "Wrapper.h"
 
 class AttachmentPost {
-public:
+ public:
     enum TYPE_ATTACHMENT {
         PHOTO = 0,
         VIDEO = 1,

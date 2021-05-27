@@ -46,6 +46,7 @@ time_t SQLWrapper::get_time_t(int field_num, int tup_num) {
     auto res = PQgetvalue(result, tup_num, field_num);
     struct tm tm;
     strptime(res, "%Y-%m-%d %H:%M:%S", &tm);
+    tm.tm_isdst = 0;
     return mktime(&tm);
 }
 
