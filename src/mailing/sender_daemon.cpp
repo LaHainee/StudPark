@@ -17,15 +17,6 @@ int main() {
     while (true) {
         std::this_thread::sleep_for(std::chrono::seconds(PERIOD));
         secondsCounter += PERIOD;
-        for (int i = 0; i < testEmailsAmount; ++i) {
-            SendMail::AddInQueue(
-                    wrapper,
-                    "studparksender@gmail.com",
-                    "Заголовок тестового письма",
-                    "Тело тестового письма",
-                    time(nullptr)
-            );
-        }
         scheduler.Scan();
         std::cout << secondsCounter << " seconds" << std::endl;
     }

@@ -29,7 +29,7 @@
                 {% if role >= 1 %}
                 <div class="row">
                     <div class="col">
-                        <!-- Добавить ссылку -->
+
                         <a href="/PostAPI/Create">
                             <button type="submit" class="btn btn-secondary" style="width: 200px; font-size: 15px;">
                                 Добавить пост
@@ -40,9 +40,14 @@
                                 Список группы
                             </button>
                         </a>
-                        <a href="#">
+                        <a href="/GroupAPI/AddSubject">
                             <button type="submit" class="btn btn-secondary" style="width: 200px; font-size: 15px;">
                                 Добавить предмет
+                            </button>
+                        </a>
+                        <a href="/GroupAPI/SubjectList">
+                            <button type="submit" class="btn btn-secondary" style="width: 200px; font-size: 15px;">
+                                Список предметов
                             </button>
                         </a>
                     </div>
@@ -56,7 +61,7 @@
                     <div class="col">
                         <div class="p-3 border bg-light">
                             {% if role >= 1 %}
-                            <button type="submit" id="delete_post" class="btn btn-danger" style="width: 50px; height: 40px; float: right;">
+                            <button type="button" onclick="delete_post(this)" data-pid="{{ post.id }}" class="btn btn-danger" style="width: 50px; height: 40px; float: right;">
                                 &#10008;
                             </button>
                             {% endif %}
@@ -65,7 +70,7 @@
                                     <div class="container-fluid justify-content-center">
                                         <div class="row">
                                             <div class="col">
-                                                <h3><a href="#" style="color: navy;">{{ post.title }}</a></h3>
+                                                <h3 style="color: navy;">{{ post.title }}</h3>
                                             </div>
                                         </div>
                                         <div class="Question-Text">
@@ -101,5 +106,6 @@
 <script src="js/jquery.min.js"></script>
 <script src="js/popper.js"></script>
 <script src="js/main.js"></script>
+<script src="js/post.js"></script>
 </body>
 </html>

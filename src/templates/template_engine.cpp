@@ -3,11 +3,10 @@
 std::string TemplateEngine::RenderTemplate(const json& data, const std::string& templateToParse) {
     env.set_expression("{{", "}}");
     env.set_statement("{%", "%}");
-    Template temp = env.parse_template("../templates/" + templateToParse);
-    env.write(temp, data, "../created_templates/" + templateToParse);
-    /*std::string result = env.render(temp, data);
-    return result;*/
-    return "Page rendered";
+    Template temp = env.parse_template("templates/" + templateToParse);
+    env.write(temp, data, "created_templates/" + templateToParse);
+    std::string result = env.render(temp, data);
+    return result;
 }
 
 std::string TemplateEngine::RenderProfile(SQLWrapper &wrapper, const std::vector<Contact> &contacts,
@@ -100,12 +99,10 @@ std::string TemplateEngine::RenderGroupList(SQLWrapper &wrapper, int groupId, bo
     for (auto &student : students) {
         std::vector<Contact> studentContacts = Contact::GetContacts(wrapper, student.id);
         std::string phoneNumber;
-        std::string email;
+        std::string email = student.login;
         for (auto &contact : studentContacts) {
             if (contact.type_contacts == 7)
                 phoneNumber = contact.url;
-            if (contact.type_contacts == 8)
-                email = contact.url;
         }
         data["students"] += {
                 {"index", index},
@@ -181,6 +178,7 @@ std::string TemplateEngine::RenderPosts(SQLWrapper &wrapper, int groupId, bool i
         strftime(buffer, sizeof(buffer), "%d.%m.%Y %H:%M:%S", localtime(&post.created));
         std::string str(buffer);
         data["posts"] += {
+            {"id", post.id},
             {"title", post.post_head},
             {"text", post.post_body},
             {"author", author},
@@ -189,6 +187,7 @@ std::string TemplateEngine::RenderPosts(SQLWrapper &wrapper, int groupId, bool i
     }
     return RenderTemplate(data, "main.html");
 }
+
 
 std::string TemplateEngine::RenderSubjectsList(SQLWrapper &wrapper, int groupId, bool isAuthenticated, std::string user,
                                                int userRole, std::string group) {
@@ -206,6 +205,7 @@ std::string TemplateEngine::RenderSubjectsList(SQLWrapper &wrapper, int groupId,
     std::vector<Subject> subjects = Subject::ListSubject(wrapper, groupId);
     for (auto &subject : subjects) {
         data["subjects"] += {
+            {"id", subject.id},
             {"index", index},
             {"name", subject.subject},
         };
@@ -242,26 +242,4 @@ std::string TemplateEngine::RenderGroupSuccessfulCreate(bool isAuthenticated, st
         {"group", group},
     };
     return RenderTemplate(data, "successful_group_create.html");
-}
-
-int main() {
-    TemplateEngine tmp;
-    SQLWrapper wrapper;
-    std::vector<Contact> contacts = Contact::GetContacts(wrapper, 11);
-    Student student = Student::GetStudentById(wrapper, 11);
-        // Добавление предметов
-    // tmp.RenderSubjectsList(wrapper, 3, true, "Ershov Vitaly", 1);
-    // tmp.RenderAddSubject(true, "Ershov Vitaly", 1);
-        // Главная страница
-    tmp.RenderPosts(wrapper, 3, true, "Ershov Vitaly", 1, "РК6-62Б");
-        // Админ панель
-    // tmp.RenderAdminPage(true, "Ershov Vitaly", 2);
-        // Создание поста
-    // tmp.RenderCreatePostPage(true, "Ershov Vitaly", 1);
-        // Настройки
-    // tmp.RenderSettings(wrapper, contacts, student, true, "Ershov Vitaly", 2);
-        // Регистрация
-    // tmp.RenderSignupPage();
-        // Группа успешно создана
-    // tmp.RenderGroupSuccessfulCreate(true, "Ershov Vitaly", 2);
 }

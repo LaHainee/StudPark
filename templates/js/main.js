@@ -17,7 +17,31 @@ $(document).ready(function(){
     init_calendar(date);
     var events = check_events(today, date.getMonth()+1, date.getFullYear());
     show_events(events, months[date.getMonth()], today);
+    $(document).on('click', '.del-event', function(e) {
+        const id = e.target.dataset.eid
+        $.ajax({
+            type: 'POST',
+            data: {
+                'id': id
+            },
+            url: '/GroupAPI/DeleteDeadline',
+            success: (data) => {
+                if (data != "") {
+                    alert(data);
+                } else {
+                    event_data["events"] = event_data["events"].filter((e)=>{
+                         return e.id != id
+        		}
+		    );
+        	    init_calendar(date);
+                }
+            },
+            async: false
+        });
+    })
 });
+
+
 
 // Initialize the calendar by appending the HTML dates
 function init_calendar(date) {
@@ -148,10 +172,8 @@ function new_event(event) {
             $("#name").addClass("error-input");
         }
         else {
-    
-            const time_regex = new RegExp('[0-2]?[0-9]:[0-5][0-9]');
-            const hours_regex = new RegExp('[4-9]');
-            if (!time.match(time_regex) || (time.length == 5 && time[1].match(hours_regex))) {
+            const time_regex = new RegExp('^([0-9]|1[0-9]|2[0-3]):[0-5][0-9]$');
+            if (!time.match(time_regex)) {
                 alert("Проверьте правильность ввода времени");
                 return;
             }
@@ -177,12 +199,21 @@ function new_event_json(name, time, date, day, discipline) {
     let month_zero = date.getMonth() < 9 ? '0' : '';
     let day_zero = day < 10 ? '0' : '';
 
-    $.post("/GroupAPI/AddDeadline", {
+    $.ajax( {
+	method: "POST",
+	url: "/GroupAPI/AddDeadline",
+	data: {
         name: name,
         time: `${date.getFullYear()}-${month_zero}${date.getMonth()+1}-${day_zero}${day} ${time}:00`,
         subject: discipline
+	}
+    }).done(function(e) {
+	if (e != ""){
+	    alert(e);
+	    return;
+	}
     });
-    event_data["events"].push(event);
+	event_data["events"].push(event);
 }
 
 // Display all events of the selected date in card views
@@ -194,7 +225,7 @@ function show_events(events, month, day) {
     // If there are no events for this date, notify the user
     if(events.length===0) {
         var event_card = $("<div class='event-card'></div>");
-        var event_name = $("<div class='event-name'>There are no events planned for "+month+" "+day+".</div>");
+        var event_name = $(`<div class='event-name'>Ничего не запланировано на ${day} ${month}.</div>`);
         $(event_card).css({ "border-left": "10px solid #FF1744" });
         $(event_card).append(event_name);
         $(".events-container").append(event_card);
@@ -206,13 +237,7 @@ function show_events(events, month, day) {
             var event_name = $("<div class='event-name'>"+events[i]["occasion"]+" по " + 
                 events[i]["discipline"] 
                 +" в </div>");
-            var event_count = $("<div class='event-count'>"+events[i]["time"]+"</div>");
-            // if(events[i]["cancelled"]===true) {
-            //     $(event_card).css({
-            //         "border-left": "10px solid #FF1744"
-            //     });
-            //     event_count = $("<div class='event-cancelled'>Cancelled</div>");
-            // }
+            var event_count = $(`<div class='event-count'>${events[i]["time"]}</div><span class="del-event" data-eid="${events[i]["id"]}" style="color: red;cursor: pointer">[X]</span>`);
             $(event_card).append(event_name).append(event_count);
             $(".events-container").append(event_card);
         }
@@ -242,7 +267,7 @@ function get_subjects() {
          var json = JSON.parse(data);
          json["subjects"].forEach(e=>{
             subjects.push(e);
-            $("#discipline").append(`<option value="${e.id}">${e.name}</option>`);
+            $("#discipline").append(`<option value="${e.id}" style="color: black;">${e.name}</option>`);
          });
         },
         async: false
@@ -260,12 +285,15 @@ function get_deadlines() {
         var date = new Date(e.date);
         
         //new_event_json(e.name, );
+	let minutes = date.getUTCMinutes();
+	let zero = minutes > 9 ? '' : '0';
         event_data["events"].push({
+            "id": e.id,
             "occasion": e.name,
             "year": date.getFullYear(),
             "month": date.getUTCMonth() + 1,
             "day": date.getUTCDate(),
-            "time": `${date.getUTCHours()}:${date.getUTCMinutes()}`,
+            "time": `${date.getHours()}:${zero}${minutes}`,
             "discipline": subjects.find(x => x.id == e.subject)['name'],
         });
      });
@@ -292,19 +320,34 @@ var event_data = {
 var subjects = [];
 var deadlines = [];
 
+// const months = [ 
+//     "January", 
+//     "February", 
+//     "March", 
+//     "April", 
+//     "May", 
+//     "June", 
+//     "July", 
+//     "August", 
+//     "September", 
+//     "October", 
+//     "November", 
+//     "December" 
+// ];
+
 const months = [ 
-    "January", 
-    "February", 
-    "March", 
-    "April", 
-    "May", 
-    "June", 
-    "July", 
-    "August", 
-    "September", 
-    "October", 
-    "November", 
-    "December" 
+    "Января", 
+    "Февраля", 
+    "Марта", 
+    "Апреля", 
+    "Мая", 
+    "Июня", 
+    "Июля", 
+    "Августа", 
+    "Сентября", 
+    "Октября", 
+    "Ноября", 
+    "Декабря" 
 ];
 
 })(jQuery);
