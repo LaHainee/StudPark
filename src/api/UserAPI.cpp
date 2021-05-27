@@ -37,6 +37,30 @@ std::string UserAPI::Get(const std::unordered_map<std::string, std::string> &dat
     return "";  // Render "User profile" page
 }
 std::string UserAPI::Update(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+    Student st;
+    try {
+        st = Student::GetStudentBySession(db, data.find("session")->second);
+    } catch (std::exception &e) {
+        return templates.RenderErrors(e.what());
+    }
+    std::unordered_map<std::string, std::string> contacts = data;
+    contacts.erase("session");
+
+    std::unordered_map<std::string, std::string> updateData;
+
+    for (auto &contact : contacts) {
+        if (!contact.second.empty()) {
+            try {
+                int type = std::stoi(contact.first);
+                Contact::AddContact(db, type, contact.second, 0, st.id);
+            } catch (...) {
+                updateData[contact.first] = contact.second;
+            }
+        }
+    }
+    if (!updateData.empty()) {
+        // Student::UpdateStudent(db, updateData);
+    }
     return "";  // AJAX
 }
 std::string UserAPI::Delete(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
@@ -54,12 +78,7 @@ std::pair<std::string, std::string> UserAPI::Authenticate(const std::unordered_m
     if (student != 0) {
         std::string token = randomString(64);
         int session = Session::AddSession(db, student, token, time(nullptr));
-        std::cout << "New session: " << token << std::endl;
-        if (Student::GetStudentById(db, student).role == Student::Roles::ADMIN) {
-            return {token, templates.RenderAdminPage()};
-        } else {
-            return {token, "FEED"};
-        }
+        return {token, ""};
     } else {
         return {"", templates.RenderErrors("Проверьте правильность ввода логина и пароля")};
     }
@@ -75,13 +94,12 @@ std::string UserAPI::Logout(const std::unordered_map<std::string, std::string> &
     try {
         Student::GetStudentBySession(db, session);
     } catch (std::exception &e) {
-        std::cout << e.what() << std::endl;
-        return "Session not found";
+        return templates.RenderErrors(e.what());
     }
 
     Session::DeleteSession(db, session);
 
-    return "OK";  // Render page login()
+    return "";  // Render page login()
 }
 
 int UserAPI::AddContact(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
@@ -113,4 +131,25 @@ bool UserAPI::passwordMeetsRequirements(std::string &password) {
 
 std::string UserAPI::SignupPage() {
     return templates.RenderSignupPage();
+}
+
+std::string UserAPI::Profile(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+    Student admin;
+    try {
+        admin = Student::GetStudentBySession(db, data.find("session")->second);
+    } catch (std::exception &e) {
+        templates.RenderErrors(e.what());
+    }
+    return templates.RenderProfile(db, Contact::GetContacts(db, admin.id), admin, 1, admin.FullName(), admin.role, Group::GetGroupName(db, admin.group_id));
+}
+
+std::string UserAPI::SettingsPage(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+    Student st;
+    try {
+        st = Student::GetStudentBySession(db, data.find("session")->second);
+    } catch (std::exception &e) {
+        templates.RenderErrors(e.what());
+    }
+    std::vector<Contact> contacts = Contact::GetContacts(db, st.id);
+    return templates.RenderSettings(db, contacts, st, 1, st.FullName(), st.role, Group::GetGroupName(db, st.group_id));
 }

@@ -20,6 +20,8 @@ public:
     std::string Logout(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
     int AddContact(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
     std::string SignupPage();
+    std::string Profile(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
+    std::string SettingsPage(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
 private:
     bool emailIsValid(std::string &email);
     bool passwordMeetsRequirements(std::string &password);

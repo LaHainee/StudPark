@@ -10,9 +10,9 @@ std::string GroupAPI::CreatePage(const std::unordered_map<std::string, std::stri
         return templates.RenderErrors(e.what());
     }
     if (admin.role != Student::Roles::ADMIN) {
-        return templates.RenderErrors("Недостаточно прав");
+        return templates.RenderErrors("Недостаточно прав", 1, admin.first_name + " " + admin.second_name);
     }
-    return templates.RenderAdminPage();
+    return templates.RenderAdminPage(true);
 }
 
 std::string GroupAPI::Create(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
@@ -20,16 +20,19 @@ std::string GroupAPI::Create(const std::unordered_map<std::string, std::string> 
     try {
         admin = Student::GetStudentBySession(db, data.find("session")->second);
     } catch (std::exception &e) {
-        std::cout << "ERROR" << e.what() << std::endl;
         return templates.RenderErrors(e.what());
     }
     std::cout << admin.role << std::endl;
     if (admin.role != Student::Roles::ADMIN) {
-        return templates.RenderErrors("Недостаточно прав");
+        return templates.RenderErrors("Недостаточно прав", 1, admin.first_name + " " + admin.second_name);
     }
     std::string joinCode = randomString(8);
     std::string faculty = data.find("user_faculty")->second;
-    boost::to_upper(faculty);
+    boost::locale::generator gen;
+    std::locale loc=gen("");
+    std::locale::global(loc);
+    faculty = boost::locale::to_upper(faculty);
+    std::cout << "FAK" << faculty << std::endl;
     int group = std::stoi(data.find("group")->second);
     try {
         group = Group::AddGroup(db,
@@ -39,7 +42,7 @@ std::string GroupAPI::Create(const std::unordered_map<std::string, std::string> 
                                 group % 10,
                                 data.find("education_level")->second,
                                 joinCode,
-                                time(nullptr)
+                                data.find("start")->second
                                 );
     } catch (std::exception &e) {
             std::cout << e.what() << std::endl;
@@ -54,10 +57,18 @@ std::string GroupAPI::Create(const std::unordered_map<std::string, std::string> 
             std::cout << e.what() << std::endl;
     }
 
-    return templates.RenderErrors("Пароль старосты: " + password + "\nКод присоединения: " + joinCode);  // Render template "Group created, head password is: <pwd>
+    return templates.RenderErrors("Пароль старосты: " + password + "\nКод присоединения: " + joinCode, 1, admin.first_name + " "  + admin.second_name);  // Render template "Group created, head password is: <pwd>
 }
 std::string GroupAPI::Get(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
-    return "";  // Delete
+    Student admin;
+    try {
+        admin = Student::GetStudentBySession(db, data.find("session")->second);
+    } catch (std::exception &e) {
+        std::cout << e.what() << std::endl;
+        return templates.RenderErrors(e.what());
+    }
+
+    return templates.RenderGroupList(db, admin.group_id, 1, admin.FullName(), admin.role);
 }
 std::string GroupAPI::Update(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
     return "";  // Delete
@@ -66,16 +77,15 @@ std::string GroupAPI::Delete(const std::unordered_map<std::string, std::string> 
     return "";  // For superuser only
 }
 
-std::string GroupAPI::ExportContacts(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string GroupAPI::ExportGroupList(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
     Student admin;
     try {
         admin = Student::GetStudentBySession(db, data.find("session")->second);
     } catch (std::exception &e) {
-        std::cout << e.what() << std::endl;
-        throw std::invalid_argument("Session not found");
+        return e.what();
     }
-    if (admin.role != Student::Roles::LEADER) {
-        throw std::invalid_argument("Not enough privileges");
+    if (admin.role == Student::Roles::STUDENT) {
+        return "Not enough privileges";
     }
     std::cout << admin.group_id << std::endl;
 
@@ -85,25 +95,39 @@ std::string GroupAPI::ExportContacts(const std::unordered_map<std::string, std::
     csv += "№,ФИО,Email\n";
     size_t counter = 1;
     for (auto &s : members) {
+        if (s.role == Student::Roles::LEADER) {
+            csv += '*';
+        }
         csv += std::to_string(counter++) + "," + s.second_name + " " + s.first_name + " " + s.patronymic + "," + s.login + "\n";
     }
 
-    return csv;  // Should return a link to file
+    return csv;
 }
 
-int GroupAPI::AddSubject(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string GroupAPI::AddSubjectPage(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
     std::string session = data.find("session")->second;
     Student admin = getStudentBySession(session, db);
-    if (admin.role == Student::Roles::LEADER) {
+    if (admin.role == Student::Roles::STUDENT) {
+        return templates.RenderErrors("Not enough privileges");
+    }
+    std::cout << "ID: " << admin.first_name << std::endl;
+    return templates.RenderAddSubject(1, admin.FullName(), admin.role, Group::GetGroupName(db, admin.group_id));
+}
+
+
+std::string GroupAPI::AddSubject(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+    std::string session = data.find("session")->second;
+    Student admin = getStudentBySession(session, db);
+    if (admin.role == Student::Roles::LEADER || admin.role == Student::Roles::ADMIN) {
         try {
             Subject::AddSubject(db, data.find("subject")->second, admin.group_id);
         } catch (std::exception &e) {
             std::cout << e.what() << std::endl;
         }
     } else {
-        throw std::invalid_argument("Not enough privileges");
+        return "Not enough privileges";
     }
-    return 200;
+    return "";
 }
 
 Student GroupAPI::getStudentBySession(std::string &session, SQLWrapper &db) {
@@ -111,12 +135,12 @@ Student GroupAPI::getStudentBySession(std::string &session, SQLWrapper &db) {
     try {
         st = Student::GetStudentBySession(db, session);
     } catch (std::exception &e) {
-            std::cout << e.what() << std::endl;
+        std::cout << e.what() << std::endl;
     }
     return st;
 }
 
-int GroupAPI::AddDeadline(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string GroupAPI::AddDeadline(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
     std::string session = data.find("session")->second;
     Student admin = getStudentBySession(session, db);
     std::string time = data.find("time")->second;
@@ -125,7 +149,7 @@ int GroupAPI::AddDeadline(const std::unordered_map<std::string, std::string> &da
         try {
             Deadline::AddDeadline(db, deadlineName, std::stoi(data.find("subject")->second), time);
         } catch (std::exception &e) {
-            std::cout << e.what() << std::endl;
+            return e.what();
         }
         // Сразу же ставим уведомления за неделю и за сутки до мероприятия для всей группы (на почту)
         std::vector<Student> students = Group::GetMembers(db, admin.group_id);
@@ -135,13 +159,13 @@ int GroupAPI::AddDeadline(const std::unordered_map<std::string, std::string> &da
         ss >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");
         time_t schedTime = mktime(&tm);
         for (auto &student : students) {
-            SendMail::AddInQueue(db, student.login, deadlineName, deadlineName, schedTime - WEEK);
-            SendMail::AddInQueue(db, student.login, deadlineName, deadlineName, schedTime - DAY);
+            SendMail::AddInQueue(db, student.login, deadlineName + " в " + time, deadlineName + " в " + time, schedTime - WEEK);
+            SendMail::AddInQueue(db, student.login, deadlineName + " в " + time, deadlineName + " в " + time, schedTime - DAY);
         }
     } else {
-        throw std::invalid_argument("Not enough privileges");
+        return "Недостаточно привилегий";
     }
-    return 200;
+    return "";
 }
 
 std::string GroupAPI::GetDeadlines(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
@@ -161,12 +185,23 @@ std::string GroupAPI::GetDeadlines(const std::unordered_map<std::string, std::st
     dead["deadlines"] = {};
     for (auto &e : deadlines) {
         dead["deadlines"] += {
+            {"id", e.id},
             {"name", e.name},
             {"subject", e.subject},
             {"date", e.date_deadline},
         };
     }
     return dead.dump();
+}
+
+std::string GroupAPI::GetSubjectsPage(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+    Student admin;
+    try {
+        admin = Student::GetStudentBySession(db, data.find("session")->second);
+    } catch (std::exception &e) {
+        return templates.RenderErrors(e.what());
+    }
+    return templates.RenderSubjectsList(db, admin.group_id, 1, admin.FullName(), admin.role, Group::GetGroupName(db, admin.group_id));
 }
 
 std::string GroupAPI::GetSubjects(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
@@ -193,4 +228,42 @@ std::string GroupAPI::GetSubjects(const std::unordered_map<std::string, std::str
     }
 
     return subj.dump();
+}
+
+std::string GroupAPI::DeleteDeadline(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+    Student st;
+    try {
+        st = Student::GetStudentBySession(db, data.find("session")->second);
+    } catch (std::exception &e) {
+        return e.what();
+    }
+    if (st.group_id != Deadline::GetDeadlineById(db, std::stoi(data.find("id")->second)).group_id) {
+        return "Недостаточно привилегий";
+    }
+    try {
+        Deadline::DeleteDeadline(db, std::stoi(data.find("id")->second));
+    } catch (std::exception &e) {
+        return e.what();
+    }
+    return "";
+}
+
+std::string GroupAPI::DeleteSubject(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+    Student admin;
+    try {
+        admin = Student::GetStudentBySession(db, data.find("session")->second);
+    } catch (std::exception &e) {
+        return e.what();
+    }
+    Subject s;
+    try {
+        s = Subject::GetSubjectById(db, std::stoi(data.find("id")->second));
+    } catch (std::exception &e) {
+        return e.what();
+    }
+    if (s.group_id != admin.group_id) {
+        return "Это не ваш предмет";
+    }
+    Subject::DeleteSubject(db, s.id);
+    return "";
 }

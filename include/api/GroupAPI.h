@@ -6,7 +6,8 @@
 #include "Subject.h"
 #include "Wrapper.h"
 #include "SendMail.h"
-#include <boost/algorithm/string.hpp>
+#include <boost/locale.hpp>
+
 
 using json = nlohmann::json;
 
@@ -22,12 +23,16 @@ public:
     std::string Update(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) override;
     std::string Delete(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) override;
 
-    std::string ExportContacts(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
-    int AddSubject(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
-    int AddDeadline(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
+    std::string ExportGroupList(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
+    std::string AddSubject(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
+    std::string AddSubjectPage(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
+    std::string AddDeadline(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
     std::string CreatePage(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
     std::string GetDeadlines(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
+    std::string DeleteDeadline(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
     std::string GetSubjects(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
+    std::string GetSubjectsPage(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
+    std::string DeleteSubject(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
 private:
     Student getStudentBySession(std::string &session, SQLWrapper &db);
 };

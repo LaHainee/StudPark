@@ -16,4 +16,5 @@ public:
     std::string Feed(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
     std::string AddPostComment(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
     int DeletePostComment(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
+    std::string CreatePostPage(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
 };
