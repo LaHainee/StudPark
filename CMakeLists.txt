@@ -21,3 +21,22 @@ add_executable(new_semester ${file_new_semester} new_semester.cpp)
 add_executable(orm ${file_proj} main.cpp)
 target_link_libraries(orm pq)
 target_link_libraries(new_semester pq)
+
+project(api)
+
+find_package(inja REQUIRED)
+find_package(OpenSSL REQUIRED)
+
+include_directories(
+        include/api
+        include/ORM
+        /usr/local/include/inja
+)
+
+
+add_executable(api
+        main.cpp
+        src/ORM/Wrapper.cpp
+        src/api/UserAPI.cpp
+        )
+target_link_libraries(api pq ${inja} OpenSSL::Crypto)
