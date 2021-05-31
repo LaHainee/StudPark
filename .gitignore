@@ -1,9 +1,14 @@
+<<<<<<< HEAD
+=======
+*a.out
+>>>>>>> origin/server_WIP
 *gtest*
 test_*
 *.cmake
 *Makefile
 *CMakeCache.txt
 *CMakeFiles
+*.idea
 Test*
 studpark
 env
@@ -12,6 +17,7 @@ files
 symlinks
 cmake-*
 cmake-build-debug
+.idea
 vendor
 build
 env.crash
