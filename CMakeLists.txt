@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
+set(CMAKE_CXX_STANDARD 17)
 project(studpark CXX)
 
-set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_COMPILER "g++")
 set(CMAKE_CXX_FLAGS -stdlib=libc++)
 add_compile_options(-O3 -march=native -mtune=native -Wno-deprecated-declarations)
@@ -23,6 +23,10 @@ include_directories(
     /usr/local/include/inja
     /opt/homebrew/include
     /opt/homebrew/lib
+)
+
+link_directories(
+    /root/boost_1_76_0/stage/lib
 )
 
 include_directories(${postgresql})
@@ -60,10 +64,6 @@ add_executable(sender
     src/mailing/sender.cpp
     src/orm/SendMail.cpp
     src/orm/Wrapper.cpp
-)
-
-link_directories(
-    /root/boost_1_76_0/stage/lib
 )
 
 add_executable(tests_sender
