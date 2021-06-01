@@ -17,11 +17,12 @@ public:
     void userTransportation(Request request, Response& response);
 
 private:
-    UserAPI userApi;
-    FilesAPI filesApi;
-    GroupAPI groupApi;
-    PostAPI postApi;
     SQLWrapper sqlWrapper;
+    UserAPI userApi{sqlWrapper};
+    FilesAPI filesApi{sqlWrapper};
+    GroupAPI groupApi{sqlWrapper};
+    PostAPI postApi{sqlWrapper};
+
 };
 
 

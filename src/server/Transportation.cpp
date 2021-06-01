@@ -29,27 +29,27 @@ void Transportation::userTransportation(Request request, Response& response) {
             response = Response(userApi.Login());
         } else if (request.path() == "/feed") {
             
-            response = Response(postApi.Feed(data, sqlWrapper));
+            response = Response(postApi.Feed(data));
         } else if (request.path() == "/FilesAPI/Get") {
             
             
             
         } else if (request.path() == "/settings") {
-            response = Response(userApi.SettingsPage(data, sqlWrapper));
+            response = Response(userApi.SettingsPage(data));
         } else if (request.path() == "/profile") {
-            response = Response(userApi.Profile(data, sqlWrapper));
+            response = Response(userApi.Profile(data));
         } else if (request.path() == "/FilesAPI/List") {
 
         } else if (request.path() == "/GroupAPI/Get") {
 
         } else if (request.path() == "/GroupAPI/ExportList") {
-            response = Response(groupApi.ExportGroupList(data, sqlWrapper));
+            response = Response(groupApi.ExportGroupList(data));
         } else if (request.path() == "/PostAPI/Get") {
 
         } else if (request.path() == "/userAPI/Get") {
 
         } else if (request.path() == "/logout") {
-            std::string result = userApi.Logout(data, sqlWrapper);
+            std::string result = userApi.Logout(data);
             response = Response(result);
             if (result.empty()) {
                 response.setStatus(302);
@@ -58,29 +58,29 @@ void Transportation::userTransportation(Request request, Response& response) {
         } else if (request.path() == "/GroupAPI/Create") {
             
             
-            response = Response(groupApi.CreatePage(data, sqlWrapper));
+            response = Response(groupApi.CreatePage(data));
         } else if (request.path() == "/signup") {
             response = Response(userApi.SignupPage());
         } else if (request.path() == "/GroupAPI/GetDeadlines") {
             
             
-            response = Response(groupApi.GetDeadlines(data, sqlWrapper));
+            response = Response(groupApi.GetDeadlines(data));
         } else if (request.path() == "/GroupAPI/GetSubjects") {
             
             
-            response = Response(groupApi.GetSubjects(data, sqlWrapper));
+            response = Response(groupApi.GetSubjects(data));
         } else if (request.path() == "/GroupAPI/SubjectList") {
             
             
-            response = Response(groupApi.GetSubjectsPage(data, sqlWrapper));
+            response = Response(groupApi.GetSubjectsPage(data));
         } else if (request.path() == "/PostAPI/Create") {
             
             
-            response = Response(postApi.CreatePostPage(data, sqlWrapper));
+            response = Response(postApi.CreatePostPage(data));
         } else if (request.path() == "/GroupAPI/List") {
-            response = Response(groupApi.Get(data, sqlWrapper));
+            response = Response(groupApi.Get(data));
         }else if (request.path() == "/GroupAPI/AddSubject") {            
-            response = Response(groupApi.AddSubjectPage(data, sqlWrapper));
+            response = Response(groupApi.AddSubjectPage(data));
         } 
     }
     else if(request.method() == "POST") {
@@ -98,11 +98,11 @@ void Transportation::userTransportation(Request request, Response& response) {
         }else if (request.path() == "/GroupAPI/Create") {
             
             
-            response = Response(groupApi.Create(data, sqlWrapper));
+            response = Response(groupApi.Create(data));
         }else if (request.path() == "/GroupAPI/Update") {
 
         } else if (request.path() == "/settings") {
-            std::string result = userApi.Update(data, sqlWrapper);
+            std::string result = userApi.Update(data);
             response = Response(result);
             if (result.empty()) {
                 response.redirect("/settings");
@@ -110,7 +110,7 @@ void Transportation::userTransportation(Request request, Response& response) {
         } else if (request.path() == "/GroupAPI/Delete") {
 
         } else if (request.path() == "/GroupAPI/DeleteSubject") {
-            std::string result = groupApi.DeleteSubject(data, sqlWrapper); 
+            std::string result = groupApi.DeleteSubject(data); 
             response = Response(result);
             if (result.empty()) {
                 response.redirect("/GroupAPI/SubjectList");
@@ -118,17 +118,17 @@ void Transportation::userTransportation(Request request, Response& response) {
                 response.setStatus(500);
             }
         } else if (request.path() == "/GroupAPI/DeleteDeadline") {
-            response = Response(groupApi.DeleteDeadline(data, sqlWrapper));
+            response = Response(groupApi.DeleteDeadline(data));
 
         } else if (request.path() == "/GroupAPI/AddSubject") {            
-            response = Response(groupApi.AddSubject(data, sqlWrapper));
+            response = Response(groupApi.AddSubject(data));
             response.redirect("/GroupAPI/SubjectList");
         }else if (request.path() == "/GroupAPI/AddDeadline") {
-            response = Response(groupApi.AddDeadline(data, sqlWrapper));
+            response = Response(groupApi.AddDeadline(data));
         }else if (request.path() == "/PostAPI/Create") {
             
             
-            std::string result = postApi.Create(data, sqlWrapper);
+            std::string result = postApi.Create(data);
                 response = Response(result);
             if (result.empty()) {
                 response.setStatus(302);
@@ -137,9 +137,9 @@ void Transportation::userTransportation(Request request, Response& response) {
         } else if (request.path() == "/PostAPI/Update") {
 
         }else if (request.path() == "/PostAPI/Delete") {
-            response = Response(postApi.Delete(data, sqlWrapper));            
+            response = Response(postApi.Delete(data));            
         }else if (request.path() == "/signup") {
-            std::string result = userApi.Create(data, sqlWrapper);
+            std::string result = userApi.Create(data);
             if (result.empty()) {
                 response.setStatus(302);
                 response.setHeader("Location", "/login");
@@ -147,12 +147,12 @@ void Transportation::userTransportation(Request request, Response& response) {
                 response = Response(result);
             }
         }else if (request.path() == "/UserAPI/Update") {
-            response = Response(userApi.Update(data, sqlWrapper));
+            response = Response(userApi.Update(data));
             response.redirect("/profile");
         }else if (request.path() == "/UserAPI/Delete") {
 
         }else if (request.path() == "/UserAPI/Authenticate") {
-            std::pair<std::string, std::string> auth = userApi.Authenticate(data, sqlWrapper);
+            std::pair<std::string, std::string> auth = userApi.Authenticate(data);
             response = Response(auth.second);
             if (auth.second.empty()) {
                 response.setStatus(302);
