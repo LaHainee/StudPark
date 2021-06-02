@@ -80,7 +80,7 @@ std::string GroupAPI::Delete(const std::unordered_map<std::string, std::string> 
 std::string GroupAPI::ExportGroupList(const std::unordered_map<std::string, std::string> &data) {
     Student admin;
     try {
-        admin = Student::GetStudentBySession(data.find("session")->second);
+        admin = Student::GetStudentBySession(db, data.find("session")->second);
     } catch (std::exception &e) {
         return e.what();
     }
@@ -106,7 +106,7 @@ std::string GroupAPI::ExportGroupList(const std::unordered_map<std::string, std:
 
 std::string GroupAPI::AddSubjectPage(const std::unordered_map<std::string, std::string> &data) {
     std::string session = data.find("session")->second;
-    Student admin = getStudentBySession(session, db);
+    Student admin = getStudentBySession(session);
     if (admin.role == Student::Roles::STUDENT) {
         return templates.RenderErrors("Not enough privileges");
     }
@@ -117,7 +117,7 @@ std::string GroupAPI::AddSubjectPage(const std::unordered_map<std::string, std::
 
 std::string GroupAPI::AddSubject(const std::unordered_map<std::string, std::string> &data) {
     std::string session = data.find("session")->second;
-    Student admin = getStudentBySession(session, db);
+    Student admin = getStudentBySession(session);
     if (admin.role == Student::Roles::LEADER || admin.role == Student::Roles::ADMIN) {
         try {
             Subject::AddSubject(db, data.find("subject")->second, admin.group_id);
@@ -142,7 +142,7 @@ Student GroupAPI::getStudentBySession(std::string &session) {
 
 std::string GroupAPI::AddDeadline(const std::unordered_map<std::string, std::string> &data) {
     std::string session = data.find("session")->second;
-    Student admin = getStudentBySession(session, db);
+    Student admin = getStudentBySession(session);
     std::string time = data.find("time")->second;
     std::string deadlineName = data.find("name")->second;
     if (admin.role == Student::Roles::LEADER || admin.role == Student::Roles::ADMIN) {
