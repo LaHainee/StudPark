@@ -6,7 +6,7 @@
 
 class PostAPI : API {
 public:
-    PostAPI() = default;
+    PostAPI(SQLWrapper &db) : API(db) {}
 
     std::string Create(const std::unordered_map<std::string, std::string> &data) override;
     std::string Get(const std::unordered_map<std::string, std::string> &data)    override;
