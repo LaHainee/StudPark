@@ -145,9 +145,10 @@ std::string GroupAPI::AddDeadline(const std::unordered_map<std::string, std::str
     Student admin = getStudentBySession(session);
     std::string time = data.find("time")->second;
     std::string deadlineName = data.find("name")->second;
+    int subjectID = std::stoi(data.find("subject")->second);
     if (admin.role == Student::Roles::LEADER || admin.role == Student::Roles::ADMIN) {
         try {
-            Deadline::AddDeadline(db, deadlineName, std::stoi(data.find("subject")->second), time);
+            Deadline::AddDeadline(db, deadlineName, subjectID, time);
         } catch (std::exception &e) {
             return e.what();
         }
@@ -159,8 +160,9 @@ std::string GroupAPI::AddDeadline(const std::unordered_map<std::string, std::str
         ss >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");
         time_t schedTime = mktime(&tm);
         for (auto &student : students) {
-            SendMail::AddInQueue(db, student.login, deadlineName + " в " + time, deadlineName + " в " + time, schedTime - WEEK);
-            SendMail::AddInQueue(db, student.login, deadlineName + " в " + time, deadlineName + " в " + time, schedTime - DAY);
+            std::string name =  deadlineName + " по " + Subject::GetSubjectById(db, subjectID).subject + " " + time;
+            SendMail::AddInQueue(db, student.login, name, name, schedTime - WEEK);
+            SendMail::AddInQueue(db, student.login, name, name, schedTime - DAY);
         }
     } else {
         return "Недостаточно привилегий";

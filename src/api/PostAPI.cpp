@@ -85,5 +85,5 @@ std::string PostAPI::Feed(const std::unordered_map<std::string, std::string> &da
         return templates.RenderErrors(e.what());
     }
     
-    return templates.RenderPosts(db, st.group_id, 1, st.FullName(), st.role);
+    return templates.RenderPosts(db, st.group_id, 1, st.FullName(), st.role, Group::GetGroupName(db, st.group_id));
 }
