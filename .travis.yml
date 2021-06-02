@@ -37,4 +37,11 @@ script:
    - cppcheck .
    - sudo apt install curl
    - sudo apt-get install libcurl4-openssl-dev
+   - export HOST=192.168.193.151
+   - export PORT=5432
+   - export PASSWORD=root
+   - export DBNAME=studpark
+   - export DBUSER=root
+   - export HOST_SERV=127.0.0.1
+   - export PORT_SERV=5000
    - cmake . && sudo make studpark
