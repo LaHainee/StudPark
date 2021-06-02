@@ -59,6 +59,7 @@ target_link_libraries(studpark
 	PostgreSQL::PostgreSQL
 	pthread
 	boost_system
+	boost_locale
 	OpenSSL::Crypto
 	curl
 )

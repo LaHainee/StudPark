@@ -9,6 +9,7 @@
 #include "boost/logic/tribool.hpp"
 
 #include "Transportation.h"
+#include "Wrapper.h"
 
 class ConnectionManager;
 
@@ -16,7 +17,7 @@ class Connection: public std::enable_shared_from_this<Connection> {
 public:
     Connection(const Connection&) = delete;
     Connection& operator=(const Connection&) = delete;
-    explicit Connection(boost::asio::io_service& service, ConnectionManager& manager);
+    explicit Connection(boost::asio::io_service& service, ConnectionManager& manager, SQLWrapper &db);
 
     void start();
     void stop() { socket_.close();}
@@ -31,6 +32,7 @@ private:
 
     void doRead(const boost::system::error_code& e, std::size_t bytes_transferred);  //  requests
     void doWrite(const boost::system::error_code& e);  //  response клиенту
+    SQLWrapper db;
 
 };
 

@@ -9,7 +9,7 @@
 
 class UserAPI : API {
 public:
-    UserAPI() = default;
+    UserAPI(SQLWrapper &db) : API(db) {}
     std::string Create(const std::unordered_map<std::string, std::string> &data) override;
     std::string Get(const std::unordered_map<std::string, std::string> &data)    override;
     std::string Update(const std::unordered_map<std::string, std::string> &data) override;
