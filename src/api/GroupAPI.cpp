@@ -239,8 +239,12 @@ std::string GroupAPI::DeleteDeadline(const std::unordered_map<std::string, std::
     } catch (std::exception &e) {
         return e.what();
     }
-    if (st.group_id != Deadline::GetDeadlineById(db, std::stoi(data.find("id")->second)).group_id) {
-        return "Недостаточно привилегий";
+    try {
+        if (st.group_id != Deadline::GetDeadlineById(db, std::stoi(data.find("id")->second)).group_id) {
+            return "Недостаточно привилегий";
+        }   
+    } catch (std::exception &e) {
+        return "Дедлайна не существует";
     }
     try {
         Deadline::DeleteDeadline(db, std::stoi(data.find("id")->second));
