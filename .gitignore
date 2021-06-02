@@ -13,7 +13,6 @@ env
 files
 symlinks
 cmake-*
-cmake-build-debug
 .idea
 vendor
 build
