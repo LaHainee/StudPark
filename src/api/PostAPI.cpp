@@ -2,7 +2,7 @@
 
 TemplateEngine templates;
 
-std::string PostAPI::Create(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string PostAPI::Create(const std::unordered_map<std::string, std::string> &data) {
     Student admin;
     try {
         admin = Student::GetStudentBySession(db, data.find("session")->second);
@@ -24,7 +24,7 @@ std::string PostAPI::Create(const std::unordered_map<std::string, std::string> &
     return "";  // Render template
 }
 
-std::string PostAPI::CreatePostPage(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string PostAPI::CreatePostPage(const std::unordered_map<std::string, std::string> &data) {
     Student admin;
     try {
         admin = Student::GetStudentBySession(db, data.find("session")->second);
@@ -39,13 +39,13 @@ std::string PostAPI::CreatePostPage(const std::unordered_map<std::string, std::s
     return templates.RenderCreatePostPage(1, admin.FullName(), admin.role);
 }
 
-std::string PostAPI::Get(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string PostAPI::Get(const std::unordered_map<std::string, std::string> &data) {
     return "";  // Single post page, not implemented
 }
-std::string PostAPI::Update(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string PostAPI::Update(const std::unordered_map<std::string, std::string> &data) {
     return "";  // Not implemented
 }
-std::string PostAPI::Delete(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string PostAPI::Delete(const std::unordered_map<std::string, std::string> &data) {
     Student st = Student::GetStudentBySession(db, data.find("session")->second);
     Post post = Post::GetPost(db, std::stoi(data.find("id")->second));
     if (post.owner != st.id) {
@@ -56,10 +56,10 @@ std::string PostAPI::Delete(const std::unordered_map<std::string, std::string> &
     } catch (std::exception &e) {
         return e.what();
     }
-    return "";  // Change to AJAX, returns int
+    return "";
 }
 
-std::string PostAPI::AddPostComment(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string PostAPI::AddPostComment(const std::unordered_map<std::string, std::string> &data) {
     Student st = Student::GetStudentBySession(db, data.find("session")->second);
     try {
         Comment::AddComment(db, std::stoi(data.find("post")->second), st.id, data.find("text")->second);
@@ -70,13 +70,13 @@ std::string PostAPI::AddPostComment(const std::unordered_map<std::string, std::s
     return "Comment added";  // Render template
 }
 
-int PostAPI::DeletePostComment(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+int PostAPI::DeletePostComment(const std::unordered_map<std::string, std::string> &data) {
     Student st = Student::GetStudentBySession(db, data.find("session")->second);
     Comment::DeleteComment(db, std::stoi(data.find("id")->second));
     return 200;
 }
 
-std::string PostAPI::Feed(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string PostAPI::Feed(const std::unordered_map<std::string, std::string> &data) {
     Student st;
     std::vector<Post> posts;
     try {

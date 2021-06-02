@@ -18,21 +18,21 @@ class GroupAPI : API {
 public:
     GroupAPI() = default;
 
-    std::string Create(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) override;
-    std::string Get(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) override;
-    std::string Update(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) override;
-    std::string Delete(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) override;
+    std::string Create(const std::unordered_map<std::string, std::string> &data) override;
+    std::string Get(const std::unordered_map<std::string, std::string> &data) override;
+    std::string Update(const std::unordered_map<std::string, std::string> &data) override;
+    std::string Delete(const std::unordered_map<std::string, std::string> &data) override;
 
-    std::string ExportGroupList(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
-    std::string AddSubject(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
-    std::string AddSubjectPage(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
-    std::string AddDeadline(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
-    std::string CreatePage(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
-    std::string GetDeadlines(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
-    std::string DeleteDeadline(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
-    std::string GetSubjects(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
-    std::string GetSubjectsPage(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
-    std::string DeleteSubject(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db);
+    std::string ExportGroupList(const std::unordered_map<std::string, std::string> &data);
+    std::string AddSubject(const std::unordered_map<std::string, std::string> &data);
+    std::string AddSubjectPage(const std::unordered_map<std::string, std::string> &data);
+    std::string AddDeadline(const std::unordered_map<std::string, std::string> &data);
+    std::string CreatePage(const std::unordered_map<std::string, std::string> &data);
+    std::string GetDeadlines(const std::unordered_map<std::string, std::string> &data);
+    std::string DeleteDeadline(const std::unordered_map<std::string, std::string> &data);
+    std::string GetSubjects(const std::unordered_map<std::string, std::string> &data);
+    std::string GetSubjectsPage(const std::unordered_map<std::string, std::string> &data);
+    std::string DeleteSubject(const std::unordered_map<std::string, std::string> &data);
 private:
-    Student getStudentBySession(std::string &session, SQLWrapper &db);
+    Student getStudentBySession(std::string &session);
 };

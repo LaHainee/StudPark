@@ -6,7 +6,7 @@ std::string UserAPI::Login() {
     return templates.RenderLoginPage();
 }
 
-std::string UserAPI::Create(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string UserAPI::Create(const std::unordered_map<std::string, std::string> &data) {
     std::string password = data.find("password")->second;
     std::string password_enc = sha256(password);
     std::string email = data.find("user_login")->second;
@@ -33,10 +33,10 @@ std::string UserAPI::Create(const std::unordered_map<std::string, std::string> &
     return "";
 }
 
-std::string UserAPI::Get(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string UserAPI::Get(const std::unordered_map<std::string, std::string> &data) {
     return "";  // Render "User profile" page
 }
-std::string UserAPI::Update(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string UserAPI::Update(const std::unordered_map<std::string, std::string> &data) {
     Student st;
     try {
         st = Student::GetStudentBySession(db, data.find("session")->second);
@@ -63,11 +63,11 @@ std::string UserAPI::Update(const std::unordered_map<std::string, std::string> &
     }
     return "";  // AJAX
 }
-std::string UserAPI::Delete(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string UserAPI::Delete(const std::unordered_map<std::string, std::string> &data) {
     return "";  // Only for admin, AJAX
 }
 
-std::pair<std::string, std::string> UserAPI::Authenticate(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::pair<std::string, std::string> UserAPI::Authenticate(const std::unordered_map<std::string, std::string> &data) {
     int student = 0;
     std::cout << data.find("login")->second << " " << data.find("password")->second << std::endl;
     try {
@@ -84,12 +84,12 @@ std::pair<std::string, std::string> UserAPI::Authenticate(const std::unordered_m
     }
 }
 
-std::string UserAPI::Authorize(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string UserAPI::Authorize(const std::unordered_map<std::string, std::string> &data) {
     Student st = Student::GetStudentBySession(db, data.find("session")->second);
     return st.first_name;
 }
 
-std::string UserAPI::Logout(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string UserAPI::Logout(const std::unordered_map<std::string, std::string> &data) {
     std::string session = data.find("session")->second;
     try {
         Student::GetStudentBySession(db, session);
@@ -102,7 +102,7 @@ std::string UserAPI::Logout(const std::unordered_map<std::string, std::string> &
     return "";  // Render page login()
 }
 
-int UserAPI::AddContact(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+int UserAPI::AddContact(const std::unordered_map<std::string, std::string> &data) {
     Student st = Student::GetStudentBySession(db, data.find("session")->second);
     try {
         Contact::AddContact(db, std::stoi(data.find("type")->second),
@@ -133,7 +133,7 @@ std::string UserAPI::SignupPage() {
     return templates.RenderSignupPage();
 }
 
-std::string UserAPI::Profile(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string UserAPI::Profile(const std::unordered_map<std::string, std::string> &data) {
     Student admin;
     try {
         admin = Student::GetStudentBySession(db, data.find("session")->second);
@@ -143,7 +143,7 @@ std::string UserAPI::Profile(const std::unordered_map<std::string, std::string> 
     return templates.RenderProfile(db, Contact::GetContacts(db, admin.id), admin, 1, admin.FullName(), admin.role, Group::GetGroupName(db, admin.group_id));
 }
 
-std::string UserAPI::SettingsPage(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string UserAPI::SettingsPage(const std::unordered_map<std::string, std::string> &data) {
     Student st;
     try {
         st = Student::GetStudentBySession(db, data.find("session")->second);

@@ -2,7 +2,7 @@
 #include "GroupAPI.h"
 #include "Utils.h"
 
-std::string GroupAPI::CreatePage(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string GroupAPI::CreatePage(const std::unordered_map<std::string, std::string> &data) {
     Student admin;
     try {
         admin = Student::GetStudentBySession(db, data.find("session")->second);
@@ -15,7 +15,7 @@ std::string GroupAPI::CreatePage(const std::unordered_map<std::string, std::stri
     return templates.RenderAdminPage(true);
 }
 
-std::string GroupAPI::Create(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string GroupAPI::Create(const std::unordered_map<std::string, std::string> &data) {
     Student admin;
     try {
         admin = Student::GetStudentBySession(db, data.find("session")->second);
@@ -59,7 +59,7 @@ std::string GroupAPI::Create(const std::unordered_map<std::string, std::string> 
 
     return templates.RenderErrors("Пароль старосты: " + password + "\nКод присоединения: " + joinCode, 1, admin.first_name + " "  + admin.second_name);  // Render template "Group created, head password is: <pwd>
 }
-std::string GroupAPI::Get(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string GroupAPI::Get(const std::unordered_map<std::string, std::string> &data) {
     Student admin;
     try {
         admin = Student::GetStudentBySession(db, data.find("session")->second);
@@ -70,14 +70,14 @@ std::string GroupAPI::Get(const std::unordered_map<std::string, std::string> &da
 
     return templates.RenderGroupList(db, admin.group_id, 1, admin.FullName(), admin.role);
 }
-std::string GroupAPI::Update(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string GroupAPI::Update(const std::unordered_map<std::string, std::string> &data) {
     return "";  // Delete
 }
-std::string GroupAPI::Delete(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string GroupAPI::Delete(const std::unordered_map<std::string, std::string> &data) {
     return "";  // For superuser only
 }
 
-std::string GroupAPI::ExportGroupList(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string GroupAPI::ExportGroupList(const std::unordered_map<std::string, std::string> &data) {
     Student admin;
     try {
         admin = Student::GetStudentBySession(db, data.find("session")->second);
@@ -104,7 +104,7 @@ std::string GroupAPI::ExportGroupList(const std::unordered_map<std::string, std:
     return csv;
 }
 
-std::string GroupAPI::AddSubjectPage(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string GroupAPI::AddSubjectPage(const std::unordered_map<std::string, std::string> &data) {
     std::string session = data.find("session")->second;
     Student admin = getStudentBySession(session, db);
     if (admin.role == Student::Roles::STUDENT) {
@@ -115,7 +115,7 @@ std::string GroupAPI::AddSubjectPage(const std::unordered_map<std::string, std::
 }
 
 
-std::string GroupAPI::AddSubject(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string GroupAPI::AddSubject(const std::unordered_map<std::string, std::string> &data) {
     std::string session = data.find("session")->second;
     Student admin = getStudentBySession(session, db);
     if (admin.role == Student::Roles::LEADER || admin.role == Student::Roles::ADMIN) {
@@ -130,7 +130,7 @@ std::string GroupAPI::AddSubject(const std::unordered_map<std::string, std::stri
     return "";
 }
 
-Student GroupAPI::getStudentBySession(std::string &session, SQLWrapper &db) {
+Student GroupAPI::getStudentBySession(std::string &session) {
     Student st;
     try {
         st = Student::GetStudentBySession(db, session);
@@ -140,7 +140,7 @@ Student GroupAPI::getStudentBySession(std::string &session, SQLWrapper &db) {
     return st;
 }
 
-std::string GroupAPI::AddDeadline(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string GroupAPI::AddDeadline(const std::unordered_map<std::string, std::string> &data) {
     std::string session = data.find("session")->second;
     Student admin = getStudentBySession(session, db);
     std::string time = data.find("time")->second;
@@ -168,7 +168,7 @@ std::string GroupAPI::AddDeadline(const std::unordered_map<std::string, std::str
     return "";
 }
 
-std::string GroupAPI::GetDeadlines(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string GroupAPI::GetDeadlines(const std::unordered_map<std::string, std::string> &data) {
     Student st;
     try {
         st = Student::GetStudentBySession(db, data.find("session")->second);
@@ -194,7 +194,7 @@ std::string GroupAPI::GetDeadlines(const std::unordered_map<std::string, std::st
     return dead.dump();
 }
 
-std::string GroupAPI::GetSubjectsPage(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string GroupAPI::GetSubjectsPage(const std::unordered_map<std::string, std::string> &data) {
     Student admin;
     try {
         admin = Student::GetStudentBySession(db, data.find("session")->second);
@@ -204,7 +204,7 @@ std::string GroupAPI::GetSubjectsPage(const std::unordered_map<std::string, std:
     return templates.RenderSubjectsList(db, admin.group_id, 1, admin.FullName(), admin.role, Group::GetGroupName(db, admin.group_id));
 }
 
-std::string GroupAPI::GetSubjects(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string GroupAPI::GetSubjects(const std::unordered_map<std::string, std::string> &data) {
     Student st;
     try {
         st = Student::GetStudentBySession(db, data.find("session")->second);
@@ -230,7 +230,7 @@ std::string GroupAPI::GetSubjects(const std::unordered_map<std::string, std::str
     return subj.dump();
 }
 
-std::string GroupAPI::DeleteDeadline(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string GroupAPI::DeleteDeadline(const std::unordered_map<std::string, std::string> &data) {
     Student st;
     try {
         st = Student::GetStudentBySession(db, data.find("session")->second);
@@ -248,7 +248,7 @@ std::string GroupAPI::DeleteDeadline(const std::unordered_map<std::string, std::
     return "";
 }
 
-std::string GroupAPI::DeleteSubject(const std::unordered_map<std::string, std::string> &data, SQLWrapper &db) {
+std::string GroupAPI::DeleteSubject(const std::unordered_map<std::string, std::string> &data) {
     Student admin;
     try {
         admin = Student::GetStudentBySession(db, data.find("session")->second);
