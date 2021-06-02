@@ -80,7 +80,7 @@ std::string GroupAPI::Delete(const std::unordered_map<std::string, std::string> 
 std::string GroupAPI::ExportGroupList(const std::unordered_map<std::string, std::string> &data) {
     Student admin;
     try {
-        admin = Student::GetStudentBySession(db, data.find("session")->second);
+        admin = Student::GetStudentBySession(data.find("session")->second);
     } catch (std::exception &e) {
         return e.what();
     }

@@ -15,6 +15,5 @@ class API {
     virtual std::string Update(const std::unordered_map<std::string, std::string> &data) = 0;
     virtual std::string Delete(const std::unordered_map<std::string, std::string> &data) = 0;
     TemplateEngine templates;
-  private:
     SQLWrapper &db;
 };
