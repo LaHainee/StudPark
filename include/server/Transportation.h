@@ -17,10 +17,9 @@ public:
 
 private:
     SQLWrapper sqlWrapper;
-    UserAPI userApi{sqlWrapper};
-    FilesAPI filesApi{sqlWrapper};
-    GroupAPI groupApi{sqlWrapper};
-    PostAPI postApi{sqlWrapper};
+    UserAPI userApi(sqlWrapper);
+    GroupAPI groupApi(sqlWrapper);
+    PostAPI postApi(sqlWrapper);
 
 };
 
