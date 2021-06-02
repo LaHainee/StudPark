@@ -8,7 +8,7 @@
 
 class API {
   public:
-    API(SQLWrapper &db) : db(db) = default;
+    API(SQLWrapper &db) : db(db) {};
     ~API() = default;
     virtual std::string Create(const std::unordered_map<std::string, std::string> &data) = 0;
     virtual std::string Get(const std::unordered_map<std::string, std::string> &data)    = 0;
