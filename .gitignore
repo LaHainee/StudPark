@@ -20,9 +20,9 @@ build
 env.crash
 created_templates
 templates/node_modules
-*.DS_Store
 sender
 cmake-build-debug
 main.cpp
 .idea
 .git
+*.DS_Store
