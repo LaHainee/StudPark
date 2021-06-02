@@ -28,7 +28,6 @@ script:
    - tar -xvzf v3.2.0.tar.gz
    - cd inja-3.2.0/test/ && rm test.cpp && echo "int main() { return 0; }" >> test.cpp
    - rm benchmark.cpp && echo "int main() { return 0; }" >> benchmark.cpp && cd ..
-   - cmake . && make && make install && cd ..
    - wget https://github.com/nlohmann/json/archive/refs/tags/v3.9.1.tar.gz
    - tar -xvzf v3.9.1.tar.gz
    - cd json-3.9.1 && cmake . && make && sudo make install && cd ..
