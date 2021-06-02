@@ -21,6 +21,7 @@ compiler:
 script:
    - pip3 install --user cpplint
    - cpplint $CPPLINT_FILTERS $CPPLINT_FILES
+   - sudo apt install libpq-dev postgresql-server-dev-12
    - sudo apt install postgresql postgresql-contrib
    - sudo systemctl start postgresql@12-main
    - sudo pg_ctlcluster 12 main start
