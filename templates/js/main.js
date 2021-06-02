@@ -281,6 +281,7 @@ function get_deadlines() {
         url: '/GroupAPI/GetDeadlines',
         success: (data) => {
      var json = JSON.parse(data);
+     if (json["deadlines"]) {
      json["deadlines"].forEach(e=>{
         var date = new Date(e.date);
         
@@ -297,6 +298,7 @@ function get_deadlines() {
             "discipline": subjects.find(x => x.id == e.subject)['name'],
         });
      });
+ }
     },
         async: false
     });

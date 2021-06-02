@@ -41,6 +41,19 @@
                         <textarea name="body" id="body" class="form-control" style="width: 300px;"></textarea>
                     </div>
                 </div>
+                <!-- Загрузка файла -->
+                <div class="row g-3 align-items-center">
+                    <div class="col">
+                        <label for="fileupload" class="col-form-label" style="font-size: 20px; color: black;">
+                            &bull;Прикрепить файл(ы)
+                        </label>
+                    </div>
+
+                    <div class="col">
+                        <input type="file" name="fileupload" id="fileupload" class="form-control" style="width: 300px;"></input>
+                    </div>
+                    <button type="button" class="btn btn-info" onclick="uploadFile()">Прикрепить</button>
+                </div>
 
                 <br>
                 <button type="submit" class="btn btn-secondary" style="width: 250px;">
@@ -50,6 +63,9 @@
             </form>
         </div>
     </div>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.919.0.js"></script>
+    <script src="/js/credentials.js"></script>
+    <script src="/js/upload.js"></script>
 </main>
 </body>
 </html>
