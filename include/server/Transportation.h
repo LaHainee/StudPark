@@ -6,7 +6,6 @@
 #include "Response.h"
 #include "Request.h"
 
-#include "FilesAPI.h"
 #include "GroupAPI.h"
 #include "PostAPI.h"
 #include "UserAPI.h"
