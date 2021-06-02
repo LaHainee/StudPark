@@ -6,6 +6,8 @@ find_package(PostgreSQL REQUIRED)
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
 
+add_compile_options(-O3 -march=native -mtune=native -Wno-deprecated-declarations)
+
 include_directories(
 	include/templates
 	include/mailing
@@ -13,12 +15,12 @@ include_directories(
 	include/orm
 	include/server
 	include/api
-	/home/test/boost_1_76_0
+	/usr/local/boost_1_76_0
 	/usr/local/include/inja
 )
 
 link_directories(
-	/home/test/boost_1_76_0/stage/lib
+	/usr/local/boost_1_76_0/stage/lib
 )
 
 add_executable(studpark
@@ -48,12 +50,12 @@ add_executable(studpark
 	src/templates/template_engine.cpp
 )
 
-#add_executable(sender
-#	src/mailing/sender_daemon.cpp
-#	src/mailing/sender.cpp
-#	src/orm/SendMail.cpp
-#	src/orm/Wrapper.cpp
-#)
+add_executable(sender
+	src/mailing/sender_daemon.cpp
+	src/mailing/sender.cpp
+	src/orm/SendMail.cpp
+	src/orm/Wrapper.cpp
+)
 
 target_link_libraries(studpark
 	PostgreSQL::PostgreSQL
@@ -64,8 +66,8 @@ target_link_libraries(studpark
 	curl
 )
 
-#target_link_libraries(sender
-#	PostgreSQL::PostgreSQL
-#	curl
-#	pthread
-#)
+target_link_libraries(sender
+	PostgreSQL::PostgreSQL
+	curl
+	pthread
+)

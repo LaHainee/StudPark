@@ -212,8 +212,8 @@ function new_event_json(name, time, date, day, discipline) {
 	    alert(e);
 	    return;
 	}
-	   event_data["events"].push(event);
     });
+	event_data["events"].push(event);
 }
 
 // Display all events of the selected date in card views

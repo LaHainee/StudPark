@@ -240,7 +240,7 @@ std::string GroupAPI::DeleteDeadline(const std::unordered_map<std::string, std::
         return e.what();
     }
     try {
-        if (st.group_id != Deadline::GetDeadlineById(db, std::stoi(data.find("id")->second)).group_id) {
+        if (st.group_id != Deadline::GetDeadlineById(db, std::stoi(data.find("id")->second)).group_id || st.role != Student::Roles::LEADER) {
             return "Недостаточно привилегий";
         }   
     } catch (std::exception &e) {
