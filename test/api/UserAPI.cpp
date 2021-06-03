@@ -1,12 +1,9 @@
 #include "gtest/gtest.h"
-
-
 #include "../../src/api/UserAPI.cpp"
 
 TEST(user, create_user) {
-    ASSERT_EQ(1,1);
+    ASSERT_EQ(1, 1);
 }
-
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);

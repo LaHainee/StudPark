@@ -36,4 +36,4 @@ class AttachmentPost {
     std::string path;
 };
 
-#endif // INCLUDE_ORM_ATTACHMENTPOST_H_
+#endif  // INCLUDE_ORM_ATTACHMENTPOST_H_

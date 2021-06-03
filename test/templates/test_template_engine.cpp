@@ -11,4 +11,3 @@ TEST(create_template, test1) {
     /*json data = "";
     std::string test_template = template_engine.RenderTemplate(data);*/
 }
-

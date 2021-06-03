@@ -16,6 +16,7 @@ class Request {
     std::string dataPost(const std::string & key);
     std::unordered_map<std::string, std::string> dataTable();
     std::unordered_map<std::string, std::string> getData() const;
+
  private:
     std::string _method;
     std::string _path;

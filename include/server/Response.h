@@ -52,6 +52,7 @@ class Response {
         setStatus(301);
         setHeader("Location", url);
     }
+
  private:
     void setDate();
     std::string statusToStr() const;

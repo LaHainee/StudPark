@@ -23,7 +23,7 @@ class TemplateEngine {
  public:
     std::string RenderTemplate(const json& data, const std::string& templateToParse);
     std::string RenderPosts(SQLWrapper &wrapper, int groupId, bool isAuthenticated = false,
-                            std::string user = "", int userRole = 0, std::string group="");
+                            std::string user = "", int userRole = 0, std::string group = "");
     std::string RenderProfile(SQLWrapper &wrapper, const std::vector<Contact> &contacts,
                               const Student &student, bool isAuthenticated = false,
                               std::string user = "", int userRole = 0, std::string group = "");
@@ -42,6 +42,7 @@ class TemplateEngine {
     std::string RenderAddSubject(bool isAuthenticated = false, std::string user = "", int userRole = 0, std::string group = "");
     std::string RenderCreatePostPage(bool isAuthenticated = false, std::string user = "", int userRole = 0, std::string group = "");
     std::string RenderGroupSuccessfulCreate(bool isAuthenticated = false, std::string user = "", int userRole = 0, std::string group = "");
+
  private:
     Environment env;
 };

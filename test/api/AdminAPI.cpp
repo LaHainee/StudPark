@@ -1,5 +1,4 @@
 #include "gtest/gtest.h"
-
 #include "../../src/api/AdminAPI.cpp"
 
 TEST(admin_api, create_user) {
@@ -10,7 +9,7 @@ TEST(admin_api, create_user) {
 
 TEST(admin_api, create_group) {
     // Create test group, 
-    // add a student, 
+    // add a student,
     // check if a student belongs to the group
     // delete everything
 }

@@ -1,5 +1,4 @@
 #include "gtest/gtest.h"
-
 #include "../../src/api/CalendarAPI.cpp"
 
 TEST(calendar, add_event) {  // Доделать
@@ -11,25 +10,19 @@ TEST(calendar, add_event) {  // Доделать
 }
 
 TEST(calendar, edit_event) {
-
 }
 
 TEST(calendar, delete_event) {
-
 }
 
 TEST(calendar, get_events_for_user) {
-
 }
 
 TEST(calendar, export_ics) {
-    
 }
 
 TEST(calendar, add_deadline) {
-    
 }
-
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);

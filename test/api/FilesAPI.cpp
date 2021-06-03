@@ -19,9 +19,7 @@ TEST(files, list_user_files) {
     // Add files to user's folder,
     // List files,
     // Check if listed files are the same files that were added
-    
 }
-
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
