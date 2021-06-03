@@ -27,7 +27,7 @@
                         </label>
                     </div>
                     <div class="col">
-                        <input type="text" id="s_name" name="s_name" class="form-control" style="width: 300px;">
+                        <input type="text" required="'required'" pattern=".{1,}" id="s_name" name="s_name" class="form-control" style="width: 300px;">
                     </div>
                 </div>
                 <!-- Имя -->
@@ -38,7 +38,7 @@
                         </label>
                     </div>
                     <div class="col">
-                        <input type="text" name="f_name" id="f_name" class="form-control" style="width: 300px;">
+                        <input type="text" required="'required'" pattern=".{1,}" name="f_name" id="f_name" class="form-control" style="width: 300px;">
                     </div>
                 </div>
                 <!-- Отчество -->
@@ -49,7 +49,7 @@
                         </label>
                     </div>
                     <div class="col">
-                        <input type="text" name="user_patronymic" id="user_patronymic" class="form-control" style="width: 300px;">
+                        <input type="text" required="'required'" pattern=".{1,}" name="user_patronymic" id="user_patronymic" class="form-control" style="width: 300px;">
                     </div>
                 </div>
                 <!-- День рождения -->
@@ -60,7 +60,7 @@
                         </label>
                     </div>
                     <div class="col">
-                        <input type="text" name="birthday" id="birthday" minlength="10" maxlength="10" class="form-control" style="width: 300px;">
+                        <input type="text" required="'required'" pattern="[0-3]{2}-[0-1][0-9]-[\d]{4}" name="birthday" id="birthday" class="form-control" style="width: 300px;">
                     </div>
                 </div>
                 <!-- Почта -->
@@ -71,7 +71,7 @@
                         </label>
                     </div>
                     <div class="col">
-                        <input type="text" id="user_login" name="user_login" class="form-control" style="width: 300px;">
+                        <input type="text" required="'required'" pattern=".{3,}" id="user_login" name="user_login" class="form-control" style="width: 300px;">
                     </div>
                 </div>
                 <!-- Пароль -->
@@ -82,7 +82,7 @@
                         </label>
                     </div>
                     <div class="col">
-                        <input type="password" id="password" minlength="8" name="password" class="form-control" style="width: 300px;">
+                        <input type="password" required="'required'" id="password" minlength="8" name="password" class="form-control" style="width: 300px;">
                     </div>
                 </div>
                 <!-- Подтверждение пароля -->
@@ -93,7 +93,7 @@
                         </label>
                     </div>
                     <div class="col">
-                        <input type="password" id="password_confirm"  minlength="8" name="password_confirm" class="form-control" style="width: 300px;">
+                        <input type="password" required="'required'" id="password_confirm"  minlength="8" name="password_confirm" class="form-control" style="width: 300px;">
                     </div>
                 </div>
                 <!-- Код группы -->
@@ -104,7 +104,7 @@
                         </label>
                     </div>
                     <div class="col">
-                        <input type="password" name="join_code" id="join_code" class="form-control" style="width: 300px;">
+                        <input type="password" required="'required'" pattern=".{8}" name="join_code" id="join_code" class="form-control" style="width: 300px;">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-secondary" style="width: 250px;">
