@@ -93,34 +93,34 @@
                 <!-- Отчество старосты -->
                 <div class="row g-3 align-items-center">
                     <div class="col">
-                        <label for="head_patronymic" pattern=".{2,}" class="col-form-label" style="font-size: 20px; color: black;">
+                        <label for="head_patronymic" class="col-form-label" style="font-size: 20px; color: black;">
                             &bull;Отчество старосты
                         </label>
                     </div>
                     <div class="col">
-                        <input type="text" name="head_patronymic" id="head_patronymic" class="form-control" style="width: 300px;">
+                        <input type="text" pattern=".{2,}" name="head_patronymic" id="head_patronymic" class="form-control" style="width: 300px;">
                     </div>
                 </div>
                 <!-- Год начала обучения -->
                 <div class="row g-3 align-items-center">
                     <div class="col">
-                        <label for="start" pattern="[\d]{4}" class="col-form-label" style="font-size: 20px; color: black;">
+                        <label for="start"  class="col-form-label" style="font-size: 20px; color: black;">
                             &bull;Год начала обучения<small>(Пример: 2018)</small>
                         </label>
                     </div>
                     <div class="col">
-                        <input type="text" name="start" id="start" class="form-control" maxlength="4" minlength="4" style="width: 300px;">
+                        <input type="text" name="start" id="start" class="form-control" pattern="[\d]{4}" style="width: 300px;">
                     </div>
                 </div>
                 <!-- e-mail старосты -->
                 <div class="row g-3 align-items-center">
                     <div class="col">
-                        <label for="head_user_login" pattern=".{3,}" class="col-form-label" style="font-size: 20px; color: black;">
+                        <label for="head_user_login" class="col-form-label" style="font-size: 20px; color: black;">
                             &bull;E-mail старосты<small>(Пример: vitalyershov@gmail.com)</small>
                         </label>
                     </div>
                     <div class="col">
-                        <input type="text" name="head_user_login" id="head_user_login" class="form-control" style="width: 300px;">
+                        <input type="text" pattern=".{3,}" name="head_user_login" id="head_user_login" class="form-control" style="width: 300px;">
                     </div>
                 </div>
                 <!-- ДР старосты -->
@@ -134,8 +134,9 @@
                         <input type="text" pattern="[0-3]{2}-[0-1][0-9]-[\d]{4}" name="head_birthday" id="head_birthday" class="form-control" style="width: 300px;">
                     </div>
                 </div>
-                <input type="submit" class="btn btn-secondary" style="width: 250px;" />
-                    Зарегистрировать старосту<br>
+                <button type="submit" class="btn btn-secondary" style="width: 250px;">
+                    Зарегистрировать старосту
+                </button><br>
             </form>
         </div>
     </div>
