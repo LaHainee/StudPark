@@ -37,7 +37,7 @@ jobs:
         run: sudo apt-get install -f libboost-all-dev
 
       - name: Install Inja
-        run: get https://github.com/pantor/inja/archive/refs/tags/v3.2.0.tar.gz && tar -xvzf v3.2.0.tar.gz && cd inja-3.2.0/test/ && rm test.cpp && echo "int main() { return 0; }" >> test.cpp && rm benchmark.cpp && echo "int main() { return 0; }" >> benchmark.cpp && cd .. && cmake . && make && sudo make install && cd ..
+        run: wget https://github.com/pantor/inja/archive/refs/tags/v3.2.0.tar.gz && tar -xvzf v3.2.0.tar.gz && cd inja-3.2.0/test/ && rm test.cpp && echo "int main() { return 0; }" >> test.cpp && rm benchmark.cpp && echo "int main() { return 0; }" >> benchmark.cpp && cd .. && cmake . && make && sudo make install && cd ..
 
       - name: Install nlohmann/json
         run: wget https://github.com/nlohmann/json/archive/refs/tags/v3.9.1.tar.gz && tar -xvzf v3.9.1.tar.gz && cd json-3.9.1 && cmake . && make && sudo make install && cd ..
