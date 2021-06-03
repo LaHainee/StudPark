@@ -29,7 +29,7 @@
                         </label>
                     </div>
                     <div class="col">
-                        <input type="text" name="user_faculty" id="user_faculty" class="form-control" style="width: 300px;">
+                        <input type="text" pattern=".{1,}" name="user_faculty" id="user_faculty" class="form-control" style="width: 300px;">
                     </div>
                 </div>
                 <!-- Кафедра -->
@@ -40,7 +40,7 @@
                         </label>
                     </div>
                     <div class="col">
-                        <input type="text" name="user_number_department" id="user_number_department" class="form-control" style="width: 300px;">
+                        <input type="text" pattern=".{1,}" name="user_number_department" id="user_number_department" class="form-control" style="width: 300px;">
                     </div>
                 </div>
                 <!-- Группа -->
@@ -51,7 +51,7 @@
                         </label>
                     </div>
                     <div class="col">
-                        <input type="text" id="group" name="group" class="form-control" style="width: 300px;">
+                        <input type="text" pattern=".{2,}" id="group" name="group" class="form-control" style="width: 300px;">
                     </div>
                 </div>
                 <!-- Буква -->
@@ -76,7 +76,7 @@
                         </label>
                     </div>
                     <div class="col">
-                        <input type="text" name="head_s_name" id="head_s_name" class="form-control" style="width: 300px;">
+                        <input type="text" pattern=".{2,}" name="head_s_name" id="head_s_name" class="form-control" style="width: 300px;">
                     </div>
                 </div>
                 <!-- Имя старосты -->
@@ -87,13 +87,13 @@
                         </label>
                     </div>
                     <div class="col">
-                        <input type="text" name="head_f_name" id="head_f_name" class="form-control" style="width: 300px;">
+                        <input type="text" pattern=".{2,}" name="head_f_name" id="head_f_name" class="form-control" style="width: 300px;">
                     </div>
                 </div>
                 <!-- Отчество старосты -->
                 <div class="row g-3 align-items-center">
                     <div class="col">
-                        <label for="head_patronymic" class="col-form-label" style="font-size: 20px; color: black;">
+                        <label for="head_patronymic" pattern=".{2,}" class="col-form-label" style="font-size: 20px; color: black;">
                             &bull;Отчество старосты
                         </label>
                     </div>
@@ -104,7 +104,7 @@
                 <!-- Год начала обучения -->
                 <div class="row g-3 align-items-center">
                     <div class="col">
-                        <label for="start" class="col-form-label" style="font-size: 20px; color: black;">
+                        <label for="start" pattern="[\d]{4}" class="col-form-label" style="font-size: 20px; color: black;">
                             &bull;Год начала обучения<small>(Пример: 2018)</small>
                         </label>
                     </div>
@@ -115,7 +115,7 @@
                 <!-- e-mail старосты -->
                 <div class="row g-3 align-items-center">
                     <div class="col">
-                        <label for="head_user_login" class="col-form-label" style="font-size: 20px; color: black;">
+                        <label for="head_user_login" pattern=".{3,}" class="col-form-label" style="font-size: 20px; color: black;">
                             &bull;E-mail старосты<small>(Пример: vitalyershov@gmail.com)</small>
                         </label>
                     </div>
@@ -131,7 +131,7 @@
                         </label>
                     </div>
                     <div class="col">
-                        <input type="text" name="head_birthday" id="head_birthday" class="form-control" style="width: 300px;">
+                        <input type="text" pattern="[0-3]{2}-[0-1][0-9]-[\d]{4}" name="head_birthday" id="head_birthday" class="form-control" style="width: 300px;">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-secondary" style="width: 250px;">
