@@ -9,6 +9,7 @@ jobs:
     env:
       CPPLINT_FILTERS: --filter=-readability/casting,-legal/copyright,-build/include_subdir,-whitespace/line_length,-runtime/references,-runtime/explicit,-build/include_order,-build/c++11,-build/namespaces,-runtime/printf
       CPPLINT_FILES: --recursive src/ include/ main.c
+      CODECOV_TOKEN: 51df8732-1880-4209-b481-d9fe2e5ea92c
       HOST: 192.168.193.151
       PORT: 5432
       PASSWORD: root
@@ -24,6 +25,7 @@ jobs:
         run: |
          sudo apt update && sudo apt upgrade -y && sudo apt install -y gcc-10 cmake g++-10 build-essential cppcheck python3 python3-pip libpthread-stubs0-dev
          python3 -m pip install cpplint && pip3 install --user cpplint
+      
       - name: Run cpplint
         run: cpplint $CPPLINT_FILTERS $CPPLINT_FILES
 
@@ -50,3 +52,6 @@ jobs:
 
       - name: Make studpark
         run: sudo make studpark
+
+      - name: Run Codecov
+        run: bash <(curl -s https://codecov.io/bash)
