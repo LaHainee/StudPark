@@ -3,7 +3,7 @@ dist: focal
 
 env:
   global:
-    - CPPLINT_FILTERS='--filter=-readability/casting,-legal/copyright,-build/include_subdir,-whitespace/line_length,-runtime/references,-runtime/explicit,-build/include_order'
+    - CPPLINT_FILTERS='--filter=-readability/casting,-legal/copyright,-build/include_subdir,-whitespace/line_length,-runtime/references,-runtime/explicit,-build/include_order,-build/c++11,-build/namespaces,-runtime/printf'
     - CPPLINT_FILES='--recursive src/ include/ main.c'
 
 addons:

@@ -5,7 +5,7 @@ namespace async = boost::asio;
 namespace net = boost::asio::ip;
 
 Connection::Connection(boost::asio::io_service& service, ConnectionManager& manager, SQLWrapper &db):
-        socket_(service), manager_(manager), transportation_(db), buffer_() {};
+        socket_(service), manager_(manager), transportation_(db), buffer_() {}
 
 void Connection::start() {
     socket_.async_read_some(
