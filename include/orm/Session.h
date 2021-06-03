@@ -1,5 +1,5 @@
-#ifndef PROJECT_SESSION_H
-#define PROJECT_SESSION_H
+#ifndef INCLUDE_ORM_SESSION_H_
+#define INCLUDE_ORM_SESSION_H_
 
 #include <string>
 #include "Wrapper.h"
@@ -23,4 +23,4 @@ class Session {
     std::string session;
     time_t time_end;
 };
-#endif // PROJECT_SESSION_H
+#endif  // INCLUDE_ORM_SESSION_H_

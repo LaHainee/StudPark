@@ -1,10 +1,11 @@
-#ifndef PROJECT_POST_H
-#define PROJECT_POST_H
+#ifndef INCLUDE_ORM_POST_H_
+#define INCLUDE_ORM_POST_H_
 
 #include <iostream>
 #include <vector>
-#include "Wrapper.h"
 #include <string>
+#include "Wrapper.h"
+
 
 class Post {
  public:
@@ -34,4 +35,4 @@ class Post {
     time_t created;
 };
 
-#endif // PROJECT_POST_H
+#endif  // INCLUDE_ORM_POST_H_

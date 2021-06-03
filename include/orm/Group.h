@@ -1,5 +1,5 @@
-#ifndef PROJECT_GROUP_H
-#define PROJECT_GROUP_H
+#ifndef INCLUDE_ORM_GROUP_H_
+#define INCLUDE_ORM_GROUP_H_
 
 #include <ctime>
 #include <string>
@@ -44,4 +44,4 @@ class Group {
     time_t start_week;
 };
 
-#endif // PROJECT_GROUP_H
+#endif  // INCLUDE_ORM_GROUP_H_

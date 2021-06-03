@@ -1,5 +1,5 @@
-#ifndef CODECARCASS_SENDER_H
-#define CODECARCASS_SENDER_H
+#ifndef INCLUDE_MAILING_SENDER_H_
+#define INCLUDE_MAILING_SENDER_H_
 
 #include <algorithm>
 #include <chrono>
@@ -9,15 +9,16 @@
 #include <iterator>
 #include <thread>
 #include <vector>
+#include <string>
 
 #include "SendMail.h"
 
 #define PERIOD 10
 
 class EmailSender {
-public:
+ public:
     static void Send(SQLWrapper &db, std::vector<SendMail> data, std::vector<std::string> &accountsForMailing);
-private:
+ private:
     static void threadSendMail(const std::vector<SendMail> &data, const std::string &account, std::vector<int> &mails);
     static size_t payloadSource(char *ptr, size_t size, size_t nmemb, void *userp);
     struct uploadStatus {
@@ -29,11 +30,11 @@ private:
 };
 
 class Scheduler {
-public:
+ public:
     Scheduler();
     void Scan();
-private:
+ private:
     std::vector<std::string> accountsForMailing;
 };
 
-#endif //CODECARCASS_SENDER_H
+#endif  // INCLUDE_MAILING_SENDER_H_

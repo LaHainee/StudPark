@@ -79,7 +79,7 @@ std::string TemplateEngine::RenderSettings(SQLWrapper &wrapper, const std::vecto
             };
         }
     }
-    return RenderTemplate(data, "settings.html"); 
+    return RenderTemplate(data, "settings.html");
 }
 
 std::string TemplateEngine::RenderGroupList(SQLWrapper &wrapper, int groupId, bool isAuthenticated, std::string user,

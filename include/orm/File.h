@@ -1,5 +1,5 @@
-#ifndef PROJECT_FILE_H
-#define PROJECT_FILE_H
+#ifndef INCLUDE_ORM_FILE_H_
+#define INCLUDE_ORM_FILE_H_
 
 #include <iostream>
 #include <vector>
@@ -29,4 +29,4 @@ class File {
     std::string salt;
 };
 
-#endif // PROJECT_FILE_H
+#endif  // INCLUDE_ORM_FILE_H_

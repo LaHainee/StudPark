@@ -1,5 +1,5 @@
-#ifndef STUDPARK_UTILS_H
-#define STUDPARK_UTILS_H
+#ifndef INCLUDE_API_UTILS_H_
+#define INCLUDE_API_UTILS_H_
 
 #include <string>
 #include <openssl/sha.h>
@@ -13,4 +13,4 @@
 std::string sha256(const std::string &str);
 std::string randomString(size_t length);
 
-#endif //STUDPARK_UTILS_H
+#endif  // INCLUDE_API_UTILS_H_

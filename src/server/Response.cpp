@@ -1,6 +1,6 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
-#include <memory>
 #include <sstream>
+#include <memory>
 #include "Response.h"
 
 void Response::setCookie(const std::string &key, const std::string &value) {
@@ -56,7 +56,7 @@ void Response::setHeader(const std::string &key, const std::string &value) {
 }
 
 std::string Response::statusToStr() const {
-    switch(statusCode) {
+    switch (statusCode) {
         case (100): return "Continue";
         case (101): return "Switching Protocol";
         case (102): return "Processing";

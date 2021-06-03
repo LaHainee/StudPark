@@ -14,11 +14,11 @@ std::string UserAPI::Create(const std::unordered_map<std::string, std::string> &
         std::cout << "Email is invalid" << std::endl;
         return templates.RenderErrors("Формат Email неверный");
     }
-   // if (!passwordMeetsRequirements(password)) {
-   //     std::cout << "Password does not meet the requirements" << std::endl;
-   //     // Render template `error(wrong_password)`
-   //     return "";
-   // }
+  //  if (!passwordMeetsRequirements(password)) {
+  //    std::cout << "Password does not meet the requirements" << std::endl;
+  //    // Render template `error(wrong_password)`
+  //    return "";
+  //  }
     int groupID;
     try {
         groupID = Group::GetGroupByJoinCode(db, data.find("join_code")->second);

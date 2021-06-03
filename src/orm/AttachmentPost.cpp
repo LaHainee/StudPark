@@ -1,7 +1,7 @@
+#include <iostream>
 #include "Wrapper.h"
 #include "AttachmentPost.h"
 #include "utils_wrapper.hpp"
-#include <iostream>
 
 int AttachmentPost::AddAttachmentPost(SQLWrapper &db, int post_id, const std::string &file_name,
         const std::string &path, int type) {

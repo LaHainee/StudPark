@@ -1,5 +1,5 @@
-#ifndef SERVER_HANDLER_H
-#define SERVER_HANDLER_H
+#ifndef INCLUDE_SERVER_TRANSPORTATION_H_
+#define INCLUDE_SERVER_TRANSPORTATION_H_
 
 #include <string>
 #include <iostream>
@@ -12,16 +12,14 @@
 #include "Wrapper.h"
 
 class Transportation {
-public:
+ public:
     Transportation(SQLWrapper &db) : sqlWrapper(db), userApi(db), groupApi(db), postApi(db) {}
     void userTransportation(Request request, Response& response);
-
-private:
+ private:
     SQLWrapper &sqlWrapper;
     UserAPI userApi;
     GroupAPI groupApi;
     PostAPI postApi;
 };
 
-
-#endif //SERVER_HANDLER_H
+#endif  // INCLUDE_SERVER_TRANSPORTATION_H_

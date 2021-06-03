@@ -1,5 +1,5 @@
-#ifndef PROJECT_SHARE_H
-#define PROJECT_SHARE_H
+#ifndef INCLUDE_ORM_SHARE_H_
+#define INCLUDE_ORM_SHARE_H_
 
 #include <string>
 #include "Wrapper.h"
@@ -27,4 +27,4 @@ class Share {
     int file_fk;
 };
 
-#endif // PROJECT_SHARE_H
+#endif  // INCLUDE_ORM_SHARE_H_

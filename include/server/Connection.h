@@ -1,5 +1,5 @@
-#ifndef SERVER_CONNECTION_H
-#define SERVER_CONNECTION_H
+#ifndef INCLUDE_SERVER_CONNECTION_H_
+#define INCLUDE_SERVER_CONNECTION_H_
 
 #include <array>
 #include <iostream>
@@ -14,7 +14,7 @@
 class ConnectionManager;
 
 class Connection: public std::enable_shared_from_this<Connection> {
-public:
+ public:
     Connection(const Connection&) = delete;
     Connection& operator=(const Connection&) = delete;
     explicit Connection(boost::asio::io_service& service, ConnectionManager& manager, SQLWrapper &db);
@@ -23,7 +23,7 @@ public:
     void stop() { socket_.close();}
 
     boost::asio::ip::tcp::socket& socket() { return this->socket_;}  // получить сокет связанный с подключением
-private:
+ private:
     boost::asio::ip::tcp::socket socket_;
     ConnectionManager& manager_;
     Transportation transportation_;
@@ -33,7 +33,6 @@ private:
     void doRead(const boost::system::error_code& e, std::size_t bytes_transferred);  //  requests
     void doWrite(const boost::system::error_code& e);  //  response клиенту
     SQLWrapper db;
-
 };
 
-#endif //SERVER_CONNECTION_H
+#endif  // INCLUDE_SERVER_CONNECTION_H_

@@ -1,5 +1,5 @@
-#ifndef PROJECT_WRAPPER_H_
-#define PROJECT_WRAPPER_H_
+#ifndef INCLUDE_ORM_WRAPPER_H_
+#define INCLUDE_ORM_WRAPPER_H_
 
 #include <iostream>
 #include <postgresql/libpq-fe.h>
@@ -50,4 +50,4 @@ class SQLWrapper {
     PGresult *result;
 };
 
-#endif // PROJECT_WRAPPER_H_
+#endif  // INCLUDE_ORM_WRAPPER_H_

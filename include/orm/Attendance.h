@@ -1,5 +1,5 @@
-#ifndef PROJECT_ATTENDANCE_H
-#define PROJECT_ATTENDANCE_H
+#ifndef INCLUDE_ORM_ATTENDANCE_H_
+#define INCLUDE_ORM_ATTENDANCE_H_
 
 #include <iostream>
 #include "Wrapper.h"
@@ -25,4 +25,4 @@ class Attendance {
     int user;
 };
 
-#endif // PROJECT_ATTENDANCE_H
+#endif  // INCLUDE_ORM_ATTENDANCE_H_

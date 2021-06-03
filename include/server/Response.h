@@ -1,8 +1,9 @@
-#ifndef SERVER_RESPONSE_H
-#define SERVER_RESPONSE_H
+#ifndef INCLUDE_SERVER_RESPONSE_H_
+#define INCLUDE_SERVER_RESPONSE_H_
 
 #include <unordered_map>
 #include <vector>
+#include <string>
 
 #define HTTP_VERSION "HTTP/1.1"
 
@@ -34,11 +35,10 @@ namespace status {
         NotImplemented = 501,
         BadGateway = 502
     };
-
-}
+}  // namespace status
 
 class Response {
-public:
+ public:
     explicit Response(const int &status = status::OK);
     explicit Response(const std::string & html, const int &status = status::OK);
     Response& operator=(Response&& other);
@@ -52,7 +52,7 @@ public:
         setStatus(301);
         setHeader("Location", url);
     }
-private:
+ private:
     void setDate();
     std::string statusToStr() const;
     void startLineToStream(std::stringstream & ss);
@@ -65,4 +65,4 @@ private:
     int statusCode;
 };
 
-#endif //SERVER_RESPONSE_H
+#endif  // INCLUDE_SERVER_RESPONSE_H_

@@ -1,5 +1,5 @@
-#ifndef PROJECT_DEADLINE_H
-#define PROJECT_DEADLINE_H
+#ifndef INCLUDE_ORM_DEADLINE_H_
+#define INCLUDE_ORM_DEADLINE_H_
 
 #include <iostream>
 #include <vector>
@@ -31,4 +31,4 @@ class Deadline {
     int group_id;
 };
 
-#endif // PROJECT_DEADLINE_H
+#endif  // INCLUDE_ORM_DEADLINE_H_

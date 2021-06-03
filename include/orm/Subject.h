@@ -1,5 +1,5 @@
-#ifndef PROJECT_SUBJECT_H
-#define PROJECT_SUBJECT_H
+#ifndef INCLUDE_ORM_SUBJECT_H_
+#define INCLUDE_ORM_SUBJECT_H_
 
 #include <iostream>
 #include <vector>
@@ -26,4 +26,4 @@ class Subject {
     std::string subject;
 };
 
-#endif // PROJECT_SUBJECT_H
+#endif  // INCLUDE_ORM_SUBJECT_H_

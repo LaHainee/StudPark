@@ -1,7 +1,7 @@
+#include <iostream>
 #include "SendMail.h"
 #include "Wrapper.h"
 #include "utils_wrapper.hpp"
-#include <iostream>
 
 std::vector<SendMail> SendMail::NeedSend(SQLWrapper &db) {
     db << "SELECT * FROM send_mail WHERE time_send <= now();";

@@ -1,5 +1,5 @@
-#ifndef PROJECT_USER_H
-#define PROJECT_USER_H
+#ifndef INCLUDE_ORM_STUDENT_H_
+#define INCLUDE_ORM_STUDENT_H_
 
 #include <iostream>
 #include <unordered_map>
@@ -100,4 +100,4 @@ class Student {
     std::string birthday;
 };
 
-#endif // PROJECT_USER_H
+#endif  // INCLUDE_ORM_STUDENT_H_

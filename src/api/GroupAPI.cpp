@@ -29,7 +29,7 @@ std::string GroupAPI::Create(const std::unordered_map<std::string, std::string> 
     std::string joinCode = randomString(8);
     std::string faculty = data.find("user_faculty")->second;
     boost::locale::generator gen;
-    std::locale loc=gen("");
+    std::locale loc = gen("");
     std::locale::global(loc);
     faculty = boost::locale::to_upper(faculty);
     std::cout << "FAK" << faculty << std::endl;
@@ -42,8 +42,7 @@ std::string GroupAPI::Create(const std::unordered_map<std::string, std::string> 
                                 group % 10,
                                 data.find("education_level")->second,
                                 joinCode,
-                                data.find("start")->second
-                                );
+                                data.find("start")->second);
     } catch (std::exception &e) {
             std::cout << e.what() << std::endl;
     }
@@ -242,7 +241,7 @@ std::string GroupAPI::DeleteDeadline(const std::unordered_map<std::string, std::
     try {
         if (st.group_id != Deadline::GetDeadlineById(db, std::stoi(data.find("id")->second)).group_id || st.role != Student::Roles::LEADER) {
             return "Недостаточно привилегий";
-        }   
+        }
     } catch (std::exception &e) {
         return "Дедлайна не существует";
     }

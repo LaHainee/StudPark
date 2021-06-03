@@ -1,5 +1,5 @@
-#ifndef PROJECT_ATTACHMENTPOST_H
-#define PROJECT_ATTACHMENTPOST_H
+#ifndef INCLUDE_ORM_ATTACHMENTPOST_H_
+#define INCLUDE_ORM_ATTACHMENTPOST_H_
 
 #include <iostream>
 #include <vector>
@@ -36,4 +36,4 @@ class AttachmentPost {
     std::string path;
 };
 
-#endif // PROJECT_ATTACHMENTPOST_H
+#endif // INCLUDE_ORM_ATTACHMENTPOST_H_

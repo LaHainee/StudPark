@@ -1,10 +1,10 @@
-#ifndef PROJECT_SENDMAIL_H
-#define PROJECT_SENDMAIL_H
+#ifndef INCLUDE_ORM_SENDMAIL_H_
+#define INCLUDE_ORM_SENDMAIL_H_
 
 #include <iostream>
 #include <vector>
-#include "Wrapper.h"
 #include <string>
+#include "Wrapper.h"
 
 class SendMail {
  public:
@@ -30,4 +30,4 @@ class SendMail {
     std::string body_mail;
     time_t time_send;
 };
-#endif // PROJECT_SENDMAIL_H
+#endif  // INCLUDE_ORM_SENDMAIL_H_

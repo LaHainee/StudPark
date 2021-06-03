@@ -1,5 +1,5 @@
-#ifndef PROJECT_CONTACT_H
-#define PROJECT_CONTACT_H
+#ifndef INCLUDE_ORM_CONTACT_H_
+#define INCLUDE_ORM_CONTACT_H_
 
 #include <iostream>
 #include <vector>
@@ -46,4 +46,4 @@ class Contact {
     int user;
 };
 
-#endif // PROJECT_CONTACT_H
+#endif  // INCLUDE_ORM_CONTACT_H_

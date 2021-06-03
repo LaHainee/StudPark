@@ -4,7 +4,7 @@
 #include <thread>
 
 Server::Server(const std::string &addr, const std::string &port, SQLWrapper &db):
-        manager_(), service_(), acceptor_(service_),connection_(new Connection(service_, manager_, db)) {
+        manager_(), service_(), acceptor_(service_), connection_(new Connection(service_, manager_, db)) {
     net::tcp::resolver resolver_(service_);
     net::tcp::resolver::query query_(addr, port);
     net::tcp::endpoint endpoint_ = *resolver_.resolve(query_);
@@ -20,9 +20,7 @@ Server::Server(const std::string &addr, const std::string &port, SQLWrapper &db)
             boost::bind(
                     &Server::accept,
                     this,
-                    async::placeholders::error
-            )
-    );
+                    async::placeholders::error));
 }
 
 void Server::startServer() {
@@ -39,7 +37,7 @@ void Server::startServer() {
 
 void Server::stopServer() {
     service_.post([this] { stop();});
-};
+}
 
 void Server::stop() {
     acceptor_.close();
@@ -54,7 +52,6 @@ void Server::accept(const boost::system::error_code &error) {
 
         acceptor_.async_accept(
                 connection_->socket(),
-                boost::bind(&Server::accept, this, async::placeholders::error)
-        );
+                boost::bind(&Server::accept, this, async::placeholders::error));
     }
 }

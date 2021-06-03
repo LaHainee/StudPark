@@ -1,5 +1,5 @@
-#ifndef SERVER_CONNECTIONMANAGER_H
-#define SERVER_CONNECTIONMANAGER_H
+#ifndef INCLUDE_SERVER_CONNECTIONMANAGER_H_
+#define INCLUDE_SERVER_CONNECTIONMANAGER_H_
 
 #include <set>
 #include <memory>
@@ -7,7 +7,7 @@
 #include "Connection.h"
 
 class ConnectionManager: private boost::noncopyable {
-public:
+ public:
     ConnectionManager();
 
     void start(std::shared_ptr<Connection> connection);  // добавить соединение для pull
@@ -15,8 +15,8 @@ public:
     void stopAll();
 
     size_t connectionsNumber();
-private:
+ private:
     std::set<std::shared_ptr<Connection>> connections_;
 };
 
-#endif //SERVER_CONNECTIONMANAGER_H
+#endif  // INCLUDE_SERVER_CONNECTIONMANAGER_H_

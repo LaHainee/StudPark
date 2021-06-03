@@ -12,8 +12,7 @@ void Connection::start() {
             boost::asio::buffer(buffer_),
             boost::bind(&Connection::doRead, shared_from_this(),
                         async::placeholders::error,
-                        async::placeholders::bytes_transferred)
-    );
+                        async::placeholders::bytes_transferred));
 }
 
 void Connection::doRead(const boost::system::error_code& error, std::size_t bytes_transferred) {
@@ -28,8 +27,7 @@ void Connection::doRead(const boost::system::error_code& error, std::size_t byte
         async::async_write(
                 socket_,
                 async::buffer(response_.str(), response_.str().max_size()),
-                boost::bind(&Connection::doWrite, shared_from_this(), async::placeholders::error)
-        );
+                boost::bind(&Connection::doWrite, shared_from_this(), async::placeholders::error));
     } else if (error != async::error::operation_aborted) {
         manager_.stop(shared_from_this());
     }

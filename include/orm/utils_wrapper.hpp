@@ -1,6 +1,7 @@
-#ifndef PROJECT_UTILS_HPP
-#define PROJECT_UTILS_HPP
+#ifndef INCLUDE_ORM_UTILS_WRAPPER_HPP_
+#define INCLUDE_ORM_UTILS_WRAPPER_HPP_
 
+#include <string>
 #include "Wrapper.h"
 
 template<class Value>
@@ -12,4 +13,4 @@ int check_existence(SQLWrapper &db, std::string table, const std::string field, 
     }
     return 1;
 }
-#endif //PROJECT_UTILS_HPP
+#endif  // INCLUDE_ORM_UTILS_WRAPPER_HPP_

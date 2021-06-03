@@ -1,5 +1,5 @@
-#ifndef PROJECT_COMMENT_H
-#define PROJECT_COMMENT_H
+#ifndef INCLUDE_ORM_COMMENT_H_
+#define INCLUDE_ORM_COMMENT_H_
 
 #include <ctime>
 #include <string>
@@ -31,4 +31,4 @@ class Comment {
     time_t created;
 };
 
-#endif // PROJECT_COMMENT_H
+#endif  // INCLUDE_ORM_COMMENT_H_
