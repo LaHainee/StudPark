@@ -234,12 +234,14 @@ std::string TemplateEngine::RenderCreatePostPage(bool isAuthenticated, std::stri
     return RenderTemplate(data, "create_post.html");
 }
 
-std::string TemplateEngine::RenderGroupSuccessfulCreate(bool isAuthenticated, std::string user, int userRole, std::string group) {
+std::string TemplateEngine::RenderGroupSuccessfulCreate(const std::string &error, bool isAuthenticated, std::string user, int userRole,
+                                         std::string group) {
     json data {
         {"isAuthenticated", isAuthenticated},
         {"user", user},
         {"role", userRole},
         {"group", group},
+        {"error", error}
     };
     return RenderTemplate(data, "successful_group_create.html");
 }

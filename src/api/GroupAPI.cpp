@@ -56,7 +56,7 @@ std::string GroupAPI::Create(const std::unordered_map<std::string, std::string> 
             std::cout << e.what() << std::endl;
     }
 
-    return templates.RenderErrors("Пароль старосты: " + password + "\nКод присоединения: " + joinCode, 1, admin.first_name + " "  + admin.second_name);  // Render template "Group created, head password is: <pwd>
+    return templates.RenderGroupSuccessfulCreate("Пароль старосты: " + password + "\nКод присоединения: " + joinCode, 1, admin.first_name + " "  + admin.second_name);  // Render template "Group created, head password is: <pwd>
 }
 std::string GroupAPI::Get(const std::unordered_map<std::string, std::string> &data) {
     Student admin;
