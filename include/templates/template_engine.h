@@ -41,7 +41,8 @@ class TemplateEngine {
                                    std::string user = "", int userRole = 0, std::string group = "");
     std::string RenderAddSubject(bool isAuthenticated = false, std::string user = "", int userRole = 0, std::string group = "");
     std::string RenderCreatePostPage(bool isAuthenticated = false, std::string user = "", int userRole = 0, std::string group = "");
-    std::string RenderGroupSuccessfulCreate(bool isAuthenticated = false, std::string user = "", int userRole = 0, std::string group = "");
+    std::string RenderGroupSuccessfulCreate(const std::string &error, bool isAuthenticated = false,
+                             std::string user = "", int userRole = 0, std::string group = "");
 
  private:
     Environment env;
